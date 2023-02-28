@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import TableList from '../../components/TableList';
-// import LoadingScreen from '../../layout/LoadingScreen';
-// import Pagination from '../../components/Paginationdesign'
+import LoadingScreen from '../../layout/LoadingScreen';
+import Paginationdesign from '../../components/Paginationdesign'
 // import Createveh from '../../components/molecules/Createveh';
 // import Modalfuction from '../../components/atom/Modalfuction';
 import Functionalitiesbtn from '../../components/atom/Functionalitiesbtn';
@@ -10,21 +10,26 @@ import { getRoutethunk } from '../../store/slices/dataTemp.slice';
 import { deleteVehThunk, getVehiclesThunk, updateVehThunk } from '../../store/slices/vehicles.slice';
 
 const Vehicles = () => {
-    // const vehiclesRedux = useSelector(state => state.vehicles);
+    const vehiclesRedux = useSelector(state => state.vehicles);
+    useEffect(() => {
+        dispatch(getVehiclesThunk());
+        dispatch(getRoutethunk());
+    }, [])
 
     const dispatch = useDispatch();
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
+
+    console.log(pagination);
+    console.log(vehiclesRedux);
+
+
 
     const listShow = ["id", "Placa", "Conductor", "Dni", "Activo", "Ruta"];
     const listDB = ["placa", "chofer", "dni", "isActive", "id_route"];
     const listShowRoute = ["id", "Dia", "Detalle"];
     const listDbRoute = ["dia", "detail"];
 
-    useEffect(() => {
-        dispatch(getVehiclesThunk());
-        dispatch(getRoutethunk());
-    }, [])
 
     const [modalShow, setModalShow] = useState(false);
     const [modalShowRoute, setModalShowRoute] = useState(false);
@@ -87,11 +92,11 @@ const Vehicles = () => {
                     updateData={updateData}
                     deleteData={deleteData}
                 /> */}
-                {/* {!loading ? <Pagination
-                    data={"vehicle"}
+                {!loading ? <Paginationdesign
+                    data={"vehicles"}
                 />
                     : <LoadingScreen />
-                } */}
+                }
             </div>
             {/* <input type="text" value={"0"}/> */}
             {/* <Modalfuction listshow={listShowRoute} listdb={listDbRoute} show={modalShowRoute} onHide={() => setModalShowRoute(false)} />

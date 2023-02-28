@@ -8,7 +8,7 @@ import { setErrorReceived } from './errorReceived.slice';
 const URL_BASE = resources.URL_BASE;
 
 export const vehiclesSlice = createSlice({
-    name: 'vehicle',
+    name: 'vehicles',
     initialState: [],
     reducers: {
         setVehicle: (state, action) => {
@@ -22,6 +22,7 @@ export const getVehiclesThunk = () => (dispatch) => {
     dispatch(setIsLoading(true))
     axios.get(`${URL_BASE}/api/v1/vehicles/all`, getConfig())
         .then(res => {
+            console.log("Recibe Peticion Get");
             dispatch(setVehicle(res.data.result));
         })
         .catch(err => {

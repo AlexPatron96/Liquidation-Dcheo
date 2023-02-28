@@ -14,7 +14,7 @@ export default configureStore({
     reducer: {
         userLoged : userLogedSlice,
         isLoading: isLoadingSlice,
-        vehicle: vehiclesSlice,
+        vehicles: vehiclesSlice,
         pagination: paginationSlices,
         seller: sellersSlice,
         customer:customerSlice,
