@@ -18,7 +18,7 @@ const NavBar = () => {
     return (
         <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
             <Container>
-                <Navbar.Brand href="/dashboard">BossDesign</Navbar.Brand>
+                <Navbar.Brand href="/">BossDesign</Navbar.Brand>
                 <div aria-controls="responsive-navbar-nav" className='d-flex flex-row'>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav">
                         <div className='m-1'>
