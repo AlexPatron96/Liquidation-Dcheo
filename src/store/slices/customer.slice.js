@@ -1,0 +1,86 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { setIsLoading } from './isLoading.slice';
+import axios from 'axios';
+import getConfig from "../../utils/getConfig";
+import resources from "../../utils/resources";
+import { setErrorReceived } from './errorReceived.slice';
+
+const URL_BASE = resources.URL_BASE;
+
+export const customerSlice = createSlice({
+    name: 'customer',
+    initialState: [],
+    reducers: {
+        setCustomer: (state, action) => {
+            return action.payload
+        }
+    }
+})
+
+export const getCustomerThunk = () => (dispatch) => {
+    dispatch(setIsLoading(true))
+    axios.get(`${URL_BASE}/api/v1/customer/all`, getConfig())
+        .then(res => {
+            console.log('Recibe informacion');
+            dispatch(setCustomer(res.data.result));
+        })
+        .catch(err => {
+            console.log("error en Customer get slice");
+            dispatch(setErrorReceived(err.response?.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)))
+};
+
+export const postCustomerthunk = (data) => (dispatch) => {
+    dispatch(setIsLoading(true));
+    return axios.post(`${URL_BASE}/api/v1/customer/new`, data, getConfig())
+        .then((res) => {
+            alert("Se a creado un nuevo Cliente")
+            console.log("Se a creado un nuevo  post Cliente");
+            dispatch(getCustomerThunk());
+        })
+        .catch(err => {
+            console.log("error en Customer slice");
+            alert("Error al crear el Cliente")
+            dispatch(setErrorReceived(err?.response));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+}
+
+export const updateCustomerThunk = (id, data) => (dispatch) => {
+    console.log(data);
+    dispatch(setIsLoading(true));
+    return axios.put(`${URL_BASE}/api/v1/customer/${id}/update`, data, getConfig())
+        .then((res) => {
+            alert(`Se actualizo el vehiculo ${data.placa}`)
+            dispatch(getVehiclesThunk());
+            console.log(res.data.result);
+        })
+        .catch(err => {
+            console.log("error en Customer delete slice");
+            alert(`No Se actualizo el vehiculo`)
+            dispatch(setErrorReceived(err.response?.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+}
+
+export const deleteCustomerThunk = (id, data) => (dispatch) => {
+    console.log(data);
+    dispatch(setIsLoading(true));
+    return axios.delete(`${URL_BASE}/api/v1/customer/${id}/del`, getConfig())
+        .then((res) => {
+            alert(`Se elimino el CLiente ${data.placa}`)
+            dispatch(getVehiclesThunk());
+            console.log(res.data.result);
+        })
+        .catch(err => {
+            console.log("error en Customer slice");
+            alert(`No Se pudo eliminar el CLiente`)
+            dispatch(setErrorReceived(err.response?.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+}
+
+export const { setCustomer } = customerSlice.actions;
+
+export default customerSlice.reducer;

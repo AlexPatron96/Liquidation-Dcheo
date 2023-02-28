@@ -1,0 +1,61 @@
+.functionalities {
+    display: flex;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputFunc {
+    max-width: 350px;
+
+}
+
+.inputFunc input {
+    font-size: 13px;
+}
+
+.formModal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.error-message {
+    color: var(--color3);
+    font-family: var(--paragraph-text);
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.error-message.showError {
+    opacity: 1;
+}
+
+.hide-number-arrows::-webkit-inner-spin-button,
+.hide-number-arrows::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.tdBtn{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+}
+.d-flex{
+    align-items: center;
+}
+
+.fun-btn-cont{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
