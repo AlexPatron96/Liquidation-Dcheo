@@ -16,10 +16,9 @@ const Dashboard = () => {
         const storedUser = localStorage.getItem('userLiquidation');
         const user = storedUser ? JSON.parse(storedUser) : null;
         dispatch(setUserLoged(user));
-        dispatch(getSellerThunk());
         dispatch(getVehiclesThunk());
+        dispatch(getSellerThunk());
         dispatch(getCustomerThunk());
-
     }, [])
 
 

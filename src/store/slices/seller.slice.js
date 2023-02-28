@@ -23,11 +23,12 @@ export const getSellerThunk = () => (dispatch) => {
     return axios.get(`${URL_BASE}/api/v1/seller/all`, getConfig())
         .then(res => {
             dispatch(setSeller(res.data.result));
+            console.log("Recibe peticion Get");
         })
         .catch(err => {
+            dispatch(setErrorReceived(err.response?.data));
             console.log("Error en Slice");
             alert("No se pudo actualizar la lista de clientes");
-            dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)))
 }
@@ -37,9 +38,9 @@ export const postSellerthunk = (data) => (dispatch) => {
     console.log(data);
     return axios.post(`${URL_BASE}/api/v1/seller/new`, data, getConfig())
         .then((res) => {
-            console.log("Se a creado un nuevo Vendedor");
-            alert(`Se actualizo el Vendedor ${data.nombre}`)
             dispatch(getSellerThunk());
+            console.log("Se a creado un nuevo Vendedor");
+            alert(`Se Creo  el Vendedor ${data.nombre}`)
         })
         .catch(err => {
             console.log("Error en Slice");

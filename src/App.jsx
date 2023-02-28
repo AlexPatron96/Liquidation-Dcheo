@@ -9,7 +9,7 @@ import Sigin from "./pages/auth/Sigin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Home from "./pages/dashboard/Home";
 import Vehicles from "./pages/dashboard/Vehicles";
-// import Sellers from "./pages/dashboard/Sellers";
+import Sellers from "./pages/dashboard/Sellers";
 // import Customers from "./pages/dashboard/Customers";
 // import Billreceivable from "./pages/dashboard/Billreceivable";
 // import CloseoutsVeh from "./pages/dashboard/CloseoutsVeh";
@@ -37,8 +37,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Home />} />
             <Route path="/dashboard/vehicles" element={<Vehicles />} />
-            {/* <Route path="/dashboard/sellers" element={<Sellers />} />
-            <Route path="/dashboard/customers" element={<Customers />} />
+            <Route path="/dashboard/sellers" element={<Sellers />} />
+            {/* <Route path="/dashboard/customers" element={<Customers />} />
             <Route path="/dashboard/closeoutsVeh" element={<CloseoutsVeh />} />
             <Route path="/dashboard/selectliqveh" element={<Selectliqveh />} />
             <Route path="/dashboard/selectliqsell" element={<Selectliqsell />} />

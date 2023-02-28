@@ -22,12 +22,12 @@ export const getVehiclesThunk = () => (dispatch) => {
     dispatch(setIsLoading(true))
     axios.get(`${URL_BASE}/api/v1/vehicles/all`, getConfig())
         .then(res => {
-            console.log("Recibe Peticion Get");
             dispatch(setVehicle(res.data.result));
+            console.log("Recibe Peticion Get");
         })
         .catch(err => {
-            console.log("Error en Slice");
             dispatch(setErrorReceived(err.response?.data));
+            console.log("Error en Slice");
         })
         .finally(() => dispatch(setIsLoading(false)))
 };
@@ -36,9 +36,9 @@ export const postVehiclethunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
     return axios.post(`${URL_BASE}/api/v1/vehicles/new`, data, getConfig())
         .then((res) => {
+            dispatch(getVehiclesThunk());
             alert("Se creo el vehiculo "+data.placa)
             console.log("Se a creado un nuevo vehiculo");
-            dispatch(getVehiclesThunk());
         })
         .catch(err => {
             alert("Error al crear el vehiculo")
