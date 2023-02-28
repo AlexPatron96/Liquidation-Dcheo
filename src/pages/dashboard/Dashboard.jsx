@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import NavBar from '../../components/NavBar';
 import Sidebar from '../../components/Sidebar';
-// import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
-// import { getSellerThunk } from '../../store/slices/seller.slice';
-// import { getCustomerThunk } from '../../store/slices/customer.slice';
+import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
+import { getSellerThunk } from '../../store/slices/seller.slice';
+import { getCustomerThunk } from '../../store/slices/customer.slice';
 import { setUserLoged } from '../../store/slices/userLoged';
 
 const Dashboard = () => {
@@ -16,9 +16,9 @@ const Dashboard = () => {
         const storedUser = localStorage.getItem('userLiquidation');
         const user = storedUser ? JSON.parse(storedUser) : null;
         dispatch(setUserLoged(user));
-        // dispatch(getSellerThunk());
-        // dispatch(getVehiclesThunk());
-        // dispatch(getCustomerThunk());
+        dispatch(getSellerThunk());
+        dispatch(getVehiclesThunk());
+        dispatch(getCustomerThunk());
 
     }, [])
 
