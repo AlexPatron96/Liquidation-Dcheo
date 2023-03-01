@@ -29,14 +29,14 @@ function App() {
       <Routes>
         {/* <Route path="/" element={<Dashboard />} /> */}
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/signin" element={<Sigin />} />
+        <Route path="https://main--zesty-pie-60c6ee.netlify.app/login" element={<Login />} />
+        <Route path="https://main--zesty-pie-60c6ee.netlify.app//signin" element={<Sigin />} />
 
         <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<Dashboard />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/vehicles" element={<Vehicles />} />
-            <Route path="/sellers" element={<Sellers />} />
+          <Route path="https://main--zesty-pie-60c6ee.netlify.app/" element={<Dashboard />}>
+            <Route path="https://main--zesty-pie-60c6ee.netlify.app/" element={<Home />} />
+            <Route path="https://main--zesty-pie-60c6ee.netlify.app//vehicles" element={<Vehicles />} />
+            <Route path="https://main--zesty-pie-60c6ee.netlify.app/sellers" element={<Sellers />} />
             {/* <Route path="/dashboard/customers" element={<Customers />} />
             <Route path="/dashboard/closeoutsVeh" element={<CloseoutsVeh />} />
             <Route path="/dashboard/selectliqveh" element={<Selectliqveh />} />
