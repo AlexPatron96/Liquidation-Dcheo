@@ -35,8 +35,8 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Home />} />
-            <Route path="/dashboard/vehicles" element={<Vehicles />} />
-            <Route path="/dashboard/sellers" element={<Sellers />} />
+            <Route path="/vehicles" element={<Vehicles />} />
+            <Route path="/sellers" element={<Sellers />} />
             {/* <Route path="/dashboard/customers" element={<Customers />} />
             <Route path="/dashboard/closeoutsVeh" element={<CloseoutsVeh />} />
             <Route path="/dashboard/selectliqveh" element={<Selectliqveh />} />
@@ -47,7 +47,7 @@ function App() {
           </Route>
         </Route>
 
-        
+        <Route path="*" element={<Navigate replace to={"/dashboard"} />} />
       </Routes>
 
     </BrowserRouter>
