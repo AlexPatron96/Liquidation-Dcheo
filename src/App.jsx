@@ -34,7 +34,7 @@ function App() {
 
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Dashboard />}>
-            <Route index element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/vehicles" element={<Vehicles />} />
             <Route path="/sellers" element={<Sellers />} />
             {/* <Route path="/dashboard/customers" element={<Customers />} />
