@@ -7,7 +7,7 @@ import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
 import { getSellerThunk } from '../../store/slices/seller.slice';
 import { getCustomerThunk } from '../../store/slices/customer.slice';
 import { setUserLoged } from '../../store/slices/userLoged';
-
+// import Home from "../../pages/dashboard/Home";
 const Dashboard = () => {
 
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const Dashboard = () => {
             <NavBar />
             <Sidebar />
             <section>
-                <Outlet />
+                <Outlet/>
             </section>
         </div>
     );
