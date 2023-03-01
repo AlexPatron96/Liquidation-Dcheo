@@ -1,0 +1,16 @@
+# netlify.toml
+
+# Esta sección define cómo se construirá tu sitio
+[build]
+  # El directorio donde Netlify buscará tus archivos de producción
+  publish = "build"
+
+  # El comando que construye tu proyecto
+  command = "npm run build"
+
+# Esta sección define cómo se enrutarán las solicitudes
+[[redirects]]
+  # Desde la raíz de tu sitio, redirige a tu página principal
+  from = "/*"
+  to = "dist/index.html"
+  status = 200

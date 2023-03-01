@@ -29,7 +29,7 @@ const Login = () => {
         if (IsLogeed) {
             navigate("/dashboard");
         } else {
-            navigate("/auth/login");
+            navigate("/login");
         }
     }
 
@@ -53,7 +53,7 @@ const Login = () => {
     const submit = (data) => {
         alert('Inicio Sesion')
         dispatch(setUserThunk(data))
-        if (userLoged) {
+        if (!userLoged) {
             navigate('/dashboard')
         } else {
             navigate('/login')
