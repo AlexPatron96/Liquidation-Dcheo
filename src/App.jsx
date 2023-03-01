@@ -8,8 +8,8 @@ import Login from '../src/pages/auth/Login';
 import Sigin from "./pages/auth/Sigin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Home from "./pages/dashboard/Home";
-// import Vehicles from "./pages/dashboard/Vehicles";
-// import Sellers from "./pages/dashboard/Sellers";
+import Vehicles from "./pages/dashboard/Vehicles";
+import Sellers from "./pages/dashboard/Sellers";
 // import Customers from "./pages/dashboard/Customers";
 // import Billreceivable from "./pages/dashboard/Billreceivable";
 // import CloseoutsVeh from "./pages/dashboard/CloseoutsVeh";
@@ -33,11 +33,10 @@ function App() {
         <Route path="/signin" element={<Sigin />} />
 
         <Route element={<ProtectedRoutes />}>
-
           <Route path="/dashboard" element={<Dashboard />}>
-            <Route index element={<Home />} />
-            {/* <Route path="/dashboard/vehicles" element={<Vehicles />} />
-            <Route path="/dashboard/sellers" element={<Sellers />} /> */}
+            <Route path="dashboard/home" element={<Home />} />
+            <Route path="/dashboard/vehicles" element={<Vehicles />} />
+            <Route path="/dashboard/sellers" element={<Sellers />} />
             {/* <Route path="/dashboard/customers" element={<Customers />} />
             <Route path="/dashboard/closeoutsVeh" element={<CloseoutsVeh />} />
             <Route path="/dashboard/selectliqveh" element={<Selectliqveh />} />
@@ -46,7 +45,6 @@ function App() {
             <Route path="/dashboard/do-sellerliquidation" element={<Dovehicleliquidation />} />
             <Route path="/dashboard/billreceivable" element={<Billreceivable />} /> */}
           </Route>
-
         </Route>
 
         <Route path="*" element={<Navigate replace to={"/dashboard"} />} />
