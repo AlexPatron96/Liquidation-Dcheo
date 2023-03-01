@@ -19,8 +19,8 @@ const Sigin = () => {
 
     const isLoggedUser = () => {
         const IsLogeed = localStorage.getItem("tokenLiquidation");
-        if (IsLogeed) {
-            navigate("/signin");
+        if (!IsLogeed) {
+            navigate("/sigin");
         } else {
             navigate("/login");
         }

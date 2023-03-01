@@ -29,7 +29,7 @@ const Login = () => {
         if (IsLogeed) {
             navigate("/dashboard");
         } else {
-            navigate("/login");
+            navigate("/auth/login");
         }
     }
 
@@ -119,7 +119,7 @@ const Login = () => {
                         </Button>
                     </Form>
                     <button>
-                        <Link to={"/signin"}> Registrarse ahora</Link>
+                        <Link to={"/auth/sigin"}> Registrarse ahora</Link>
                     </button>
                 </Col>
             </Row>
