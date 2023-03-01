@@ -44,11 +44,11 @@ const Sidebar = () => {
                         </span>
 
                         <div className={`accordion-content ${activeSidebar ? "activeText" : null}`}>
-                            <Link className='linkStyleSid' to={"/dashboard/closeoutsVeh"} onClick={active}>
+                            <Link className='linkStyleSid' to={"/closeoutsVeh"} onClick={active}>
                                 <i className="fa-solid fa-route bx-fw"></i>
                                 Closeouts of vehicles
                             </Link>
-                            <Link className='linkStyleSid' to={"/dashboard/closeoutsVen"} onClick={active}>
+                            <Link className='linkStyleSid' to={"/closeoutsVen"} onClick={active}>
                                 <i className="fa-solid fa-worm bx-fw"></i>
                                 Closeouts of Sellers
                             </Link>
@@ -57,14 +57,14 @@ const Sidebar = () => {
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/billreceivable"} >
+                    <Link className='linkStyleSid' to={"/billreceivable"} >
                         <i className="fa-solid fa-file-invoice-dollar bx-fw"></i>
                         <span className={activeSidebar ? "activeText" : null}> Bills receivable</span>
                     </Link>
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/vehicles"} >
+                    <Link className='linkStyleSid' to={"/vehicles"} >
                         <i className="fa-solid fa-truck bx-fw"></i>
                         <span className={activeSidebar ? "activeText" : null}>
                             Vehicles
@@ -73,14 +73,14 @@ const Sidebar = () => {
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/sellers"} >
+                    <Link className='linkStyleSid' to={"/sellers"} >
                         <i className="fa-solid fa-universal-access bx-fw"></i>
                         <span className={activeSidebar ? "activeText" : null}> Sellers</span>
                     </Link>
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/customers"} >
+                    <Link className='linkStyleSid' to={"/customers"} >
                         <i className="fa-solid fa-person bx-fw"></i>
                         <span className={activeSidebar ? "activeText" : null}> Customer</span>
                     </Link>

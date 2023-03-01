@@ -33,7 +33,7 @@ function App() {
         <Route path="/signin" element={<Sigin />} />
 
         <Route element={<ProtectedRoutes />}>
-          <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="/" element={<Dashboard />}>
             <Route index element={<Home />} />
             <Route path="/vehicles" element={<Vehicles />} />
             <Route path="/sellers" element={<Sellers />} />
@@ -47,7 +47,7 @@ function App() {
           </Route>
         </Route>
 
-        <Route path="*" element={<Navigate replace to={"/dashboard"} />} />
+        <Route path="*" element={<Navigate replace to={"/"} />} />
       </Routes>
 
     </BrowserRouter>
