@@ -21,8 +21,8 @@ export const getCustomerThunk = () => (dispatch) => {
     dispatch(setIsLoading(true))
     axios.get(`${URL_BASE}/api/v1/customer/all`, getConfig())
         .then(res => {
-            console.log('Recibe informacion');
             dispatch(setCustomer(res.data.result));
+            console.log('Recibe informacion');
         })
         .catch(err => {
             console.log("error en Customer get slice");
@@ -35,9 +35,9 @@ export const postCustomerthunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
     return axios.post(`${URL_BASE}/api/v1/customer/new`, data, getConfig())
         .then((res) => {
+            dispatch(getCustomerThunk());
             alert("Se a creado un nuevo Cliente")
             console.log("Se a creado un nuevo  post Cliente");
-            dispatch(getCustomerThunk());
         })
         .catch(err => {
             console.log("error en Customer slice");

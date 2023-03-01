@@ -9,8 +9,8 @@ import Sigin from "./routes/auth/Sigin";
 import Dashboard from "./routes/dashboard/Dashboard";
 import Home from "./routes/dashboard/Home";
 import Vehicles from "./routes/dashboard/Vehicles";
-// import Sellers from "./routes/dashboard/Sellers";
-// import Customers from "./routes/dashboard/Customers";
+import Sellers from "./routes/dashboard/Sellers";
+import Customers from "./routes/dashboard/Customers";
 // import Billreceivable from "./routes/dashboard/Billreceivable";
 // import CloseoutsVeh from "./routes/dashboard/CloseoutsVeh";
 // import Dovehicleliquidation from "./routes/dashboard/Dovehicleliquidation";
@@ -37,9 +37,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Home />} />
             <Route path="/dashboard/vehicles" element={<Vehicles />} />
-            {/* <Route path="/dashboard/sellers" element={<Sellers />} />
+            <Route path="/dashboard/sellers" element={<Sellers />} />
             <Route path="/dashboard/customers" element={<Customers />} />
-            <Route path="/dashboard/closeoutsVeh" element={<CloseoutsVeh />} />
+            {/* <Route path="/dashboard/closeoutsVeh" element={<CloseoutsVeh />} />
             <Route path="/dashboard/selectliqveh" element={<Selectliqveh />} />
             <Route path="/dashboard/selectliqsell" element={<Selectliqsell />} />
             <Route path="/dashboard/do-vehicleliquidation" element={<Dovehicleliquidation />} />

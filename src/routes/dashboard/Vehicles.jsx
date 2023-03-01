@@ -27,8 +27,8 @@ const Vehicles = () => {
     const listShowRoute = ["id", "Dia", "Detalle"];
     const listDbRoute = ["dia", "detail"];
 
-    console.log(pagination);
-    console.log(vehiclesRedux);
+    // console.log(pagination);
+    // console.log(vehiclesRedux);
 
 
     
