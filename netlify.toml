@@ -5,5 +5,5 @@
 [[redirects]]
   # Desde la raíz de tu sitio, redirige a tu página principal
   from = "/*"
-  to = "dist/index.html"
+  to = "/index.html"
   status = 200
