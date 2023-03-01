@@ -1,5 +1,6 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { HashRouter , Routes, Route, Navigate } from 'react-router-dom';
 import "bootswatch/dist/litera/bootstrap.min.css";
 // import { useEffect } from "react";
 import LoadingScreen from './layout/LoadingScreen';
@@ -21,10 +22,10 @@ import ProtectedRoutes from './utils/ProtectedRoutes';
 function App() {
   const isLoading = useSelector(state => state.isLoading)
 
-  
+
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       {isLoading && <LoadingScreen />}
       <Routes>
         {/* <Route path="/" element={<Dashboard />} /> */}
@@ -50,7 +51,7 @@ function App() {
         <Route path="*" element={<Navigate replace to={"/"} />} />
       </Routes>
 
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
