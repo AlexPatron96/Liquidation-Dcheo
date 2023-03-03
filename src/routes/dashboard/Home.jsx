@@ -17,13 +17,13 @@ const Home = () => {
                 <Row>
                     <Col>
                         1 of 2
-                        <Link className='linkStyle' to={"/dashboard/selectliqveh"}>
+                        <Link className='linkStyle' to={"/dashboard/liquidation/vehicles"}>
                             <CardBtn title={"Liquidation of vehicles"} img={imgHome1} />
                         </Link>
                     </Col>
                     <Col>
                         2 of 2
-                        <Link className='linkStyle' to={"/dashboard/selectliqsell"}>
+                        <Link className='linkStyle' to={"/dashboard/liquidation/sellers"}>
                             <CardBtn title={"Seller liquidation"} img={imgHome2} />
                         </Link>
                     </Col>

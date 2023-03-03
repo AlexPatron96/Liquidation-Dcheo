@@ -11,8 +11,7 @@ export const dataTempSlice = createSlice({
     reducers: {
         setDataTemp: (state, action) => {
             return action.payload;
-        }
-
+        },
     }
 })
 

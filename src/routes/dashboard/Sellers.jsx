@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { getRoutethunk } from '../../store/slices/dataTemp.slice';
 import { useDispatch, useSelector } from 'react-redux';
+import { getSellerThunk, updateSellerThunk } from '../../store/slices/seller.slice';
+import Buttonatom from '../../components/atom/Buttonatom';
 import TableList from '../../components/TableList';
 import LoadingScreen from '../../layout/LoadingScreen';
 import Paginationdesign from '../../components/Paginationdesign'
-import { getRoutethunk } from '../../store/slices/dataTemp.slice';
 import Functionalitiesbtn from '../../components/atom/Functionalitiesbtn';
-import { getSellerThunk, updateSellerThunk } from '../../store/slices/seller.slice';
 import Createdseller from '../../components/molecules/Createdseller';
+import Formselectatom from '../../components/atom/Formselectatom';
+import verify from "../../img/verificado.gif";
 
 
 const Sellers = () => {
-    const sellerRedux = useSelector(state => state.seller);
 
-    const dispatch = useDispatch();
+    const sellerRedux = useSelector(state => state.seller);
+    const route = useSelector(state => state.temporary);
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
+
     const listShow = ["#id", "Nombre", "Activo", "Ruta"];
     const listDB = ["nombre", "isActive", "id_route"];
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        // dispatch(getRoutethunk());
+        dispatch(getRoutethunk());
         dispatch(getSellerThunk());
     }, [])
 
@@ -43,33 +49,31 @@ const Sellers = () => {
             setModalShow(false)
         }
     }
-    // const createdRoute = () => {
-    //     alert("crear un nueva Ruta")
-    //     if (!modalShow) {
-    //         setModalShowRoute(true)
-    //         console.log("mostrar model created Routed");
-    //     } else {
-    //         setModalShowRoute(false)
-    //     }
-    // }
 
     const btnCreated = () => {
         return (
             <>
-                <button type="button" className="btn btn-success" onClick={createdSeller}>
-                    <i className="fa-solid fa-circle-plus bx-fw"></i>{" "}
-                    Create Seller
-                    {/* <i className="fa-solid fa-truck bx-fw"></i> */}
-                </button>
-                {" "}
-                {/* <button type="button" className="btn btn-success" onClick={createdSeller}>
-                    Create Route
-                </button> */}
+                <Buttonatom created={createdSeller}
+                    title={"Create Seller"}
+                    color={"success"} ico={"fa-circle-plus"} />
+            </>
+        )
+    }
+    const listAvailable = () => {
+        return (
+            <>
+                <Formselectatom title={"Routes Available"}
+                    iterador={route}
+                    firstdata={"dia"}
+                    secunddata={" "}
+                    disabledAction={true} />
             </>
         )
     }
 
-
+    const search = (data) => {
+        alert(data)
+    }
     return (
         <div className='sellers pages'>
             <Createdseller show={modalShow} onHide={() => setModalShow(false)} listshow={listShow} listdb={listDB} title={"Created Seller"} />
@@ -77,7 +81,10 @@ const Sellers = () => {
                 <h2>
                     Sellers Available
                 </h2>
-                <Functionalitiesbtn buttons={btnCreated} />
+                <Functionalitiesbtn
+                    buttons={btnCreated} 
+                    listAvailable={listAvailable}
+                    search={search} />
             </div>
             <div>
                 <TableList
@@ -92,6 +99,11 @@ const Sellers = () => {
                     : <LoadingScreen />
                 }
             </div>
+            <Createdseller show={modalShow}
+                onHide={() => setModalShow(false)}
+                listshow={listShow} listdb={listDB}
+                title={"Created Seller"}
+                verify={verify} />
         </div>
     );
 };

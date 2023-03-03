@@ -57,9 +57,9 @@ const Sidebar = () => {
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/billreceivable"} >
+                    <Link className='linkStyleSid' to={"/dashboard/invoice"} >
                         <i className="fa-solid fa-file-invoice-dollar bx-fw"></i>
-                        <span className={activeSidebar ? "activeText" : null}> Bills receivable</span>
+                        <span className={activeSidebar ? "activeText" : null}> Invoices </span>
                     </Link>
                 </li>
 

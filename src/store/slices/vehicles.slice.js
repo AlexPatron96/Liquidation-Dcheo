@@ -37,7 +37,6 @@ export const postVehiclethunk = (data) => (dispatch) => {
     return axios.post(`${URL_BASE}/api/v1/vehicles/new`, data, getConfig())
         .then((res) => {
             dispatch(getVehiclesThunk());
-            alert("Se creo el vehiculo "+data.placa)
             console.log("Se a creado un nuevo vehiculo");
         })
         .catch(err => {

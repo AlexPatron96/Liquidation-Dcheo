@@ -10,6 +10,8 @@ const TableList = ({ header, data, updateData, deleteData }) => {
     const [editedData, setEditedData] = useState([]);
     const [id, setId] = useState(0);
 
+   
+
     const handleEdit = (index, obj) => {
         const claves = Object.keys(obj);
         let objetoModificado = {};
