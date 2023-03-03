@@ -1,48 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import verifyimg from "../../img/verificado.gif"
-import { setSuccess } from '../../store/slices/Success.slice';
-
-const Successful = () => {
-
-    const dispatch = useDispatch();
-    const success = useSelector(state => state.success);
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-
-    useEffect(() => {
-        if (success === "success") {
-            setShowSuccessModal(true)
-        }
-        if (showSuccessModal) {
-            setTimeout(() => {
-                dispatch(setSuccess("null"))
-                handleClose();
-                console.log("despacha el null en useEffect");
-            }, 3000);
-        }
-    }, [showSuccessModal]);
-
-    const handleClose = () => {
-        setShowSuccessModal(false);
-    }
-
+import verify2 from "../../img/verificado.gif"
+const Successful = (props) => {
     return (
         <div>
-            <Modal show={showSuccessModal}
-                onHide={handleClose}
+            <Modal
+                {...props}
                 size="sm"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
-                className='d-flex'>
-
+                className='d-flex'
+            >
                 <Modal.Body>
-                    <img style={{ maxWidth: "200px" }} src={verifyimg} alt="" />
+                    <img style={{ maxWidth: "200px" }} src={verify2} alt="" />
                 </Modal.Body>
-
             </Modal>
         </div>
     );

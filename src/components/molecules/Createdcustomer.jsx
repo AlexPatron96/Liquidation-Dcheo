@@ -4,9 +4,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRoutethunk } from '../../store/slices/dataTemp.slice';
-import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
-import { getSellerThunk } from '../../store/slices/seller.slice';
+// import { getRoutethunk } from '../../store/slices/dataTemp.slice';
+// import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
+// import { getSellerThunk, setSeller } from '../../store/slices/seller.slice';
 import { getCustomerThunk, postCustomerthunk } from '../../store/slices/customer.slice';
 import Successful from '../atom/Successful';
 
@@ -32,7 +32,6 @@ const Createdcustomer = (props) => {
 
     const onSubmit = (data) => {
         alert("hice submit");
-        console.log(data);
         dispatch(postCustomerthunk(data));
         dispatch(getCustomerThunk());
         reset();
@@ -135,7 +134,6 @@ const Createdcustomer = (props) => {
                 </Modal.Footer>
             </Modal >
             <Successful show={showSuccessModal}
-                verify={props.verify}
                 onHide={() => setShowSuccessModal(false)} />
         </div>
     );

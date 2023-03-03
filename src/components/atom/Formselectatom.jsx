@@ -5,6 +5,7 @@ const Formselectatom = ({ title, iterador, firstdata, secunddata , disabledActio
 
     // const [items, setItems] = useState(iterador);
     // console.log(items);
+    //Lista de seleccion
     return (
         <Form.Select size="sm" className='w-50' aria-label="Default select example">
             <option>{title}</option>
