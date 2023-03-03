@@ -3,27 +3,18 @@ import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import NavBar from '../../components/NavBar';
 import Sidebar from '../../components/Sidebar';
-// import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
-// import { getSellerThunk } from '../../store/slices/seller.slice';
-// import { getCustomerThunk } from '../../store/slices/customer.slice';
-// import { setUserLoged } from '../../store/slices/userLoged';
-// import { getInvoiceThunk } from '../../store/slices/invoice.slice';
+import { setUserLoged } from '../../store/slices/userLoged';
 
-// import Home from "../../pages/dashboard/Home";
 
 const Dashboard = () => {
 
     const dispatch = useDispatch();
+    console.log("Ingreso a la Aplication");
+    const storedUser = localStorage.getItem('userLiquidation');
+    const user = storedUser ? JSON.parse(storedUser) : null;
 
     useEffect(() => {
-        console.log("Ingreso a la Aplication");
-        const storedUser = localStorage.getItem('userLiquidation');
-        const user = storedUser ? JSON.parse(storedUser) : null;
-        // dispatch(getInvoiceThunk());
-        // dispatch(setUserLoged(user));
-        // dispatch(getVehiclesThunk());
-        // dispatch(getSellerThunk());
-        // dispatch(getCustomerThunk());
+        dispatch(setUserLoged(user));
     }, [])
 
     return (

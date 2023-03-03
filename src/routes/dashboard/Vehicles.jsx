@@ -13,27 +13,28 @@ import Buttonatom from '../../components/atom/Buttonatom';
 import verify from "../../img/verificado.gif";
 
 const Vehicles = () => {
-    const vehiclesRedux = useSelector(state => state.vehicles);
-    const route = useSelector(state => state.temporary);
 
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch(getVehiclesThunk());
         dispatch(getRoutethunk());
     }, [])
 
+    const vehiclesRedux = useSelector(state => state.vehicles);
+    const route = useSelector(state => state.temporary);
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
+
+
     const [modalShow, setModalShow] = useState(false);
     const [modalShowRoute, setModalShowRoute] = useState(false);
+    
     const listShow = ["id", "Placa", "Conductor", "Dni", "Activo", "Ruta"];
     const listDB = ["placa", "chofer", "dni", "isActive", "id_route"];
     const listShowRoute = ["id", "Dia", "Detalle"];
     const listDbRoute = ["dia", "detail"];
 
     const updateData = (id, data) => {
-        alert("Se Actualizo el vehiculo")
         dispatch(updateVehThunk(id, data));
     }
     const deleteData = (id, data) => {
@@ -63,6 +64,7 @@ const Vehicles = () => {
     const search = (data) => {
         alert(data);
     }
+    
     const btnCreated = () => {
         return (
             <>

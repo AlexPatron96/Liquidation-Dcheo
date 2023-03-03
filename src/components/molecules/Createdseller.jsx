@@ -14,10 +14,8 @@ const Createdseller = (props) => {
     const dispatch = useDispatch();
 
     const route = useSelector(state => state.temporary);
-    
+
     const onSubmit = (data) => {
-        alert("hice submit");
-        console.log(data);
         dispatch(postSellerthunk(data));
         reset();
         props.onHide();
@@ -87,7 +85,6 @@ const Createdseller = (props) => {
                 </Modal.Footer>
             </Modal >
             <Successful show={showSuccessModal}
-                verify={props.verify}
                 onHide={() => setShowSuccessModal(false)} />
         </div>
     );

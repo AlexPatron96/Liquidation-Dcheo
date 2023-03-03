@@ -9,7 +9,8 @@ const Paginationdesign = ({ data }) => {
 
     useEffect(() => {
         dispatch(setPagination([...dataRecepted].splice(0, 5)))
-    }, [])
+        console.log(dataRecepted);
+    }, [dataRecepted])
 
     const pages = [];
     const pageNumberLimit = 5;

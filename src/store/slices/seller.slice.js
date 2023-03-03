@@ -37,10 +37,8 @@ export const postSellerthunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
     console.log(data);
     return axios.post(`${URL_BASE}/api/v1/seller/new`, data, getConfig())
-        .then((res) => {
+        .then(() => {
             dispatch(getSellerThunk());
-            console.log("Se a creado un nuevo Vendedor");
-            alert(`Se Creo  el Vendedor ${data.nombre}`)
         })
         .catch(err => {
             console.log("Error en Slice");
@@ -54,14 +52,23 @@ export const updateSellerThunk = (id, data) => (dispatch) => {
     console.log(data);
     dispatch(setIsLoading(true));
     return axios.put(`${URL_BASE}/api/v1/seller/${id}/update`, data, getConfig())
-        .then((res) => {
+        .then(() => {
             dispatch(getSellerThunk());
             dispatch(setDataTemp());
-            console.log("Se Actualizo correctamente");
-            alert(`Se actualizo el Vendedor ${data.nombre}`)
         })
         .catch(err => {
-            console.log("error en veh slice");
+            alert(`No Se pudo actualizar el vendedor`);
+            dispatch(setErrorReceived(err.response.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+}
+export const deleteSellerThunk = (id, data) => (dispatch) => {
+    dispatch(setIsLoading(true));
+    return axios.delete(`${URL_BASE}/api/v1/seller/${id}/del`, getConfig())
+        .then(() => {
+            dispatch(getSellerThunk());
+        })
+        .catch(err => {
             alert(`No Se pudo elimino el Vendedor`);
             dispatch(setErrorReceived(err.response.data));
         })

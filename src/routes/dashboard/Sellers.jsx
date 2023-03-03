@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getRoutethunk } from '../../store/slices/dataTemp.slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSellerThunk, updateSellerThunk } from '../../store/slices/seller.slice';
+import { deleteSellerThunk, getSellerThunk, updateSellerThunk } from '../../store/slices/seller.slice';
 import Buttonatom from '../../components/atom/Buttonatom';
 import TableList from '../../components/TableList';
 import LoadingScreen from '../../layout/LoadingScreen';
@@ -14,6 +14,12 @@ import verify from "../../img/verificado.gif";
 
 const Sellers = () => {
 
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getSellerThunk());
+        dispatch(getRoutethunk());
+    }, [])
+
     const sellerRedux = useSelector(state => state.seller);
     const route = useSelector(state => state.temporary);
     const loading = useSelector(state => state.isLoading);
@@ -22,23 +28,16 @@ const Sellers = () => {
     const listShow = ["#id", "Nombre", "Activo", "Ruta"];
     const listDB = ["nombre", "isActive", "id_route"];
 
-    const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getRoutethunk());
-        dispatch(getSellerThunk());
-    }, [])
 
     const [modalShow, setModalShow] = useState(false);
-    // const [modalShowRoute, setModalShowRoute] = useState(false);
 
     const updateData = (id, data) => {
-        alert("Se Actualizo el Vendedor")
         dispatch(updateSellerThunk(id, data))
     }
     const deleteData = (id, data) => {
         alert("Se esta eliminando un Vendedor")
-        // dispatch(deleteVehThunk(id, data));
+        dispatch(deleteSellerThunk(id, data));
     }
     const createdSeller = () => {
         alert("crear un nuevo VeNdedor")
@@ -82,7 +81,7 @@ const Sellers = () => {
                     Sellers Available
                 </h2>
                 <Functionalitiesbtn
-                    buttons={btnCreated} 
+                    buttons={btnCreated}
                     listAvailable={listAvailable}
                     search={search} />
             </div>

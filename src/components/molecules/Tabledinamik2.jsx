@@ -66,7 +66,7 @@ const Tabledinamik2 = () => {
     };
     return (
         <div>
-            <Table striped bordered hover>
+            <Table striped bordered hover responsive="lg" >
                 <thead>
                     <tr>
                         <th>ID</th>

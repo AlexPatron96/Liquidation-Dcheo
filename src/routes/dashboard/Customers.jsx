@@ -23,7 +23,7 @@ const Customers = () => {
         dispatch(getVehiclesThunk());
         dispatch(getSellerThunk());
     }, [])
-    
+
     const customer = useSelector(state => state.customer);
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
@@ -48,7 +48,6 @@ const Customers = () => {
     const createdCustomer = () => {
         if (!modalShow) {
             setModalShow(true)
-            console.log("mostrar model CLiente");
         } else {
             setModalShow(false)
         }
