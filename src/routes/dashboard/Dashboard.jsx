@@ -19,7 +19,6 @@ const Dashboard = () => {
 
     return (
         <div>
-            Liquidation app
             <NavBar />
             <Sidebar />
             <section>

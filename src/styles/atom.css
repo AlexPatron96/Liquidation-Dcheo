@@ -38,24 +38,35 @@
     opacity: 1;
 }
 
+.error-message.showMessage {
+    opacity: 1;
+}
+
 .hide-number-arrows::-webkit-inner-spin-button,
 .hide-number-arrows::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.tdBtn{
+.tdBtn {
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
     align-items: center;
 }
-.d-flex{
+
+.d-flex {
     align-items: center;
 }
 
-.fun-btn-cont{
+.fun-btn-cont {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+}
+
+.p-title {
+    font-size: 12px;
+    font-family: var(--paragraph-text);
+    font-weight: 100;
 }

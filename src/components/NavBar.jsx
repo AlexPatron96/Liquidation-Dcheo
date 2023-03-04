@@ -16,7 +16,7 @@ const NavBar = () => {
         navigate("/login");
     }
     return (
-        <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+        <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark" sticky="top">
             <Container>
                 <Navbar.Brand href="/">BossDesign</Navbar.Brand>
                 <div aria-controls="responsive-navbar-nav" className='d-flex flex-row'>
@@ -24,7 +24,7 @@ const NavBar = () => {
                         <div className='m-1'>
                             {user?.username}
                             <i className="fa-solid fa-user bx-fw"></i>
-                            
+
                         </div>
                     </Navbar.Toggle>
                 </div>

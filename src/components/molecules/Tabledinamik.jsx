@@ -4,10 +4,11 @@ import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from "react-redux";
 import { getInvoiceThunk } from "../../store/slices/invoice.slice";
 import { setSuccess } from "../../store/slices/Success.slice";
+import date from "../../utils/date";
 import Successful from "../atom/Successful";
 
 const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateInvo, refresh }) => {
-  
+
   const dispatch = useDispatch();
   const [data, setData] = useState(invoice);
 
@@ -17,6 +18,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
     console.log("actualizando informacion table dinamik");
   }, [refresh, invoice])
 
+  const currentdate = date.Currendate();
   const fechaActual = new Date();
   const dia = fechaActual.getDate().toString().padStart(2, '0');
   const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
@@ -96,6 +98,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
   const handleAdd = () => {
     delete formData.id
+    formData.saldo = formData.total_fact;
     createInvo(formData);
     console.log(formData);
     setEditingIndex(null)
@@ -105,7 +108,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
       num_Fact: "",
       isWhite: false,
       status: "pendiente",
-      fecha_entrega: `${anio}-${mes}-${dia}`,
+      fecha_entrega: currentdate,
       total_fact: "",
       saldo: 0,
       detalle_adt: "",
@@ -152,6 +155,147 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
           </tr>
         </thead>
         <tbody>
+
+
+
+          <tr >
+            <td>
+              <input
+                className="form-control form-control-sm"
+                type="text"
+                name="id"
+                value={formData.id}
+                disabled={true}
+                onChange={handleChange}
+              />
+            </td>
+
+            <td>
+              <select name="id_client"
+                className="form-select h-25"
+                style={{ padding: "3px", paddingRight: "40px" }}
+                value={(formData.id_client)}
+                onChange={handleChange}  >
+                <option >Select Client</option>
+                {
+                  customer?.map((cust, index) => (
+                    <option key={index} value={(parseInt(cust?.id))}>{cust?.id} - {cust?.nombre}</option>
+                  ))
+                }
+              </select>
+            </td>
+
+            <td>
+              <input
+                placeholder="001-001-000000001"
+                className="form-control form-control-sm"
+                type="text"
+                name="num_Fact"
+                value={formData.num_Fact}
+                onChange={handleChange}
+              />
+              {error}
+            </td>
+
+            <td>
+              <select name="isWhite"
+                className="form-select h-25"
+                style={{ padding: "3px", paddingRight: "40px" }}
+                value={formData.isWhite}
+                onChange={handleChange}        >
+                <option value={(false)}>No</option>
+                <option value={(true)}>Si</option>
+              </select>
+            </td>
+
+            <td>
+              <select name="status"
+                className="form-select h-25"
+                style={{ padding: "3px", paddingRight: "40px" }}
+                value={formData.status}
+                onChange={handleChange}        >
+                <option value="pendiente">Pendiente</option>
+                <option value="abonada">Abonada</option>
+                <option value="pagada">Pagada</option>
+              </select>
+            </td>
+
+            <td>
+              <input
+                className="form-control form-control-sm"
+                type="date"
+                name="fecha_entrega"
+                value={formData.fecha_entrega}
+                onChange={handleChange}
+              />
+            </td>
+
+            <td >
+              <div className="input-group mb-3" style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}>
+                <span className="input-group-text" style={{ padding: "3px", paddingRight: "5px", paddingLeft: "5px" }}>$</span>
+                <input
+                  aria-label="Amount (to the nearest dollar)"
+                  className="form-control form-control-sm"
+                  style={{ padding: "3px" }}
+                  type="text"
+                  name="total_fact"
+                  value={(formData.total_fact)}
+                  onChange={handleChange}
+                />
+
+              </div>
+            </td>
+
+            <td >
+              <div className="input-group mb-3w" style={{ display: "flex", flexDirection: "row" }}>
+                <span className="input-group-text" style={{ padding: "3px", paddingRight: "5px", paddingLeft: "5px" }}>$</span>
+                <input
+                  aria-label="Amount (to the nearest dollar)"
+                  className="form-control form-control-sm"
+                  style={{ padding: "3px" }}
+                  type="text"
+                  name="saldo"
+                  disabled={true}
+                  value={formData.total_fact}
+                  onChange={handleChange}
+                />
+              </div>
+            </td>
+
+            <td>
+              <input
+                className="form-control form-control-sm"
+                type="text"
+                name="detalle_adt"
+                value={formData.detalle_adt}
+                onChange={handleChange}
+              />
+            </td>
+
+            <td>
+              <select name="id_sellers"
+                className="form-select h-25"
+                style={{ padding: "3px", paddingRight: "40px" }}
+                value={(formData.id_sellers)}
+                onChange={handleChange}  >
+                <option >Select Seller</option>
+                {
+                  seller?.map((sell, index) => (
+                    <option key={index} value={(parseInt(sell.id))}>{sell.id} - {sell.nombre}</option>
+                  ))
+                }
+              </select>
+            </td>
+
+            <td>
+              <button onClick={handleAdd}
+                className="btn btn-primary m-1 p-1 d-flex flex-row">
+                {editMode ? ("Save") : ("Add")}
+                <i className={`fa-solid ${editMode ? "fa-floppy-disk" : "fa-circle-plus"}  bx-fw`}></i>
+              </button>
+            </td>
+          </tr>
+
           {invoice?.map((item, index) => (
             <tr key={index}>
               {/* id */}
@@ -348,141 +492,6 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
 
 
-          <tr >
-            <td>
-              <input
-                className="form-control form-control-sm"
-                type="text"
-                name="id"
-                value={formData.id}
-                disabled={true}
-                onChange={handleChange}
-              />
-            </td>
-
-            <td>
-              <select name="id_client"
-                className="form-select h-25"
-                style={{ padding: "3px", paddingRight: "40px" }}
-                value={(formData.id_client)}
-                onChange={handleChange}  >
-                {
-                  customer?.map((cust, index) => (
-                    <option key={index} value={(parseInt(cust?.id))}>{cust?.id} - {cust?.nombre}</option>
-                  ))
-                }
-              </select>
-            </td>
-
-            <td>
-              <input
-                placeholder="001-001-000000001"
-                className="form-control form-control-sm"
-                type="text"
-                name="num_Fact"
-                value={formData.num_Fact}
-                onChange={handleChange}
-              />
-              {error}
-            </td>
-
-            <td>
-              <select name="isWhite"
-                className="form-select h-25"
-                style={{ padding: "3px", paddingRight: "40px" }}
-                value={formData.isWhite}
-                onChange={handleChange}        >
-                <option value={(false)}>No</option>
-                <option value={(true)}>Si</option>
-              </select>
-            </td>
-
-            <td>
-              <select name="status"
-                className="form-select h-25"
-                style={{ padding: "3px", paddingRight: "40px" }}
-                value={formData.status}
-                onChange={handleChange}        >
-                <option value="pendiente">Pendiente</option>
-                <option value="abonada">Abonada</option>
-                <option value="pagada">Pagada</option>
-              </select>
-            </td>
-
-            <td>
-              <input
-                className="form-control form-control-sm"
-                type="date"
-                name="fecha_entrega"
-                value={formData.fecha_entrega}
-                onChange={handleChange}
-              />
-            </td>
-
-            <td >
-              <div className="input-group mb-3" style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}>
-                <span className="input-group-text" style={{ padding: "3px", paddingRight: "5px", paddingLeft: "5px" }}>$</span>
-                <input
-                  aria-label="Amount (to the nearest dollar)"
-                  className="form-control form-control-sm"
-                  style={{ padding: "3px" }}
-                  type="text"
-                  name="total_fact"
-                  value={(formData.total_fact)}
-                  onChange={handleChange}
-                />
-
-              </div>
-            </td>
-
-            <td >
-              <div className="input-group mb-3w" style={{ display: "flex", flexDirection: "row" }}>
-                <span className="input-group-text" style={{ padding: "3px", paddingRight: "5px", paddingLeft: "5px" }}>$</span>
-                <input
-                  aria-label="Amount (to the nearest dollar)"
-                  className="form-control form-control-sm"
-                  style={{ padding: "3px" }}
-                  type="text"
-                  name="saldo"
-                  disabled={true}
-                  value={formData.saldo}
-                  onChange={handleChange}
-                />
-              </div>
-            </td>
-
-            <td>
-              <input
-                className="form-control form-control-sm"
-                type="text"
-                name="detalle_adt"
-                value={formData.detalle_adt}
-                onChange={handleChange}
-              />
-            </td>
-
-            <td>
-              <select name="id_sellers"
-                className="form-select h-25"
-                style={{ padding: "3px", paddingRight: "40px" }}
-                value={(formData.id_sellers)}
-                onChange={handleChange}  >
-                {
-                  seller?.map((sell, index) => (
-                    <option key={index} value={(parseInt(sell.id))}>{sell.id} - {sell.nombre}</option>
-                  ))
-                }
-              </select>
-            </td>
-
-            <td>
-              <button onClick={handleAdd}
-                className="btn btn-primary m-1 p-1 d-flex flex-row">
-                {editMode ? ("Save") : ("Add")}
-                <i className={`fa-solid ${editMode ? "fa-floppy-disk" : "fa-circle-plus"}  bx-fw`}></i>
-              </button>
-            </td>
-          </tr>
         </tbody>
       </Table>
       {/* <Successful show={showSuccessModal}

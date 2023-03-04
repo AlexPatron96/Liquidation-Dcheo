@@ -1,0 +1,17 @@
+.liquidationVeh-component {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:
+        "fact comp";
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.liquidationVeh-listfac {
+    grid-area: fact;
+}
+
+.liquidationVeh-liscompnent {
+    grid-area: comp;
+}
