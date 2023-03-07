@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from "react-redux";
 import { getInvoiceThunk } from "../../store/slices/invoice.slice";
-import { setSuccess } from "../../store/slices/Success.slice";
+import { setSuccess } from "../../store/slices/success.slice";
 import date from "../../utils/date";
 import Successful from "../atom/Successful";
 
