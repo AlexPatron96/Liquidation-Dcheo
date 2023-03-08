@@ -6,7 +6,7 @@ import date from "../../utils/date";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Modal from 'react-bootstrap/Modal';
-import imgEliminar from "../../img/Eliminar.gif"
+import imgEliminar from "../../img/eliminar.gif"
 import imgActualizar from "../../img/actualizar.gif"
 
 const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateInvo, refresh, liquidationAct }) => {
