@@ -15,10 +15,7 @@
 @import url("./styles/atom.css");
 @import url("./styles/liquidationVeh.css");
 
-* {
-    font-family: 'EuropaNuova-Regular',
-        sans-serif;
-}
+
 
 :root {
     /*========== Colors ==========*/
@@ -66,9 +63,7 @@
     /* font-family: var(--title-text);
     font-family: var(--title-secund-text); */
     font-family: var(--paragraph-text);
-    font-size: 16px;
 }
-
 /* .btn{
     max-width: 100px;
 } */

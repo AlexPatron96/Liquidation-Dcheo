@@ -30,8 +30,8 @@ const Customers = () => {
     const seller = useSelector(state => state.seller);
     const vehicle = useSelector(state => state.vehicles);
     const route = useSelector(state => state.temporary);
-    const listShow = ["#id", "Nombre", "Direccion", "Dni", "Seller", "Vehiculo", "Route",];
-    const listDB = ["nombre", "direccion", "dni", "id_sellers", "id_vehicle", "id_route"];
+    const listShow = ["#id", "Nombre", "Direccion", "Dni", "Vehiculo", "Route", "Seller"];
+    const listDB = ["nombre", "direccion", "dni", "id_seller", "id_vehicle", "id_route"];
 
 
     const [modalShow, setModalShow] = useState(false);

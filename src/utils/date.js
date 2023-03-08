@@ -6,10 +6,26 @@ export default {
         const anio = fechaActual.getFullYear().toString();
         return (`${anio}-${mes}-${dia}`)
     },
-    CurrendateDay: () => {
+    CurrendateDay: (dia) => {
         const diasSemana = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
         const hoy = new Date().getDay();
-        return diasSemana[hoy];
+        const ayer = new Date().getDay() - 1;
+        const manana = new Date().getDay() + 1;
+
+        if (dia === "ayer") {
+            return diasSemana[ayer];
+        } else if (dia === "manana") {
+            return diasSemana[manana];
+        } else {
+            return diasSemana[hoy];
+        }
+    },
+    DatePastPresent: (FechaInicial) => {
+        const fechaInicio = new Date(FechaInicial); // fecha de inicio
+        const fechaActual = new Date(); // fecha actual
+        const diferencia = fechaActual.getTime() - fechaInicio.getTime(); // diferencia en milisegundos
+        const diasPasados = Math.floor(diferencia / (1000 * 60 * 60 * 24)); // convertir milisegundos a días
+        return diasPasados;
     }
 };
 

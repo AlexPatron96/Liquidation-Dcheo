@@ -28,7 +28,6 @@ const Liquidationveh = () => {
     }, [])
 
     const style2 = {
-        flexDirection: "row",
         display: "flex",
         gap: "0.25rem",
         flexWrap: "wrap",
@@ -40,19 +39,30 @@ const Liquidationveh = () => {
         maxWidth: "200px",
         flexDirection: "column"
     }
+
     const { id: userId } = useParams();
     const vehicles = useSelector(state => state.vehicles);
     const invoice = useSelector(state => state.invoice);
+    /*************    Filtro de clientes pertenecientes a dia especificado   *************/
     const invoiceDia = invoice.filter((veh) => {
-        // console.log(veh.id_client_bill.id_vehicle === parseInt(userId));
-        console.log(veh.id_client_bill.route.dia === currentdate.CurrendateDay());
-        // return veh.id_client_bill.id_vehicle === parseInt(userId)
+        return ((veh.id_client_bill.id_vehicle === parseInt(userId)) &&
+            (veh.id_client_bill.route.dia === currentdate.CurrendateDay("ayer")) &&
+            (veh.saldo !== 0))
+        // console.log((veh.id_client_bill.route.dia === currentdate.CurrendateDay("ayer")) );
+        // return (veh.id_client_bill.route.dia === currentdate.CurrendateDay("ayer"))
     });
-    console.log(invoiceDia);
+
+
+    // console.log(sum);
+    // const [ sumTotalFact , setSumTotalFact] = useState(0);
+    /***********************************************************************************/
+
     const seller = useSelector(state => state.seller);
     const customer = useSelector(state => state.customer);
     const vehSelect = vehicles.find(element => (element.id === parseInt(userId)));
     const [refresh, setRefresh] = useState(false)
+    const [liquidationAct, setLiquidationAct] = useState(true);
+
     /*********** MODALS DE EXPENSES - CASH - RETURN *****************/
     const listdbCash = [
         "id_tabla_liq",
@@ -110,13 +120,14 @@ const Liquidationveh = () => {
                 <h6>Fecha de liquidacion:{" "}{currentdate.CurrendateDay()}{" "}{currentdate.Currendate()}</h6>
                 <h6>Lista de Facturas Asignadas</h6>
             </div>
-            <div className='liquidationVeh-component'>
+            <button onClick={() => setRefresh(true)} >Refresh</button>
+            <div className='liquidationVeh-component' style={{ border: "2px solid red" }}>
                 <div className='liquidationVeh-listfac'>
-                    <button onClick={() => setRefresh(true)} >Refresh</button>
                     <Tabledinamik invoice={invoiceDia}
                         seller={seller} customer={customer}
                         createInvo={createInvo} delInvo={delInvo}
-                        updateInvo={updateInvo} refresh={refresh} />
+                        updateInvo={updateInvo} refresh={refresh}
+                        liquidationAct={liquidationAct} />
                 </div>
                 <div className='liquidationVeh-liscompnent'>
                     <div className='' style={{ maxWidth: "95%", maxHeight: "500px", gap: "0.1rem !important" }}>

@@ -13,6 +13,7 @@ const Invoice = () => {
     const seller = useSelector(state => state.seller);
     const customer = useSelector(state => state.customer);
     const [refresh, setRefresh] = useState(false)
+    const [liquidation, setliquidation] = useState(false)
 
     useEffect(() => {
         setRefresh(false)
@@ -30,7 +31,16 @@ const Invoice = () => {
     const updateInvo = (data) => {
         alert('actualizando factura')
         console.log(data);
-        dispatch(updateInvoiceThunk(data));
+        const { id } = data;
+        const urlId = id;
+        data.id_sellers ? data.id_sellers : data.id_sellers = data.id_seller_client.id;
+        delete data.id;
+        delete data.id_seller_client;
+        delete data.id_client_bill;
+        delete data.id_transactions;
+        console.log(data);
+        console.log(id);
+        dispatch(updateInvoiceThunk(id, data));
         setRefresh(true)
     }
     const delInvo = (id) => {
@@ -46,7 +56,7 @@ const Invoice = () => {
             <Tabledinamik invoice={invoice} seller={seller}
                 customer={customer} createInvo={createInvo}
                 updateInvo={updateInvo} delInvo={delInvo}
-                refresh={refresh} />
+                refresh={refresh} liquidationAct={liquidation} />
         </div>
     );
 };

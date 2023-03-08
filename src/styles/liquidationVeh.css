@@ -1,9 +1,10 @@
 .liquidationVeh-component {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas:
-        "fact comp";
+        "comp"
+        "fact";
     overflow-x: scroll;
     overflow-y: hidden;
 }
@@ -14,4 +15,7 @@
 
 .liquidationVeh-liscompnent {
     grid-area: comp;
+    display: flex;
+    flex-direction: row;
 }
+

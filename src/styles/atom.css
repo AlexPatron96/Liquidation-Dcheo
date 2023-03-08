@@ -70,3 +70,73 @@
     font-family: var(--paragraph-text);
     font-weight: 100;
 }
+
+.none{
+display: none !important;}
+
+.listClient {
+    border: 2px solid var(--first-color);
+    position: absolute;
+    background: var(--body-color);
+    cursor: pointer;
+}
+
+.listClient option:hover{
+    background: lightblue;
+}
+.dateSaldoCero{
+    font-size: 13px;
+}
+.dateRed{
+    background: #ff00195e;
+    font-size: 13px;
+}
+.dateYellow{
+    background: rgb(236, 209, 7);
+    font-size: 13px;
+}
+.dateGreen{
+    background: var(--color2);
+    font-size: 13px;
+}
+:root {
+    /*========== Colors ==========*/
+    /* --nave: url(https://www.flaticon.es/download/icon/2285537?icon_id=2285537&author=427&team=427&keyword=lanzadera&pack=2285527&style=0&style_id=6&format=png&color=%23000000&colored=2&size=512&selection=1&premium=0&type=standard); */
+    --color1: #4582EC;
+    --color2: #02B875;
+    --color3: #C20114;
+    --color4: #0C120C;
+    --color5: #434843;
+    --color6: #E7E7E7;
+
+    --body-color: radial-gradient(#f3f5f5, #fffcf9);
+    --body-color2: radial-gradient(#1d1f20, #000);
+
+    --nav-color: #4582ec;
+    --first-color: #4582ec;
+    --secund-color: #6690CC;
+
+    --button-color: #E7E7E7;
+    --button-color-edit: #02B875;
+    --button-color-delete: #C20114;
+
+    --button-color-border: #4582EC;
+    --hover: radial-gradient(#1d1f20, #000);
+
+    --title-color: #0C120C;
+    --title-text: 'EuropaNuova-ExtraBold', sans-serif;
+    --title-secund-color: #6690CC;
+    --title-secund-text: 'EuropaNuova-Bold', sans-serif;
+    --paragraph-color: #434843;
+    --paragraph-text: 'EuropaNuova-Regular', sans-serif;
+    --text-color: #0C120C;
+    --text-color-hover: #E7E7E7;
+
+    --shadow: rgb(160, 160, 160);
+    /*========== Se manejaran 3 tamanios max-width ==========*/
+    --mobile: 780px;
+    --tablet: 960px;
+    --desktop: 1200px;
+    /*========== Font and typography ==========*/
+    --body-font: "Roboto", sans-serif;
+}
