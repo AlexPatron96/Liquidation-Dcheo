@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, ListGroup } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
 import { getInvoiceThunk } from "../../store/slices/invoice.slice";
@@ -36,7 +36,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
       }));
       setSearchCustomer(`${id} - ${nombre}`);
       setActiveUpdateCustomer(false);
-      alert(item.id + " " + item.nombre);
+      // alert(item.id + " " + item.nombre);
     } else {
       setFormData(prevState => ({
         ...prevState,
@@ -44,7 +44,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
       }));
       setSearchCustomer(`${id} - ${nombre}`);
       setActiveListSearchCustomer(false);
-      alert(item.id + " " + item.nombre);
+      // alert(item.id + " " + item.nombre);
 
     }
   };
@@ -63,6 +63,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
 
   /*************************   Editar - Crear Tablas **********************************/
+  const inputRef = useRef(null);
   const [show, setShow] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const handleClose = () => setShow(false);
@@ -151,6 +152,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
     console.log(formData);
     setEditingIndex(null);
     setSearchCustomer("");
+    inputRef.current.focus();
     setFormData({
       id: "",
       id_client: customer[0]?.id,
@@ -253,7 +255,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                 </td>
 
                 <td>
-                  <input name="id_client" className="form-control form-control-sm"
+                  <input name="id_client" className="form-control form-control-sm" ref={inputRef}
                     type="text" value={editMode ? '' : searchCustomer}
                     onChange={handleSearchCustomerChange} onClick={() => { activeListSearchCustomer ? setActiveListSearchCustomer(false) : setActiveListSearchCustomer(true) }} />
 
@@ -428,7 +430,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                       ))}
                     </ListGroup>
                   </td>
-                  : <td>{item?.id_client_bill.nombre}</td>}
+                  : <td>{item?.id_client_bill?.nombre}</td>}
 
 
                 {/* fact */}
@@ -511,7 +513,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                       />
                     </div>
                   </td>
-                  : <td>{(item?.total_fact.toFixed(2))}</td>}
+                  : <td>{(item?.total_fact?.toFixed(2))}</td>}
 
                 {/* saldo */}
                 {editingIndex === index ?
@@ -530,7 +532,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                       />
                     </div>
                   </td>
-                  : <td >{item?.saldo.toFixed(2)}</td>}
+                  : <td >{item?.saldo?.toFixed(2)}</td>}
 
                 {/* detall */}
                 {editingIndex === index ?
@@ -570,7 +572,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                       }
                     </select>
                   </td>
-                  : <td>{item?.id_seller_client.nombre}</td>}
+                  : <td>{item?.id_seller_client?.nombre}</td>}
 
                 {/*Botones*/}
                 <td>
@@ -621,7 +623,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
             <td></td>
             <td></td>
             <td><h6>TOTAL:</h6></td>
-            <td><h6>{sumTotalFact.toFixed(2)}</h6></td>
+            <td><h6>{sumTotalFact?.toFixed(2)}</h6></td>
             <td>a</td>
             <td>a</td>
           </tr>

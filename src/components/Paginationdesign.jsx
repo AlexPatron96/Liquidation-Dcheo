@@ -2,38 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPagination } from '../store/slices/pagination.slice';
 
-const Paginationdesign = ({ data }) => {
+const Paginationdesign = ({ data  }) => {
     
     const dispatch = useDispatch();
     const dataRecepted = useSelector(state => state[`${data}`])
-
+    const itemFromPage = 10;
     useEffect(() => {
-        dispatch(setPagination([...dataRecepted].splice(0, 5)))
+        dispatch(setPagination([...dataRecepted].splice(0, itemFromPage)))
         console.log(dataRecepted);
     }, [dataRecepted])
 
     const pages = [];
-    const pageNumberLimit = 5;
-    const totalPages = Math.ceil(dataRecepted?.length / 5);
-    // const [newData, setNewData] = useState([...dataRecepted].splice(0, 5));
+    const pageNumberLimit = itemFromPage;
+    const totalPages = Math.ceil(dataRecepted?.length / itemFromPage);
+    // const [newData, setNewData] = useState([...dataRecepted].splice(0, itemFromPage));
     const [currentPage, setCurrentPage] = useState(1);
-    const [maxPageLimit, setMaxPageLimit] = useState(5);
+    const [maxPageLimit, setMaxPageLimit] = useState(itemFromPage);
     const [minPageLimit, setMinPageLimit] = useState(0);
 
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
-        const firstIndex = pageNumber * 5
+        const firstIndex = pageNumber * itemFromPage
         console.log("boton actual" + pageNumber);
-        dispatch(setPagination([...dataRecepted].splice((firstIndex - 5), 5)))
-        // setNewData([...vehiclesRedux].splice((firstIndex - 5), 5))
+        dispatch(setPagination([...dataRecepted].splice((firstIndex - itemFromPage), itemFromPage)))
+        // setNewData([...vehiclesRedux].splice((firstIndex - itemFromPage), itemFromPage))
     }
 
     const onPrevClick = () => {
         const prev = currentPage - 1
-        const LastIndex = (prev - 1) * 5
+        const LastIndex = (prev - 1) * itemFromPage
         console.log("anterior");
-        dispatch(setPagination([...dataRecepted].splice(LastIndex, 5)))
-        // setNewData([...vehiclesRedux].splice(LastIndex, 5))
+        dispatch(setPagination([...dataRecepted].splice(LastIndex, itemFromPage)))
+        // setNewData([...vehiclesRedux].splice(LastIndex, itemFromPage))
         if ((currentPage - 1) % pageNumberLimit === 0) {
             setMaxPageLimit(maxPageLimit - pageNumberLimit);
             setMinPageLimit(minPageLimit - pageNumberLimit);
@@ -43,10 +43,10 @@ const Paginationdesign = ({ data }) => {
 
     const onNextClick = () => {
         const next = currentPage + 1
-        const firstIndex = next * 5
+        const firstIndex = next * itemFromPage
         console.log("siguiente");
-        dispatch(setPagination([...dataRecepted].splice((firstIndex - 5), 5)))
-        // setNewData([...vehiclesRedux].splice((firstIndex - 5), 5))
+        dispatch(setPagination([...dataRecepted].splice((firstIndex - itemFromPage), itemFromPage)))
+        // setNewData([...vehiclesRedux].splice((firstIndex - itemFromPage), itemFromPage))
         if (currentPage + 1 > maxPageLimit) {
             setMaxPageLimit(maxPageLimit + pageNumberLimit);
             setMinPageLimit(minPageLimit + pageNumberLimit);

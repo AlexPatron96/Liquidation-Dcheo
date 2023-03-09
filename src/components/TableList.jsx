@@ -37,7 +37,9 @@ const TableList = ({ header, data, updateData, deleteData }) => {
     };
 
     const handleSave = (index) => {
-        console.log(editedData); // Salida de Datos de edicion de la tabla
+        console.log(editedData); 
+        editedData.id_seller ? editedData.id_sellers = editedData.id_seller : editedData.id_sellers = editedData.seller
+        delete editedData.id_seller// Salida de Datos de edicion de la tabla
         updateData(id, editedData);
         console.log(editedData);
         setEditingIndex(null);

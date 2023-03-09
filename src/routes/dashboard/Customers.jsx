@@ -31,20 +31,10 @@ const Customers = () => {
     const vehicle = useSelector(state => state.vehicles);
     const route = useSelector(state => state.temporary);
     const listShow = ["#id", "Nombre", "Direccion", "Dni", "Vehiculo", "Route", "Seller"];
-    const listDB = ["nombre", "direccion", "dni", "id_seller", "id_vehicle", "id_route"];
+    const listDB = ["nombre", "direccion", "dni", "id_sellers", "id_vehicle", "id_route"];
 
-
+    /***********************  MODAL PARA CREAR NUEVAS FACTURAS *************************/
     const [modalShow, setModalShow] = useState(false);
-
-    const updateData = (id, data) => {
-        alert("Se Actualizo el Cliente")
-        dispatch(updateCustomerThunk(id, data))
-    }
-    const deleteData = (id, data) => {
-        alert("Se esta eliminando un Cliente")
-        dispatch(deleteCustomerThunk(id, data));
-    }
-
     const createdCustomer = () => {
         if (!modalShow) {
             setModalShow(true)
@@ -52,7 +42,6 @@ const Customers = () => {
             setModalShow(false)
         }
     }
-
     const btnCreated = () => {
         return (
             <>
@@ -62,6 +51,18 @@ const Customers = () => {
             </>
         )
     }
+    /************************************************************************************** */
+    const updateData = (id, data) => {
+        alert("Se Actualizo el Cliente")
+        dispatch(updateCustomerThunk(id, data))
+    }
+    const deleteData = (id, data) => {
+        alert("Se esta eliminando un Cliente")
+        dispatch(deleteCustomerThunk(id, data));
+    }
+
+
+
     const listAvailable = () => {
         return (
             <>
@@ -107,7 +108,9 @@ const Customers = () => {
                     data={pagination}
                     updateData={updateData}
                     deleteData={deleteData}
-                />
+                />{
+                    console.log(customer)
+                }
                 {!loading ? <Paginationdesign
                     data={"customer"}
                 />
@@ -117,9 +120,7 @@ const Customers = () => {
             <Createdcustomer
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-                listshow={listShow} listdb={listDB}
                 title={"Created Customer"}
-                verify={verify}
             />
         </div>
     );

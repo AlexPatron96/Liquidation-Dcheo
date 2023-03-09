@@ -4,24 +4,16 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
-// import { getRoutethunk } from '../../store/slices/dataTemp.slice';
-// import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
-// import { getSellerThunk, setSeller } from '../../store/slices/seller.slice';
 import { getCustomerThunk, postCustomerthunk } from '../../store/slices/customer.slice';
 import Successful from '../atom/Successful';
 
 const Createdcustomer = (props) => {
-    // useEffect(() => {
 
-    //     dispatch(getCustomerThunk());
-    //     dispatch(getVehiclesThunk());
-    //     dispatch(getSellerThunk());
-    //     dispatch(getRoutethunk());
-    // }, [])
+    const listShow = ["Nombre", "Direccion", "DNI", "Vendedor", "Vehiculo", "Ruta",];
+    const listDB = ["nombre", "direccion", "dni", "id_sellers", "id_vehicle", "id_route"];
 
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const [listShowReplaceID, setListShowReplaceID] = useState(props.listshow.slice(1));
 
     const dispatch = useDispatch();
 
@@ -65,62 +57,65 @@ const Createdcustomer = (props) => {
                     <Form className='formModal' onSubmit={handleSubmit(onSubmit)}>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>{listShowReplaceID[0]}</Form.Label>
-                            <Form.Control  {...register(`${props.listdb[0]}`, { required: true })} />
-                            <p className={`error-message ${errors[props.listdb[0]] ? 'showError' : ''}`}>Este campo es requerido</p>
+                            <Form.Label>{listShow[0]}</Form.Label>
+                            <Form.Control  {...register(`${listDB[0]}`, { required: true })} />
+                            <p className={`error-message ${errors[listDB[0]] ? 'showError' : ''}`}>Este campo es requerido</p>
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>{listShowReplaceID[1]}</Form.Label>
-                            <Form.Control  {...register(`${props.listdb[1]}`, { required: true })} />
-                            <p className={`error-message ${errors[props.listdb[1]] ? 'showError' : ''}`}>Este campo es requerido</p>
+                            <Form.Label>{listShow[1]}</Form.Label>
+                            <Form.Control  {...register(`${listDB[1]}`, { required: true })} />
+                            <p className={`error-message ${errors[listDB[1]] ? 'showError' : ''}`}>Este campo es requerido</p>
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>{listShowReplaceID[2]}</Form.Label>
+                            <Form.Label>{listShow[2]}</Form.Label>
                             <Form.Control
                                 className="hide-number-arrows" type="number"
-                                {...register(`${props.listdb[2]}`, { required: true, maxLength: 10 })}
+                                {...register(`${listDB[2]}`, { required: true, maxLength: 10 })}
                                 inputMode="numeric"
                             />
-                            <p className={`error-message ${errors[props.listdb[2]] ? 'showError' : ''}`}>
-                                {`${errors[props.listdb[2].type] === 'maxLength' ? "Este campo es requerido" : "No puede ingresar mas de 10 digitos"}`}</p>
+                            <p className={`error-message ${errors[listDB[2]] ? 'showError' : ''}`}>
+                                {`${errors[listDB[2].type] === 'maxLength' ? "Este campo es requerido" : "No puede ingresar mas de 10 digitos"}`}</p>
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>{listShowReplaceID[3]}</Form.Label>
-                            <Form.Select {...register(`${props.listdb[3]}`, { required: true })}>
+                            <Form.Label>{listShow[3]}</Form.Label>
+                            <Form.Select {...register(`${listDB[3]}`, { required: true })}>
+                            <option >Vendedor</option>
                                 {
                                     sellers?.map((seller, index) => (
                                         <option key={index} value={parseInt(seller.id)}>{seller.nombre}</option>
                                     ))
                                 }
                             </Form.Select>
-                            <p className={`error-message ${errors[props.listdb[3]] ? 'showError' : ''}`}>Este campo es requerido</p>
+                            <p className={`error-message ${errors[listDB[3]] ? 'showError' : ''}`}>Este campo es requerido</p>
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>{listShowReplaceID[4]}</Form.Label>
-                            <Form.Select {...register(`${props.listdb[4]}`, { required: true })}>
+                            <Form.Label>{listShow[4]}</Form.Label>
+                            <Form.Select {...register(`${listDB[4]}`, { required: true })}>
+                            <option >Vehiculo de Entrega</option>
                                 {
                                     vehicles?.map((vehicle, index) => (
                                         <option key={index} value={parseInt(vehicle.id)}>{`${vehicle.placa} - ${vehicle.chofer}`}</option>
                                     ))
                                 }
                             </Form.Select>
-                            <p className={`error-message ${errors[props.listdb[4]] ? 'showError' : ''}`}>Este campo es requerido</p>
+                            <p className={`error-message ${errors[listDB[4]] ? 'showError' : ''}`}>Este campo es requerido</p>
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>{listShowReplaceID[5]}</Form.Label>
-                            <Form.Select {...register(`${props.listdb[5]}`, { required: true })}>
+                            <Form.Label>{listShow[5]}</Form.Label>
+                            <Form.Select {...register(`${listDB[5]}`, { required: true })}>
+                            <option >Dia de Atencion</option>
                                 {
                                     route?.map((rou, index) => (
                                         <option key={index} value={parseInt(rou.id)}>{rou.dia}</option>
                                     ))
                                 }
                             </Form.Select>
-                            <p className={`error-message ${errors[props.listdb[5]] ? 'showError' : ''}`}>Este campo es requerido</p>
+                            <p className={`error-message ${errors[listDB[5]] ? 'showError' : ''}`}>Este campo es requerido</p>
                         </Form.Group>
 
                     </Form>
@@ -128,9 +123,9 @@ const Createdcustomer = (props) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="success" type="submit" onClick={handleSubmit(onSubmit)}>
-                        Submit
+                        Crear
                     </Button>
-                    <Button onClick={props.onHide}>Close</Button>
+                    <Button onClick={props.onHide}>Cerrar</Button>
                 </Modal.Footer>
             </Modal >
             <Successful show={showSuccessModal}

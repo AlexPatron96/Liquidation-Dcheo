@@ -6,7 +6,6 @@ import resources from "../../utils/resources";
 import { setErrorReceived } from './errorReceived.slice';
 import { setSuccess } from './success.slice';
 
-// Cambiamos mySlice por el nombre de nuestro slice (usersSlice, toDosSlice...)
 const URL_BASE = resources.URL_BASE;
 export const invoiceSlice = createSlice({
   name: 'invoice',
