@@ -59,12 +59,12 @@ const Invoice = () => {
 
     const createInvo = (data) => {
         alert('Creando factura')
-        console.log(data);
+        // console.log(data);
         dispatch(postInvoicethunk(data));
         setRefresh(true)
     }
     const updateInvo = (data) => {
-        alert('actualizando factura')
+        // alert('actualizando factura')
         console.log(data);
         const { id } = data;
         const urlId = id;
@@ -73,8 +73,8 @@ const Invoice = () => {
         delete data.id_seller_client;
         delete data.id_client_bill;
         delete data.id_transactions;
-        console.log(data);
-        console.log(id);
+        // console.log(data);
+        // console.log(id);
         dispatch(updateInvoiceThunk(id, data));
         setRefresh(true)
     }

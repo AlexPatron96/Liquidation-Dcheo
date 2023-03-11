@@ -9,9 +9,9 @@ import Functionalitiesbtn from '../../components/atom/Functionalitiesbtn';
 import Createdcustomer from '../../components/molecules/Createdcustomer';
 import Buttonatom from '../../components/atom/Buttonatom';
 import Formselectatom from '../../components/atom/Formselectatom';
-import verify from "../../img/verificado.gif";
 import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
 import { getSellerThunk } from '../../store/slices/seller.slice';
+import { setPagination } from '../../store/slices/pagination.slice';
 
 
 const Customers = () => {
@@ -46,7 +46,7 @@ const Customers = () => {
         return (
             <>
                 <Buttonatom created={createdCustomer}
-                    title={"Create Customer"}
+                    title={"Crear Cliente"}
                     color={"success"} ico={"fa-circle-plus"} />
             </>
         )
@@ -66,19 +66,19 @@ const Customers = () => {
     const listAvailable = () => {
         return (
             <>
-                <Formselectatom title={"Vehicles Available"}
+                <Formselectatom title={"Ver Vehiculos Disponibles"}
                     iterador={vehicle}
                     firstdata={"chofer"}
                     secunddata={"placa"}
                     disabledAction={true} />
 
-                <Formselectatom title={"Routes Available"}
+                <Formselectatom title={"Ver Ruta Disponibles"}
                     iterador={route}
-                    firstdata={"dia"}
-                    secunddata={" "}
+                    firstdata={"id"}
+                    secunddata={"dia"}
                     disabledAction={true} />
 
-                <Formselectatom title={"Seller Available"}
+                <Formselectatom title={"Ver Vendedores Disponibles"}
                     iterador={seller}
                     firstdata={"nombre"}
                     secunddata={" "}
@@ -89,13 +89,19 @@ const Customers = () => {
     }
 
     const search = (data) => {
-        alert(data)
+        const filteredList = customer.filter((item) =>
+        (
+            (item.nombre).toLowerCase().includes(data.toLowerCase()) ||
+            (item.dni).includes(data) || (item.route.dia).includes(data) ||
+            (item.seller.nombre).includes(data)
+        ));
+        dispatch(setPagination(filteredList));
     }
     return (
         <div className='customer pages'>
             <div>
                 <h2>
-                    Customer Available
+                    Clientes Disponibles
                 </h2>
                 <Functionalitiesbtn
                     buttons={btnCreated}

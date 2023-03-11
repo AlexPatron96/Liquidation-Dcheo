@@ -11,6 +11,7 @@ import Createdroute from '../../components/atom/Createdroute';
 import Functionalitiesbtn from '../../components/atom/Functionalitiesbtn';
 import Buttonatom from '../../components/atom/Buttonatom';
 import verify from "../../img/verificado.gif";
+import { setPagination } from '../../store/slices/pagination.slice';
 
 const Vehicles = () => {
 
@@ -62,17 +63,22 @@ const Vehicles = () => {
     }
 
     const search = (data) => {
-        alert(data);
+        // alert(data)
+        const filteredList = vehiclesRedux.filter((item) =>
+        (
+            (item.chofer).toLowerCase().includes(data.toLowerCase())
+        ));
+        dispatch(setPagination(filteredList));
     }
     
     const btnCreated = () => {
         return (
             <>
                 <Buttonatom created={createdVeh}
-                    title={"Create Vehicle"}
+                    title={"Crear Vehiculo"}
                     color={"success"} ico={"fa-circle-plus"} />
                 <Buttonatom created={createdRoute}
-                    title={"Create Route"}
+                    title={"Crear Ruta"}
                     color={"success"} ico={"fa-route"} />
             </>
         )
@@ -81,10 +87,10 @@ const Vehicles = () => {
     const listAvailable = () => {
         return (
             <>
-                <Formselectatom title={"Routes Available"}
+                <Formselectatom title={"Ver Rutas Disponibles"}
                     iterador={route}
-                    firstdata={"dia"}
-                    secunddata={" "}
+                    firstdata={"id"}
+                    secunddata={"dia"}
                     disabledAction={true} />
             </>
         )
@@ -94,7 +100,7 @@ const Vehicles = () => {
         <div className='vehicles pages'>
             <div>
                 <h2>
-                    Vehicles Available
+                    Vehiculos Disponible
                 </h2>
                 <Functionalitiesbtn buttons={btnCreated}
                     listAvailable={listAvailable}

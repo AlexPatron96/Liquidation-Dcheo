@@ -3,7 +3,9 @@ import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import Buttonatom from '../../../../components/atom/Buttonatom';
 import Itemformshow from '../../../../components/atom/Itemformshow';
+import Modalagginvoice from '../../../../components/atom/Modalagginvoice';
 import Modalcash from '../../../../components/atom/Modalcash';
 import Modalexpense from '../../../../components/atom/Modalexpense';
 import Modalprodret from '../../../../components/atom/Modalprodret';
@@ -48,13 +50,8 @@ const Liquidationveh = () => {
         return ((veh.id_client_bill.id_vehicle === parseInt(userId)) &&
             (veh.id_client_bill.route.dia === currentdate.CurrendateDay("ayer")) &&
             (veh.saldo !== 0))
-        // console.log((veh.id_client_bill.route.dia === currentdate.CurrendateDay("ayer")) );
-        // return (veh.id_client_bill.route.dia === currentdate.CurrendateDay("ayer"))
     });
-
-
-    // console.log(sum);
-    // const [ sumTotalFact , setSumTotalFact] = useState(0);
+    console.log(invoiceDia);
     /***********************************************************************************/
 
     const seller = useSelector(state => state.seller);
@@ -92,10 +89,10 @@ const Liquidationveh = () => {
     const [cash, setCash] = useState([]);
     const [expense, setExpense] = useState([])
     const [productReturn, setProductReturn] = useState([]);
-
+    const [showAggInvoice, setShowAggInvoice] = useState(false);
     /*****************************************************************/
     const createInvo = (data) => {
-        alert('Creando factura')
+        // alert('Creando factura')
         console.log(data);
         // dispatch(postInvoicethunk(data));
         setRefresh(true)
@@ -111,8 +108,13 @@ const Liquidationveh = () => {
         setRefresh(true)
     }
     // console.log(invoice);
+
+    const aggInvoice = () => {
+        setShowAggInvoice(true);
+    }
     return (
         <div className='LiquidationVeh'>
+            <Modalagginvoice showAggInvoice={showAggInvoice} setShowAggInvoice={setShowAggInvoice} />
             <div>
                 <h6>{`${vehSelect?.placa} - ${vehSelect?.chofer} `}</h6>
             </div>
@@ -121,6 +123,16 @@ const Liquidationveh = () => {
                 <h6>Lista de Facturas Asignadas</h6>
             </div>
             <button onClick={() => setRefresh(true)} >Refresh</button>
+            <div>
+
+                <Buttonatom created={aggInvoice}
+                    title={"Agregar Facturas"}
+                    color={"success"} ico={"fa-circle-plus"} />
+                <Buttonatom created={(() => setRefresh(true))}
+                    title={"Actualizar"}
+                    color={"info"} ico={"fa-sync fa-spin"} />
+            </div>
+
             <div className='liquidationVeh-component' style={{ border: "2px solid red" }}>
                 <div className='liquidationVeh-listfac'>
                     <Tabledinamik invoice={invoiceDia}

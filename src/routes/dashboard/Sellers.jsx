@@ -10,6 +10,7 @@ import Functionalitiesbtn from '../../components/atom/Functionalitiesbtn';
 import Createdseller from '../../components/molecules/Createdseller';
 import Formselectatom from '../../components/atom/Formselectatom';
 import verify from "../../img/verificado.gif";
+import { setPagination } from '../../store/slices/pagination.slice';
 
 
 const Sellers = () => {
@@ -53,7 +54,7 @@ const Sellers = () => {
         return (
             <>
                 <Buttonatom created={createdSeller}
-                    title={"Create Seller"}
+                    title={"Crear Vendedor"}
                     color={"success"} ico={"fa-circle-plus"} />
             </>
         )
@@ -61,17 +62,22 @@ const Sellers = () => {
     const listAvailable = () => {
         return (
             <>
-                <Formselectatom title={"Routes Available"}
+                <Formselectatom title={"Ver Rutas Disponibles"}
                     iterador={route}
-                    firstdata={"dia"}
-                    secunddata={" "}
+                    firstdata={"id"}
+                    secunddata={"dia"}
                     disabledAction={true} />
             </>
         )
     }
 
     const search = (data) => {
-        alert(data)
+        // alert(data)
+        const filteredList = sellerRedux.filter((item) =>
+        (
+            (item.nombre).toLowerCase().includes(data.toLowerCase())
+        ));
+        dispatch(setPagination(filteredList));
     }
     return (
         <div className='sellers pages'>

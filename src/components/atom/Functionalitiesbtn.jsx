@@ -29,7 +29,7 @@ const Functionalitiesbtn = ({ aditional, buttons, listAvailable, search , filter
                     filterList ? filterList() : null
                 }
             </div>
-            <h1>{inputSearch}</h1>
+            <h6>{inputSearch}</h6>
             <div className="input-group inputFunc" >
                 <input type="text"
                     className="form-control"

@@ -94,18 +94,23 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
     }
     if (name === "total_fact") {
       console.log(name + " " + value);
-      setFormData(prevState => ({
-        ...prevState,
-        [name]: parseFloat(value)
-      }));
+      if (value.length !== 0) {
+        setFormData(prevState => ({
+          ...prevState,
+          [name]: parseFloat(value)
+        }));
+        setError(null);
+      } else {
+        // const message = "no puede dejar este campo vacio"
+        setError("total_fact")
+      }
+
     }
 
     if (name === "num_Fact") {
-      if (value.length > 17) {
-        const message = "no puede ingresar mas de 17 digitos"
-        setError(<p style={{
-          fontSize: "14px", position: "absolute", padding: "5px", border: "2px solid red", borderRadius: "5px", backgroundColor: "#fff",
-        }}>Error {message}</p>)
+      if (value.length > 13) {
+        // const message = "no puede ingresar mas de 13 digitos"
+        setError("num_Fact")
       } else {
         setFormData(prevState => ({
           ...prevState,
@@ -146,25 +151,32 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
   };
 
   const handleAdd = () => {
-    delete formData.id;
-    formData.saldo = formData.total_fact;
-    createInvo(formData);
-    console.log(formData);
-    setEditingIndex(null);
-    setSearchCustomer("");
-    inputRef.current.focus();
-    setFormData({
-      id: "",
-      id_client: customer[0]?.id,
-      num_Fact: "",
-      isWhite: false,
-      status: "pendiente",
-      fecha_entrega: date.Currendate(),
-      total_fact: "",
-      saldo: 0,
-      detalle_adt: "",
-      id_sellers: seller[0]?.id
-    });
+    console.log(error);
+    if (error === null && formData.total_fact.length !== 0) {
+      delete formData.id;
+      formData.saldo = formData.total_fact;
+      createInvo(formData);
+      console.log(formData);
+      setEditingIndex(null);
+      setSearchCustomer("");
+      inputRef.current.focus();
+      setFormData({
+        id: "",
+        id_client: customer[0]?.id,
+        num_Fact: "",
+        isWhite: false,
+        status: "pendiente",
+        fecha_entrega: date.Currendate(),
+        total_fact: "",
+        saldo: 0,
+        detalle_adt: "",
+        id_sellers: seller[0]?.id
+      });
+    } else {
+      setError("total_fact")
+      alert("Existe un campo con error")
+    }
+
   };
 
   const handleEdit = (index, item) => {
@@ -182,7 +194,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
           <img style={{ width: "100px" }} src={imgActualizar} alt="Actualizar" />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={() => { handleClose(); setEditingIndex(null); }}>
             No
           </Button>
           <Button variant="primary" onClick={() => { updateInvo(editData); handleClose(); setEditingIndex(null); }}>
@@ -256,10 +268,12 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
                 <td>
                   <input name="id_client" className="form-control form-control-sm" ref={inputRef}
+                    style={{ fontSize: "13px", minWidth: "110px" }}
                     type="text" value={editMode ? '' : searchCustomer}
-                    onChange={handleSearchCustomerChange} onClick={() => { activeListSearchCustomer ? setActiveListSearchCustomer(false) : setActiveListSearchCustomer(true) }} />
+                    onClick={() => setActiveListSearchCustomer(true)}
+                    onChange={handleSearchCustomerChange} />
 
-                  <ListGroup className={activeListSearchCustomer ? `listClient` : `none`}  >
+                  <ListGroup className={activeListSearchCustomer && searchCustomer.length > 0 ? `listClient` : `none`} >
                     {filteredList.map((item) => (
                       <option className={activeListSearchCustomer ? `` : `none`}
                         key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }} >{item.id} - {item.nombre} </option>
@@ -270,14 +284,20 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
                 <td>
                   <input
-                    placeholder="001-001-000000001"
+                    style={{ fontSize: "13px", minWidth: "110px" }}
+                    placeholder="001-000000001"
                     className="form-control form-control-sm"
                     type="text"
                     name="num_Fact"
                     value={formData.num_Fact}
                     onChange={handleChange}
                   />
-                  {error}
+                  {error === "num_Fact" ? (<p style={{
+                    fontSize: "10px", position: "absolute",
+                    padding: "5px", border: "2px solid red",
+                    borderRadius: "5px", backgroundColor: "#fff",
+                    fontFamily: "var(--paragraph-text)"
+                  }}>Error {"no puede ingresar mas de 13 digitos"}</p>) : null}
                 </td>
 
                 <td>
@@ -325,8 +345,14 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                       value={(formData.total_fact)}
                       onChange={handleChange}
                     />
-
                   </div>
+
+                  {error === "total_fact" ? (<p style={{
+                    fontSize: "10px", position: "absolute",
+                    padding: "5px", border: "2px solid red",
+                    borderRadius: "5px", backgroundColor: "#fff",
+                    fontFamily: "var(--paragraph-text)"
+                  }}>Error {"No puede guardar la factura sin llenar el campo Total"}</p>) : null}
                 </td>
 
                 <td >

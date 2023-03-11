@@ -7,7 +7,7 @@ export default {
         return (`${anio}-${mes}-${dia}`)
     },
     CurrendateDay: (dia) => {
-        const diasSemana = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+        const diasSemana = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sábado"];
         const hoy = new Date().getDay();
         const ayer = new Date().getDay() - 1;
         const manana = new Date().getDay() + 1;
