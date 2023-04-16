@@ -6,6 +6,8 @@ import resources from "../../utils/resources";
 import { setErrorReceived } from './errorReceived.slice';
 
 const URL_BASE = resources.URL_BASE;
+
+
 export const sellerSlice = createSlice({
     name: 'seller',
     initialState: [],
@@ -48,13 +50,27 @@ export const postSellerthunk = (data) => (dispatch) => {
         .finally(() => dispatch(setIsLoading(false)));
 }
 
+export const postSellerClousterthunk = (data) => (dispatch) => {
+    dispatch(setIsLoading(true));
+    console.log(data);
+    return axios.post(`${URL_BASE}/api/v1/seller/newClouster`, data, getConfig())
+        .then(() => {
+            dispatch(getSellerThunk());
+        })
+        .catch(err => {
+            console.log("Error en Slice");
+            alert("No se pudo actualizar el Vendedor");
+            dispatch(setErrorReceived(err.response.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+}
+
 export const updateSellerThunk = (id, data) => (dispatch) => {
     console.log(data);
     dispatch(setIsLoading(true));
     return axios.put(`${URL_BASE}/api/v1/seller/${id}/update`, data, getConfig())
         .then(() => {
             dispatch(getSellerThunk());
-            dispatch(setDataTemp());
         })
         .catch(err => {
             alert(`No Se pudo actualizar el vendedor`);
@@ -62,7 +78,8 @@ export const updateSellerThunk = (id, data) => (dispatch) => {
         })
         .finally(() => dispatch(setIsLoading(false)));
 }
-export const deleteSellerThunk = (id, data) => (dispatch) => {
+
+export const deleteSellerThunk = (id) => (dispatch) => {
     dispatch(setIsLoading(true));
     return axios.delete(`${URL_BASE}/api/v1/seller/${id}/del`, getConfig())
         .then(() => {

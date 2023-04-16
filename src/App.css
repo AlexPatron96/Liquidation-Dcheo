@@ -14,6 +14,8 @@
 @import url("./styles/card.css");
 @import url("./styles/atom.css");
 @import url("./styles/liquidationVeh.css");
+@import url("./styles/tables.css");
+@import url("./styles/forms.css");
 
 
 
@@ -26,7 +28,8 @@
     --color4: #0C120C;
     --color5: #434843;
     --color6: #E7E7E7;
-
+    --color7: #FFAC42;
+    
     --body-color: radial-gradient(#f3f5f5, #fffcf9);
     --body-color2: radial-gradient(#1d1f20, #000);
 
@@ -64,6 +67,7 @@
     font-family: var(--title-secund-text); */
     font-family: var(--paragraph-text);
 }
+
 /* .btn{
     max-width: 100px;
 } */
@@ -99,6 +103,20 @@
     gap: 1rem;
 }
 
+.alert {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+}
+
+.btn-actions{
+    width: 2rem;
+    height: 2rem;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0.05rem 0;
+}
 @keyframes colorAlterBorder {
     0% {
         border-right: 2.5px solid var(--color1);

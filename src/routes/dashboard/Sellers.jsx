@@ -11,18 +11,38 @@ import Createdseller from '../../components/molecules/Createdseller';
 import Formselectatom from '../../components/atom/Formselectatom';
 import verify from "../../img/verificado.gif";
 import { setPagination } from '../../store/slices/pagination.slice';
+import CreateSellersClouster from '../../components/creators/CreateSellersClouster';
+import CreateSeller from '../../components/creators/CreateSeller';
+import TableSellers from '../../components/Show/TableSellers';
+import { setErrorReceived } from '../../store/slices/errorReceived.slice';
+import Swal from 'sweetalert2';
 
 
 const Sellers = () => {
 
     const dispatch = useDispatch();
+
+    // /************ VERIFICA SI NO HAY UN ERROR EN EL SLICE DE ERROR ****************/
+    // const errorReceived = useSelector(state => state.errorReceived);
+    // errorReceived.length === 0 ? null : Swal.fire({
+    //     title: "Error",
+    //     text: `Existe un error en esta operacion : ${errorReceived.error} `,
+    //     icon: 'error',
+    //     confirmButtonColor: '#d33',
+    //     confirmButtonText: 'OK'
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         dispatch(setErrorReceived([]))
+    //     }
+    // });
+    // /**************************************************************/
+
     useEffect(() => {
-        dispatch(getSellerThunk());
-        dispatch(getRoutethunk());
+        sellerRedux[0] ? null : dispatch(getSellerThunk());
     }, [])
 
     const sellerRedux = useSelector(state => state.seller);
-    const route = useSelector(state => state.temporary);
+    // const route = useSelector(state => state.temporary);
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
 
@@ -36,17 +56,27 @@ const Sellers = () => {
     const updateData = (id, data) => {
         dispatch(updateSellerThunk(id, data))
     }
-    const deleteData = (id, data) => {
-        alert("Se esta eliminando un Vendedor")
-        dispatch(deleteSellerThunk(id, data));
+    const deleteData = (id) => {
+        console.log(id);
+        dispatch(deleteSellerThunk(id));
     }
+
     const createdSeller = () => {
-        alert("crear un nuevo VeNdedor")
         if (!modalShow) {
             setModalShow(true)
             console.log("mostrar model Vendedor");
         } else {
             setModalShow(false)
+        }
+    }
+    const [showCreateByClouster, setShowCreateByClouster] = useState(false);
+
+    const createByClouster = () => {
+        if (!showCreateByClouster) {
+            setShowCreateByClouster(true)
+            console.log("mostrar model created showCreateByClouster");
+        } else {
+            setShowCreateByClouster(false)
         }
     }
 
@@ -56,35 +86,46 @@ const Sellers = () => {
                 <Buttonatom created={createdSeller}
                     title={"Crear Vendedor"}
                     color={"success"} ico={"fa-circle-plus"} />
+                <Buttonatom created={createByClouster}
+                    title={""}
+                    color={"success"} ico={"fa-cloud-arrow-up"} />
+                <Buttonatom created={refresh}
+                    title={""}
+                    color={"info"} ico={"fa-arrow-rotate-right bx-spin-hover"} />
             </>
         )
     }
     const listAvailable = () => {
         return (
             <>
-                <Formselectatom title={"Ver Rutas Disponibles"}
+                {/* <Formselectatom title={"Ver Rutas Disponibles"}
                     iterador={route}
                     firstdata={"id"}
                     secunddata={"dia"}
-                    disabledAction={true} />
+                    disabledAction={true} /> */}
             </>
         )
     }
 
     const search = (data) => {
-        // alert(data)
         const filteredList = sellerRedux.filter((item) =>
         (
-            (item.nombre).toLowerCase().includes(data.toLowerCase())
+            (item.name)?.toLowerCase().includes(data.toLowerCase()) ||
+            (item.code)?.toLowerCase().includes(data.toLowerCase()) ||
+            ((item.isActive) === true ? "si" : "no") === data.toLowerCase()
         ));
         dispatch(setPagination(filteredList));
     }
+
+    const refresh = () => {
+        dispatch(getSellerThunk());
+    };
+
     return (
         <div className='sellers pages'>
-            <Createdseller show={modalShow} onHide={() => setModalShow(false)} listshow={listShow} listdb={listDB} title={"Created Seller"} />
             <div>
                 <h2>
-                    Sellers Available
+                    Vendedores
                 </h2>
                 <Functionalitiesbtn
                     buttons={btnCreated}
@@ -92,8 +133,7 @@ const Sellers = () => {
                     search={search} />
             </div>
             <div>
-                <TableList
-                    header={listShow}
+                <TableSellers
                     data={pagination}
                     updateData={updateData}
                     deleteData={deleteData}
@@ -104,11 +144,14 @@ const Sellers = () => {
                     : <LoadingScreen />
                 }
             </div>
-            <Createdseller show={modalShow}
+            <CreateSeller show={modalShow}
                 onHide={() => setModalShow(false)}
-                listshow={listShow} listdb={listDB}
-                title={"Created Seller"}
-                verify={verify} />
+            />
+
+            <CreateSellersClouster
+                show={showCreateByClouster}
+                onHide={() => setShowCreateByClouster(false)} />
+
         </div>
     );
 };

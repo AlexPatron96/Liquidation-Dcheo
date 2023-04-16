@@ -39,27 +39,38 @@ export const postCustomerthunk = (data) => (dispatch) => {
         })
         .catch(err => {
             alert("Error al crear el Cliente")
-            dispatch(setErrorReceived(err?.response));
+            dispatch(setErrorReceived(err?.response.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+}
+
+export const postCustomerClousterthunk = (data) => (dispatch) => {
+    dispatch(setIsLoading(true));
+    return axios.post(`${URL_BASE}/api/v1/customer/newClouster`, data, getConfig())
+        .then((res) => {
+            dispatch(getCustomerThunk());
+        })
+        .catch(err => {
+            alert("Error al crear al crear los clientes Cliente")
+            dispatch(setErrorReceived(err?.response.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
 }
 
 export const updateCustomerThunk = (id, data) => (dispatch) => {
-    console.log(data);
     dispatch(setIsLoading(true));
     return axios.put(`${URL_BASE}/api/v1/customer/${id}/update`, data, getConfig())
         .then((res) => {
             dispatch(getCustomerThunk());
         })
         .catch(err => {
-            alert(`No Se actualizo el vehiculo`)
+            alert(`No Se actualizo el Cliente`)
             dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
 }
 
-export const deleteCustomerThunk = (id, data) => (dispatch) => {
-    console.log(data);
+export const deleteCustomerThunk = (id) => (dispatch) => {
     dispatch(setIsLoading(true));
     return axios.delete(`${URL_BASE}/api/v1/customer/${id}/del`, getConfig())
         .then((res) => {

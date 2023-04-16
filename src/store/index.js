@@ -9,20 +9,30 @@ import closeoutsSlice from './slices/closeouts.slice'
 import customerSlice from './slices/customer.slice'
 import errorReceivedSlice from './slices/errorReceived.slice'
 import dataTempSlice from './slices/dataTemp.slice'
-import successSlice from './slices/success.slice'
+import liquidationSlice from './slices/liquidation.slice'
+import routeDaySlice from './slices/routeday.slice'
+import transaccionSlice from './slices/transaccion.slice'
+import checkMoneySlice from './slices/checkMoney.slice'
+import preLiquidationSellerSlice from './slices/preLiquidationSeller.slice'
+import liquidationVehicleSlice from './slices/liquidationVehicle.slice'
 
 export default configureStore({
     reducer: {
-        userLoged: userLogedSlice,
         isLoading: isLoadingSlice,
+        userLoged: userLogedSlice,
         vehicles: vehiclesSlice,
+        invoice: invoiceSlice,
         pagination: paginationSlices,
         seller: sellersSlice,
         customer: customerSlice,
         closeouts: closeoutsSlice,
-        invoice: invoiceSlice,
         errorReceived: errorReceivedSlice,
         temporary: dataTempSlice,
-        success: successSlice
+        routeDay: routeDaySlice,
+        liquidation: liquidationSlice,
+        transaction: transaccionSlice,
+        checkMoney: checkMoneySlice,
+        preLiquidationSeller: preLiquidationSellerSlice,
+        liquidationVehicle:liquidationVehicleSlice
     }
 })

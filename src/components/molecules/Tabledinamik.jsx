@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, ListGroup } from "react-bootstrap";
 import Table from 'react-bootstrap/Table';
-import { getInvoiceThunk } from "../../store/slices/invoice.slice";
 import date from "../../utils/date";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import Modal from 'react-bootstrap/Modal';
-import imgEliminar from "../../img/eliminar.gif"
-import imgActualizar from "../../img/actualizar.gif"
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
-const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateInvo, refresh, liquidationAct }) => {
+
+
+const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateInvo, refresh, liquidationAct, handleAddInvoice, checkSelectedID }) => {
 
   const [data, setData] = useState(invoice);
   useEffect(() => {
@@ -53,21 +53,46 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
 
 
-  /*************************   Totales de Liquidacion **********************************/
+  /*************************   Totales de Saldo de facturas por cobrar **********************************/
+  const userLiquidador = useSelector(state => state.userLoged);
+  const [transRealized, setTransRealized] = useState([]);
 
-  //Total del saldo a cobrar
-  const sumTotalFact = Object.values(data).reduce((accumulator, currentValue) => accumulator + currentValue.saldo, 0);
-
+  const handleChangeTransaction = (e, item) => {
+    const { name, value } = e.target;
+    const num_Fact = item.num_Fact;
+    const fecha_abono = date.Currendate();
+    const abono = parseFloat(value);
+    const id_users = userLiquidador.id;
+    const id_bills = item.id;
+    const id_client = item.id_client_bill.id;
+    const verificador = transRealized?.findIndex(verfItem => verfItem?.num_Fact === item?.num_Fact);
+    if (abono > item.saldo) {
+      Swal.fire('Error',
+        `No puede Ingresar Un valor mayor al adeudado, se tomara como valor abonado 
+      $${transRealized[verificador].abono}`, "warning")
+    } else {
+      if (verificador != -1) {
+        const newTransRealized = [...transRealized];  // crea una copia del arreglo original
+        newTransRealized[verificador].abono = abono;  // actualiza el valor de abono en el elemento correspondiente
+        setTransRealized(newTransRealized);           // actualiza el estado con la copia actualizada del arreglo
+      } else {
+        setTransRealized([...transRealized, { num_Fact, fecha_abono, abono, id_users, id_bills, id_client }])
+      }
+    }
+    console.log(transRealized);
+  }
+  const sumTotalFact = Object.values(data).reduce((acc, cur) => acc + cur.saldo, 0);  //Total del saldo a cobrar
+  const sumTotalCobrado = Object.values(transRealized).reduce((acc, cur) => acc + cur.abono, 0);
+  const resetTotalCobrado = () => {
+    console.log("reset");
+    console.log(transRealized);
+    setTransRealized([]);
+  }
   /**********************************************************************************/
-
 
 
   /*************************   Editar - Crear Tablas **********************************/
   const inputRef = useRef(null);
-  const [show, setShow] = useState(false);
-  const [deleteData, setDeleteData] = useState(null);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [error, setError] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState(null);
@@ -101,15 +126,19 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
         }));
         setError(null);
       } else {
-        // const message = "no puede dejar este campo vacio"
         setError("total_fact")
       }
-
     }
-
     if (name === "num_Fact") {
-      if (value.length > 13) {
-        // const message = "no puede ingresar mas de 13 digitos"
+      console.log(formData);
+
+      if (value.length === 3) {
+        console.log("es igual a 4");
+        setFormData(prevState => ({
+          ...prevState,
+          [name]: value + "-"
+        }));
+      } else if (value.length > 13) {
         setError("num_Fact")
       } else {
         setFormData(prevState => ({
@@ -151,7 +180,6 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
   };
 
   const handleAdd = () => {
-    console.log(error);
     if (error === null && formData.total_fact.length !== 0) {
       delete formData.id;
       formData.saldo = formData.total_fact;
@@ -174,9 +202,12 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
       });
     } else {
       setError("total_fact")
-      alert("Existe un campo con error")
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Existe un campo con error!',
+      })
     }
-
   };
 
   const handleEdit = (index, item) => {
@@ -186,53 +217,67 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
       setEditData(item);
     }
   };
+
   const handleupdate = () => {
-    return (
-      <div>
-        <Modal.Body style={{ display: "flex", flexDirection: "column", alignItems: "center" }} >
-          <h6>Deseas Actualizar con nuevos datos esta Factura.</h6>
-          <img style={{ width: "100px" }} src={imgActualizar} alt="Actualizar" />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => { handleClose(); setEditingIndex(null); }}>
-            No
-          </Button>
-          <Button variant="primary" onClick={() => { updateInvo(editData); handleClose(); setEditingIndex(null); }}>
-            Si
-          </Button>
-        </Modal.Footer>
-      </div>
-    )
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: "¡Vas a Actualizar una Factura!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Modificar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setEditMode(false);
+        updateInvo(editData);
+        setEditingIndex(null);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Actualizada!',
+          text: "Se a Actualizado la Factura con exito.",
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    });
   };
 
-  const handleDelete = () => {
-    return (
-      <div>
-        <Modal.Body style={{ display: "flex", flexDirection: "column", alignItems: "center" }} >
-          <h6>Deseas eliminar esta Factura.</h6>
-          <img style={{ width: "100px" }} src={imgEliminar} alt="Eliminar" />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            No
-          </Button>
-          <Button variant="primary" onClick={() => { delInvo(deleteData); handleClose(); setDeleteData(null); }}>
-            Si
-          </Button>
-        </Modal.Footer>
-      </div>
-    )
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borralo!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        delInvo(id)
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '¡Eliminado!',
+          text: "Se a Eliminado la factura con exito",
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    });
   };
-
-  /**********************************************************************************/
-
 
   return (
     <div>
       <Table striped bordered hover style={{ maxWidth: "1305px", fontSize: "12px", textAlign: "center" }}>
         <thead>
           <tr>
-            <th style={{ maxWidth: "50px" }}>select</th>
+            {
+              liquidationAct !== true ? null : (<th style={{ maxWidth: "50px" }}>select</th>)
+            }
+
+            <th style={{ maxWidth: "50px" }}>item</th>
             <th style={{ maxWidth: "50px" }}>ID</th>
             <th style={{ maxWidth: "185px" }}>Cliente</th>
             <th style={{ maxWidth: "150px" }}># Factura</th>
@@ -243,7 +288,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
             <th style={{ maxWidth: "125px" }}>Saldo</th>
             <th style={{ maxWidth: "125px" }}>Detalle</th>
             <th style={{ maxWidth: "175px" }}>Vendedor</th>
-            <th >Accion</th>
+            <th >{liquidationAct !== true ? "Accion" : "Pago o Abono"}</th>
           </tr>
         </thead>
         <tbody >
@@ -251,10 +296,13 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
           {
             liquidationAct !== true ?
               (<tr >
-                <td>
-                  {/*Aqui se ubica el checkBox */}
-
-                </td>
+                {
+                  liquidationAct !== true ? (
+                    null) : (<td>
+                      {/*Aqui se ubica el checkBox */}
+                    </td>)
+                }
+                <td></td>
                 <td>
                   <input
                     className="form-control form-control-sm"
@@ -273,7 +321,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                     onClick={() => setActiveListSearchCustomer(true)}
                     onChange={handleSearchCustomerChange} />
 
-                  <ListGroup className={activeListSearchCustomer && searchCustomer.length > 0 ? `listClient` : `none`} >
+                  <ListGroup multiple="" className={activeListSearchCustomer && searchCustomer.length > 0 ? `listClient` : `none`} >
                     {filteredList.map((item) => (
                       <option className={activeListSearchCustomer ? `` : `none`}
                         key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }} >{item.id} - {item.nombre} </option>
@@ -303,7 +351,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                 <td>
                   <select name="isWhite"
                     className="form-select h-25"
-                    style={{ padding: "3px", paddingRight: "40px" }}
+                    style={{ padding: "3px", width: "40px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
                     value={formData.isWhite}
                     onChange={handleChange}        >
                     <option value={(false)}>No</option>
@@ -314,9 +362,9 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                 <td>
                   <select name="status"
                     className="form-select h-25"
-                    style={{ padding: "3px", paddingRight: "40px" }}
+                    style={{ padding: "5px", width: "90px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
                     value={formData.status}
-                    onChange={handleChange}        >
+                    onChange={handleChange} >
                     <option value="pendiente">Pendiente</option>
                     <option value="abonada">Abonada</option>
                     <option value="pagada">Pagada</option>
@@ -325,6 +373,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
                 <td>
                   <input
+                    style={{ padding: "3px", width: "110px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
                     className="form-control form-control-sm"
                     type="date"
                     name="fecha_entrega"
@@ -335,11 +384,11 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
                 <td >
                   <div className="input-group mb-3" style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}>
-                    <span className="input-group-text" style={{ padding: "3px", paddingRight: "5px", paddingLeft: "5px" }}>$</span>
+                    <span className="input-group-text" style={{ padding: "3px", paddingRight: "5px", paddingLeft: "5px", width: '20px', fontSize: "13px" }}>$</span>
                     <input
                       aria-label="Amount (to the nearest dollar)"
                       className="form-control form-control-sm"
-                      style={{ padding: "3px" }}
+                      style={{ padding: "3px", width: "60px", fontSize: "13px" }}
                       type="text"
                       name="total_fact"
                       value={(formData.total_fact)}
@@ -356,12 +405,12 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                 </td>
 
                 <td >
-                  <div className="input-group mb-3w" style={{ display: "flex", flexDirection: "row" }}>
-                    <span className="input-group-text" style={{ padding: "3px", paddingRight: "5px", paddingLeft: "5px" }}>$</span>
+                  <div className="input-group mb-3w" style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}>
+                    <span className="input-group-text" style={{ padding: "3px", paddingRight: "5px", paddingLeft: "5px", width: '20px', fontSize: "13px" }}>$</span>
                     <input
                       aria-label="Amount (to the nearest dollar)"
                       className="form-control form-control-sm"
-                      style={{ padding: "3px" }}
+                      style={{ padding: "3px", width: "40px", fontSize: "13px" }}
                       type="text"
                       name="saldo"
                       disabled={true}
@@ -373,6 +422,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
                 <td>
                   <input
+                    style={{ padding: "3px", width: "100px", fontSize: "13px" }}
                     className="form-control form-control-sm"
                     type="text"
                     name="detalle_adt"
@@ -384,10 +434,10 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                 <td>
                   <select name="id_sellers"
                     className="form-select h-25"
-                    style={{ padding: "3px", paddingRight: "40px" }}
+                    style={{ padding: "1px", paddingRight: "18px", width: "90px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
                     value={(formData.id_sellers)}
                     onChange={handleChange}  >
-                    <option >Select Seller</option>
+                    <option >Seleccione Vendedor</option>
                     {
                       seller?.map((sell, index) => (
                         <option key={index} value={(parseInt(sell.id))}>{sell.id} - {sell.nombre}</option>
@@ -410,11 +460,16 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
             data?.map((item, index) => (
               <tr key={index} >
                 {/* chekbox */}
-                {
-                  <td>
-                    <input type="checkbox" name="" id="" />
-                  </td>
+                {liquidationAct !== true ? (
+                  null) : (<td>
+                    <input type="checkbox"
+                      name='id_select'
+                      value={item.id}
+                      checked={(checkSelectedID.includes((item.id).toString()))}
+                      onChange={(e) => handleAddInvoice(e, item)} />
+                  </td>)
                 }
+                <td>{index + 1}</td>
                 {/* id */}
                 {editingIndex === index ?
                   <td>
@@ -432,27 +487,17 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                 {/* idclient */}
                 {editingIndex === index ?//Revisar codigo
                   <td>
-                    {/* <select name="id_client"
-                    className="form-select h-25"
-                    style={{ padding: "3px", paddingRight: "40px" }}
-                    value={editData.id_client}
-                    onChange={handleChangeUpdate}  >
-                    <option value={editData.id_client_bill.id}>{editData.id_client_bill.id} - {editData.id_client_bill.nombre}</option>
-                    {
-                      customer?.map((cust, index) => (
-                        <option key={index} value={parseInt(cust.id)}>{cust.id} - {cust.nombre}</option>
-                      ))
-                    }
-                  </select> */}
 
-                    <input name="id_client" className="form-control form-control-sm"
+                    <input name="id_client" tabIndex={1} className="form-control form-control-sm"
                       type="text" value={searchCustomer}
                       onChange={handleSearchCustomerChange} onClick={() => { activeUpdateCustomer ? setActiveUpdateCustomer(false) : setActiveUpdateCustomer(true) }} />
 
-                    <ListGroup className={activeUpdateCustomer ? `listClient` : `none`}  >
+                    <ListGroup className={activeUpdateCustomer ? `listClient` : `none`} tabIndex={2} >
                       {filteredList.map((item) => (
                         <option className={activeUpdateCustomer ? `` : `none`}
-                          key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }} >{item.id} - {item.nombre} </option>
+                          tabIndex={1} key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }}
+                          onKeyDown={() => { handleItemCustomerClick(item) }}
+                        >{item.id} - {item.nombre} </option>
                       ))}
                     </ListGroup>
                   </td>
@@ -614,14 +659,14 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                           <button
                             className="btn btn-danger m-1 p-1 d-flex flex-row"
                             style={{ alignItems: 'center' }}
-                            onClick={() => { setDeleteData(item?.id); handleShow(); }}>
+                            onClick={() => { handleDelete(item?.id) }}>
                             <i className="fa-solid fa-trash-can bx-fw"></i>
                           </button>
                         </div>)
                         : <div style={{ display: "flex", flexDirection: "row" }}>
                           <button
                             className="btn btn-success m-1 p-1 d-flex flex-row"
-                            onClick={handleShow}>
+                            onClick={() => handleupdate()}>
                             <i className="fa-solid fa-floppy-disk bx-fw"></i>
                             {"Guardar"}
                           </button>
@@ -629,8 +674,14 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
                             <i className="fa-solid fa-xmark bx-fw"></i>
                           </button>
                         </div>) : ( //AQui ingresamos la opcion para pagar o abonar factura
+
                         <div>
-                          hola
+                          <input className="form-control form-control-sm"
+                            onChange={(e) => handleChangeTransaction(e, item)}
+                            value={transRealized.abono}
+                            style={{ width: "80px" }}
+                            type="text"
+                            name="abono" id="" />
                         </div>
                       )
 
@@ -641,31 +692,49 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
           }
 
           <tr>
-            <td ></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><h6>TOTAL:</h6></td>
-            <td><h6>{sumTotalFact?.toFixed(2)}</h6></td>
-            <td>a</td>
-            <td>a</td>
+
+            <td colSpan={liquidationAct !== true ? 8 : 9}><h6>TOTAL POR COBRAR:</h6></td>
+            <td><h6>${sumTotalFact?.toFixed(2)}</h6></td>
+            {/* {
+              liquidationAct !== true ?
+                ""
+                : (<td colSpan={1}>
+                  <h1
+                    style={{ textAlign: "center", width: "40px", justifyContent: "center" }}
+                    className="btn btn-success m-1 p-1 d-flex flex-row"
+                    onClick={() => resetTotalCobrado()}>
+                    <i className='bx bx-brush bx-sm'></i>
+                  </h1>
+                </td>
+                )
+            } */}
+            {
+              liquidationAct !== true ? (
+                <>
+                  <td></td>
+                  <td></td>
+                </>
+              ) : (
+                <>
+                  <td colSpan={1}>
+                    <h1
+                      style={{ textAlign: "center", width: "40px", justifyContent: "center" }}
+                      className="btn btn-success m-1 p-1 d-flex flex-row"
+                      onClick={() => resetTotalCobrado()}>
+                      <i className='bx bx-brush bx-sm'></i>
+                    </h1>
+                  </td>
+                  <td>Total Cobrado</td>
+                  <td><h5>${sumTotalCobrado ? sumTotalCobrado : 0}</h5></td>
+                </>
+              )
+            }
+
           </tr>
 
         </tbody>
 
       </Table>
-
-      <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmacion</Modal.Title>
-        </Modal.Header>
-        {
-          deleteData === null ? handleupdate() : handleDelete()
-        }
-      </Modal>
 
     </div >
   );

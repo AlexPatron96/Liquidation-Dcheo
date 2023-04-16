@@ -1,7 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import "bootswatch/dist/litera/bootstrap.min.css";
-// import { useEffect } from "react";
 import LoadingScreen from './layout/LoadingScreen';
 import { useSelector } from 'react-redux';
 import Login from '../src/routes/auth/Login';
@@ -15,9 +14,19 @@ import Selectvehliq from "./routes/dashboard/Liquidation/vehicles/Selectvehliq";
 import Invoice from "./routes/dashboard/Invoice";
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import Index from "./routes/dashboard/Liquidation/Index";
-import Index2 from "./routes/dashboard/Liquidation/vehicles/Subindex";
+import IndexVeh from "./routes/dashboard/Liquidation/vehicles/Subindex";
 import Liquidationveh from "./routes/dashboard/Liquidation/vehicles/Liquidationveh";
-
+import IndexSell from "./routes/dashboard/Liquidation/sellers/Indexseller"
+import Selectsellerliq from "./routes/dashboard/Liquidation/sellers/Selectsellerliq";
+import Liquidationsell from "./routes/dashboard/Liquidation/sellers/Liquidationsell"
+import LiquidationSellerPdf from "./components/print/LiquidationSellerPdf";
+import Recepterinvoice from "./routes/dashboard/Liquidation/sellers/Recepterinvoice";
+import InvoiceGive from "./components/print/InvoiceGive";
+import IndexCloseout from "./routes/dashboard/Closeouts/Index"
+import IndexCloseoutSell from "./routes/dashboard/Closeouts/sellers/Index"
+import LiquidationInfoSeller from "./routes/dashboard/Closeouts/sellers/LiquidationInfoSeller"
+import PreLiquidationSeller from "./routes/dashboard/Closeouts/sellers/PreLiquidationSeller"
+import LiquidationVehiclePdf from "./components/print/LiquidationVehiclePdf";
 function App() {
   const isLoading = useSelector(state => state.isLoading)
 
@@ -33,6 +42,15 @@ function App() {
         <Route path="/signin" element={<Sigin />} />
 
         <Route element={<ProtectedRoutes />}>
+          
+          <Route path="/dashboard/liquidation/sellers/print/:id" element={<LiquidationSellerPdf />} />
+          <Route path="/dashboard/liquidation/sellers/:id/print/invoice-give" element={<InvoiceGive />} />
+
+          <Route path="/dashboard/liquidation/vehicle/print/:id" element={<LiquidationVehiclePdf />} />
+          {/* <Route path="/dashboard/liquidation/vehicle/:id/print/invoice-give" element={<InvoiceGive />} /> */}
+
+
+
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Home />} />
             <Route path="/dashboard/vehicles" element={<Vehicles />} />
@@ -40,15 +58,26 @@ function App() {
             <Route path="/dashboard/customers" element={<Customers />} />
             <Route path="/dashboard/invoice" element={<Invoice />} />
 
+            <Route path="/dashboard/closeout" element={<IndexCloseout />}>
+
+              <Route path="/dashboard/closeout/seller" element={<IndexCloseoutSell />}>
+                <Route path="/dashboard/closeout/seller/liquidation-seller" element={<LiquidationInfoSeller />} />
+                <Route path="/dashboard/closeout/seller/pre-liquidation-seller" element={<PreLiquidationSeller />} />
+              </Route>
+
+            </Route>
+
             <Route path="/dashboard/liquidation" element={<Index />}>
-              <Route path="/dashboard/liquidation/vehicles" element={<Index2 />}>
+              <Route path="/dashboard/liquidation/vehicles" element={<IndexVeh />}>
                 <Route index element={<Selectvehliq />} />
                 <Route path="/dashboard/liquidation/vehicles/:id" element={<Liquidationveh />} />
+                {/* <Route path="/dashboard/liquidation/vehicles/:id" element={<Liquidationveh />} /> */}
               </Route>
-              {/* <Route path="/dashboard/liquidation/vehicles" element={<Index2 />}>
-                <Route index element={<Selectvehliq />} />
-                <Route path="/dashboard/liquidation/vehicles/:id" element={<Customers />} />
-              </Route> */}
+              <Route path="/dashboard/liquidation/sellers" element={<IndexSell />}>
+                <Route index element={<Selectsellerliq />} />
+                <Route path="/dashboard/liquidation/sellers/:id" element={<Liquidationsell />} />
+                <Route path="/dashboard/liquidation/sellers/:id/received-inovices" element={<Recepterinvoice />} />
+              </Route>
             </Route>
 
           </Route>
@@ -63,8 +92,3 @@ function App() {
 
 export default App;
 
-{/* <Route path="/dashboard/closeoutsVeh" element={<CloseoutsVeh />} />
-  <Route path="/dashboard/select-vehicle-to-liquidate" element={<Selectliqsell />} />
-  <Route path="/dashboard/do-vehicleliquidation" element={<Dovehicleliquidation />} />
-  <Route path="/dashboard/do-sellerliquidation" element={<Dovehicleliquidation />} />
-<Route path="/dashboard/billreceivable" element={<Billreceivable />} /> */}

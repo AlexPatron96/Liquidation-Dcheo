@@ -7,26 +7,25 @@ const Sidebar = () => {
     const [displayAccordion, setDisplayAccordion] = useState(true);
 
     const active = () => {
-        if (activeSidebar) {
-            setActiveSidebar(false);
-        } else {
-            setDisplayAccordion(true);
-            setActiveSidebar(true);
-        }
-    }
+
+        activeSidebar ? setActiveSidebar(false) : setActiveSidebar(true);
+        activeSidebar ? null : setDisplayAccordion(true);
+    };
 
     const activeAcordeon = () => {
-        if (displayAccordion) {
-            setDisplayAccordion(false);
-        } else {
-            setDisplayAccordion(true);
-        }
-    }
+        // if (displayAccordion) {
+        //     setDisplayAccordion(false);
+        // } else {
+        //     setDisplayAccordion(true);
+        // }
+        displayAccordion ? setDisplayAccordion(false) : setDisplayAccordion(true);
+    };
 
     return (
-        <div id='sidebar' className={activeSidebar ? null : 'activeSidebar'}>
-            <div className='toggle-btn' onClick={active}>
-                <i className={`fa-solid ${activeSidebar ? "fa-toggle-on" : "fa-toggle-off"} bx-sm  btn-arrow bx-rotate-90`}></i>
+        <div id='sidebar' className={activeSidebar ? null : 'activeSidebar'} >
+            {/* FIXME: De Activar siderbar */}
+            <div className={`${activeSidebar ? "toggle-btn-off" : "toggle-btn"}`} onClick={active}>
+                <i className={`fa-solid ${activeSidebar ? "fa-toggle-on bx-sm" : "fa-toggle-off bx-md"}   btn-arrow `}></i>
             </div>
 
             <ul className={activeSidebar ? "active" : null}>
@@ -35,58 +34,62 @@ const Sidebar = () => {
                 <p className='txt5'>Alex Patron Garcia </p> */}
                 <li className={`${activeSidebar ? "active" : null}`} >
 
-                    <div className={`accordion-item  linkStyleSid ${displayAccordion ? null : "activeAcord"}`} >
+                    <div className={`accordion-item  linkStyleSid ${displayAccordion ? null : "activeAcord"}`} onClick={() => { active(); activeAcordeon(); }} >
                         <i className="fa-solid fa-file-invoice bx-fw" ></i>
 
                         <span className={`accordion-header ${activeSidebar ? "activeText" : null}`} onClick={activeAcordeon}>
-                            Closeouts {" "}
+                            Liquidaciones {" "}
                             <i className={`fa-solid fa-angle-${displayAccordion ? "down" : "up"} bx-xs bx-fw`}></i>
                         </span>
 
                         <div className={`accordion-content ${activeSidebar ? "activeText" : null}`}>
+
                             <Link className='linkStyleSid' to={"/dashboard/closeoutsVeh"} onClick={active}>
                                 <i className="fa-solid fa-route bx-fw"></i>
-                                Closeouts of vehicles
+                                Vehiculos
                             </Link>
-                            <Link className='linkStyleSid' to={"/dashboard/closeoutsVen"} onClick={active}>
+                            <Link className='linkStyleSid' to={"/dashboard/closeout/seller"} onClick={active}>
                                 <i className="fa-solid fa-worm bx-fw"></i>
-                                Closeouts of Sellers
+                                Vendedores
                             </Link>
                         </div>
                     </div>
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/invoice"} >
+                    <Link className='linkStyleSid' to={"/dashboard/invoice"} onClick={() => { setActiveSidebar(true) }}>
                         <i className="fa-solid fa-file-invoice-dollar bx-fw"></i>
-                        <span className={activeSidebar ? "activeText" : null}> Invoices </span>
+                        <span className={activeSidebar ? "activeText" : null}> Facturas </span>
                     </Link>
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/vehicles"} >
+                    <Link className='linkStyleSid' to={"/dashboard/vehicles"} onClick={() => { setActiveSidebar(true) }} >
                         <i className="fa-solid fa-truck bx-fw"></i>
                         <span className={activeSidebar ? "activeText" : null}>
-                            Vehicles
+                            Vehiculos
                         </span>
                     </Link>
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/sellers"} >
+                    <Link className='linkStyleSid' to={"/dashboard/sellers"} onClick={() => { setActiveSidebar(true) }}>
                         <i className="fa-solid fa-universal-access bx-fw"></i>
-                        <span className={activeSidebar ? "activeText" : null}> Sellers</span>
+                        <span className={activeSidebar ? "activeText" : null}> Vendedores</span>
                     </Link>
                 </li>
 
                 <li className={activeSidebar ? "active" : null}>
-                    <Link className='linkStyleSid' to={"/dashboard/customers"} >
+                    <Link className='linkStyleSid' to={"/dashboard/customers"} onClick={() => { setActiveSidebar(true) }}>
                         <i className="fa-solid fa-person bx-fw"></i>
-                        <span className={activeSidebar ? "activeText" : null}> Customer</span>
+                        <span className={activeSidebar ? "activeText" : null}> Clientes</span>
                     </Link>
                 </li>
 
             </ul>
+            <div style={{ height: "45%" }} onClick={active}>
+
+            </div>
         </div>
     );
 };

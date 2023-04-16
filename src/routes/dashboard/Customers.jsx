@@ -6,22 +6,37 @@ import TableList from '../../components/TableList';
 import LoadingScreen from '../../layout/LoadingScreen';
 import Paginationdesign from '../../components/Paginationdesign'
 import Functionalitiesbtn from '../../components/atom/Functionalitiesbtn';
-import Createdcustomer from '../../components/molecules/Createdcustomer';
+import Createdcustomer from '../../components/creators/Createdcustomer';
 import Buttonatom from '../../components/atom/Buttonatom';
 import Formselectatom from '../../components/atom/Formselectatom';
 import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
 import { getSellerThunk } from '../../store/slices/seller.slice';
 import { setPagination } from '../../store/slices/pagination.slice';
+import TableCustomer from '../../components/Show/TableCustomer';
+import CreateCustomerClouster from '../../components/creators/CreateCustomerClouster';
+import Swal from 'sweetalert2';
+import { setErrorReceived } from '../../store/slices/errorReceived.slice';
 
 
 const Customers = () => {
 
     const dispatch = useDispatch();
+    // /************ VERIFICA SI NO HAY UN ERROR EN EL SLICE DE ERROR ****************/
+    // const errorReceived = useSelector(state => state.errorReceived);
+    // errorReceived.length === 0 ? null : Swal.fire({
+    //     title: "Error",
+    //     text: `Existe un error en esta operacion : ${errorReceived.error} `,
+    //     icon: 'error',
+    //     confirmButtonColor: '#d33',
+    //     confirmButtonText: 'OK'
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         dispatch(setErrorReceived([]))
+    //     }
+    // });
+    // /**************************************************************/
     useEffect(() => {
-        dispatch(getCustomerThunk());
-        dispatch(getRoutethunk());
-        dispatch(getVehiclesThunk());
-        dispatch(getSellerThunk());
+        customer[0] ? null : dispatch(getCustomerThunk());
     }, [])
 
     const customer = useSelector(state => state.customer);
@@ -30,11 +45,23 @@ const Customers = () => {
     const seller = useSelector(state => state.seller);
     const vehicle = useSelector(state => state.vehicles);
     const route = useSelector(state => state.temporary);
-    const listShow = ["#id", "Nombre", "Direccion", "Dni", "Vehiculo", "Route", "Seller"];
-    const listDB = ["nombre", "direccion", "dni", "id_sellers", "id_vehicle", "id_route"];
+    // const listShow = ["#id", "Nombre", "Direccion", "Dni", "Vehiculo", "Route", "Seller"];
+    // const listDB = ["nombre", "direccion", "dni", "id_sellers", "id_vehicle", "id_route"];
 
     /***********************  MODAL PARA CREAR NUEVAS FACTURAS *************************/
     const [modalShow, setModalShow] = useState(false);
+
+    const [showCreateByClouster, setShowCreateByClouster] = useState(false);
+
+    const createByClouster = () => {
+        if (!showCreateByClouster) {
+            setShowCreateByClouster(true)
+            console.log("mostrar model created showCreateByClouster");
+        } else {
+            setShowCreateByClouster(false)
+        }
+    }
+
     const createdCustomer = () => {
         if (!modalShow) {
             setModalShow(true)
@@ -48,19 +75,28 @@ const Customers = () => {
                 <Buttonatom created={createdCustomer}
                     title={"Crear Cliente"}
                     color={"success"} ico={"fa-circle-plus"} />
+                <Buttonatom created={createByClouster}
+                    title={""}
+                    color={"success"} ico={"fa-cloud-arrow-up"} />
+                <Buttonatom created={refresh}
+                    title={""}
+                    color={"info"} ico={"fa-arrow-rotate-right bx-spin-hover"} />
             </>
         )
     }
     /************************************************************************************** */
     const updateData = (id, data) => {
-        alert("Se Actualizo el Cliente")
+        // alert("Se Actualizo el Cliente")
         dispatch(updateCustomerThunk(id, data))
     }
-    const deleteData = (id, data) => {
-        alert("Se esta eliminando un Cliente")
-        dispatch(deleteCustomerThunk(id, data));
+    const deleteData = (id) => {
+        // alert("Se esta eliminando un Cliente")
+        dispatch(deleteCustomerThunk(id));
     }
 
+    const refresh = () => {
+        dispatch(getCustomerThunk());
+    };
 
 
     const listAvailable = () => {
@@ -91,49 +127,49 @@ const Customers = () => {
     const search = (data) => {
         const filteredList = customer.filter((item) =>
         (
-            (item.nombre).toLowerCase().includes(data.toLowerCase()) ||
-            (item.dni).includes(data) || (item.route.dia).includes(data) ||
-            (item.seller.nombre).includes(data)
+            (item.fullname).toLowerCase()?.includes(data.toLowerCase()) ||
+            (item.dni)?.includes(data) || (item.route_day.dia)?.includes(data) ||
+            (item.seller.name)?.toLowerCase().includes(data.toLowerCase()) || (item.address)?.toLowerCase().includes(data.toLowerCase()) ||
+            (item.seller.code)?.toLowerCase().includes(data.toLowerCase())
         ));
+        console.log(filteredList);
         dispatch(setPagination(filteredList));
     }
+
+
     return (
         <div className='customer pages'>
             <div>
                 <h2>
-                    Clientes Disponibles
+                    Clientes
                 </h2>
                 <Functionalitiesbtn
                     buttons={btnCreated}
-                    listAvailable={listAvailable}
+                    // listAvailable={listAvailable}
                     search={search} />
             </div>
             <div>
-                <TableList
-                    header={listShow}
+                <TableCustomer
                     data={pagination}
                     updateData={updateData}
                     deleteData={deleteData}
-                />{
-                    console.log(customer)
-                }
+                />
+
                 {!loading ? <Paginationdesign
                     data={"customer"}
                 />
                     : <LoadingScreen />
                 }
             </div>
+            <CreateCustomerClouster
+                show={showCreateByClouster}
+                onHide={() => setShowCreateByClouster(false)} />
             <Createdcustomer
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-                title={"Created Customer"}
             />
         </div>
     );
 };
 
 export default Customers;
-            // const prop = ["#id", "Nombre", "Direccion", "Dni", "Seller", "Route", "Vehiculo"];
-            // const url = "/api/v1/customer/all";
-            // const method = "GET";
-            // const data = null;

@@ -29,7 +29,7 @@ export const setUserThunk = (data) => (dispatch) => {
         .catch(err => {
             console.log(err);
             if (err.response?.status === 404 || err.response?.status === 400) {
-                dispatch(setErrorReceived(err.response?.data))
+                // dispatch(setErrorReceived(err.response?.data))
             }
         })
         .finally(() => dispatch(setIsLoading(false)));

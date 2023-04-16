@@ -5,7 +5,6 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSellerThunk, postSellerthunk } from '../../store/slices/seller.slice';
-import Successful from '../atom/Successful';
 
 const Createdseller = (props) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -84,8 +83,7 @@ const Createdseller = (props) => {
                     <Button onClick={props.onHide}>Close</Button>
                 </Modal.Footer>
             </Modal >
-            <Successful show={showSuccessModal}
-                onHide={() => setShowSuccessModal(false)} />
+
         </div>
     );
 };

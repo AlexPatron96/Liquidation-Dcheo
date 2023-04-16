@@ -1,12 +1,13 @@
 .liquidationVeh-component {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 0.5fr 0.5fr;
     grid-template-areas:
-        "comp"
-        "fact";
+        "fact"
+        "comp";
     overflow-x: scroll;
     overflow-y: hidden;
+    justify-items: center;
 }
 
 .liquidationVeh-listfac {
@@ -15,7 +16,56 @@
 
 .liquidationVeh-liscompnent {
     grid-area: comp;
-    display: flex;
+    /* display: flex; */
     flex-direction: row;
 }
 
+input[type="checkbox"] {
+    transform: scale(1);
+}
+
+.table-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.listcomponent-cont {
+    display: flex;
+    gap: 0.25rem;
+    /* // flexWrap: "wrap" */
+    margin: 0.5rem;
+    border: 1px solid var(--color2);
+    border-radius: 10px;
+    padding: 1rem;
+    justify-content: space-around;
+    width: 1024px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.listcomponent-cont-item {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    margin: 0.1rem;
+    border: 1px solid var(--color2);
+    border-radius: 10px;
+    padding: 1rem;
+    justify-content: center;
+    width: 300px;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+.btn-liquidation{
+    display: flex;
+    flex-direction: row;
+    background: whitesmoke;
+    position: fixed;
+    /* top: 95vh; */
+    left: 33%;
+    width: 500px;
+    bottom: 0px;
+    justify-content: space-between;
+}

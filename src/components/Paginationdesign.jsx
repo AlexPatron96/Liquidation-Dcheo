@@ -9,7 +9,7 @@ const Paginationdesign = ({ data  }) => {
     const itemFromPage = 10;
     useEffect(() => {
         dispatch(setPagination([...dataRecepted].splice(0, itemFromPage)))
-        console.log(dataRecepted);
+        // console.log(dataRecepted);
     }, [dataRecepted])
 
     const pages = [];

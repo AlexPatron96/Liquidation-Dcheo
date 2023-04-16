@@ -1,0 +1,20 @@
+.form-expense {
+    width: 75px !important;
+    font-size: 12px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem !important;
+}
+.form-cash {
+    width: 75px !important;
+    font-size: 12px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem !important;
+}
+.form-discount {
+    width: 75px !important;
+    font-size: 12px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem !important;
+}
+
+/* style={{ width: "75px", fontSize: "12px", margin: "0 auto", padding: "0.5rem" }} */

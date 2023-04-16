@@ -1,41 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import { Pagination } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Buttonatom from '../../components/atom/Buttonatom';
 import Functionalitiesbtn from '../../components/atom/Functionalitiesbtn';
-import Createdcustomer from '../../components/molecules/Createdcustomer';
+import Createdcustomer from '../../components/creators/Createdcustomer';
 import Tabledinamik from '../../components/molecules/Tabledinamik';
 import Paginationdesign from '../../components/Paginationdesign';
 import LoadingScreen from '../../layout/LoadingScreen';
-import { getCustomerThunk } from '../../store/slices/customer.slice';
-import { getRoutethunk } from '../../store/slices/dataTemp.slice';
-import { deleteInvoiceThunk, getInvoiceThunk, postInvoicethunk, updateInvoiceThunk } from '../../store/slices/invoice.slice';
+import { deleteInvoiceThunk, getInvoiceThunk, postInvoiceTransacthunk, postInvoicethunk, updateInvoiceThunk } from '../../store/slices/invoice.slice';
 import { setPagination } from '../../store/slices/pagination.slice';
+import Swal from 'sweetalert2';
+import TableInvoice from '../../components/Show/TableInvoice';
+import { getRouteDayThunk } from '../../store/slices/routeday.slice';
+import { setErrorReceived } from '../../store/slices/errorReceived.slice';
+import ModalTransaccion from '../../components/Modals/ModalTransaccion';
+import ModalInvoiceTransac from '../../components/Modals/ModalInvoiceTransac';
 import { getSellerThunk } from '../../store/slices/seller.slice';
-import { getVehiclesThunk } from '../../store/slices/vehicles.slice';
+import { getCustomerThunk } from '../../store/slices/customer.slice';
 
 const Invoice = () => {
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
+    // /************ VERIFICA SI NO HAY UN ERROR EN EL SLICE DE ERROR ****************/
+    // const errorReceived = useSelector(state => state.errorReceived);
+    // errorReceived.length === 0 ? null : Swal.fire({
+    //     title: "Error",
+    //     text: `Existe un error en esta operacion : ${errorReceived.error} `,
+    //     icon: 'error',
+    //     confirmButtonColor: '#d33',
+    //     confirmButtonText: 'OK'
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         dispatch(setErrorReceived([]))
+    //     }
+    // });
+    // /**************************************************************/
+    useEffect(() => {
+        invoice[0] ? null : dispatch(getInvoiceThunk());
+        routeDay[0] ? null : dispatch(getRouteDayThunk());
+    }, [])
+
+    const routeDay = useSelector(state => state.routeDay);
     const invoice = useSelector(state => state.invoice);
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
-    const seller = useSelector(state => state.seller);
-    const customer = useSelector(state => state.customer);
-    const [refresh, setRefresh] = useState(false)
-    const [liquidation, setliquidation] = useState(false)
 
-    useEffect(() => {
-        setRefresh(false)
-        dispatch(getInvoiceThunk());
-        dispatch(getCustomerThunk());
-        dispatch(getSellerThunk());
-        dispatch(getVehiclesThunk());
-        dispatch(getRoutethunk());
-    }, [refresh])
-
-    /***********************  MODAL PARA CREAR NUEVAS FACTURAS *************************/
     const [modalShow, setModalShow] = useState(false);
+
     const createdCustomer = () => {
         if (!modalShow) {
             setModalShow(true)
@@ -43,57 +53,73 @@ const Invoice = () => {
             setModalShow(false)
         }
     }
+
     const btnCreated = () => {
         return (
             <>
                 <Buttonatom created={createdCustomer}
                     title={"Crear Cliente"}
                     color={"success"} ico={"fa-circle-plus"} />
-                <Buttonatom created={(() => setRefresh(true))}
-                    title={"Actualizar"}
-                    color={"info"} ico={"fa-sync fa-spin"} />
+                <Buttonatom created={transaccionPay}
+                    title={"Pago o Abono"}
+                    color={"success"} ico={"fa-sack-dollar"} />
+                <Buttonatom created={refresh}
+                    title={""}
+                    color={"info"} ico={"fa-arrow-rotate-right bx-spin-hover"} />
             </>
         )
     }
     /************************************************************************************** */
 
     const createInvo = (data) => {
-        alert('Creando factura')
-        // console.log(data);
-        dispatch(postInvoicethunk(data));
-        setRefresh(true)
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: "Se a creado una Factura nueva",
+            showConfirmButton: false,
+            timer: 1500
+        })
+        dispatch(postInvoiceTransacthunk(data));
+        // dispatch(postInvoicethunk(data));
     }
-    const updateInvo = (data) => {
-        // alert('actualizando factura')
-        console.log(data);
-        const { id } = data;
-        const urlId = id;
-        data.id_sellers ? data.id_sellers : data.id_sellers = data.id_seller_client.id;
-        delete data.id;
-        delete data.id_seller_client;
-        delete data.id_client_bill;
-        delete data.id_transactions;
-        // console.log(data);
-        // console.log(id);
+
+    const updateInvo = (id, data) => {
         dispatch(updateInvoiceThunk(id, data));
-        setRefresh(true)
     }
+
     const delInvo = (id) => {
         dispatch(deleteInvoiceThunk(id));
-        setRefresh(true)
     }
+
     const search = (data) => {
-        // alert(data)
+
         const filteredList = invoice.filter((item) =>
         (
-            (item.id_client_bill.nombre).toLowerCase().includes(data.toLowerCase()) ||
-            (item.id_client_bill.dni).includes(data) ||
-            (item.num_Fact).includes(data) ||
-            (item.fecha_entrega).includes(data)
+            (item?.client?.fullname).toLowerCase().includes((data).toLowerCase()) ||
+            (item?.client?.dni).includes(data) ||
+            (item?.num_bill).includes(data) ||
+            (item?.deliver_date).includes(data) ||
+            (item?.seller.code).toLowerCase().includes(data) ||
+            (item?.seller.name).toLowerCase().includes(data)
         ));
         dispatch(setPagination(filteredList));
         console.log(filteredList);
     }
+    const [modalTransaccionPay, setModalTransaccionPay] = useState(false);
+    const [itemSelect, setItemSelect] = useState("");
+
+    const transaccionPay = (item) => {
+        setModalTransaccionPay(true);
+        setItemSelect(item);
+        // console.log(item);
+    }
+    const refresh = () => {
+        dispatch(getInvoiceThunk());
+        dispatch(getRouteDayThunk());
+        dispatch(getSellerThunk());
+        dispatch(getCustomerThunk());
+    };
+
     return (
         <div className='pages'>
             <h2>Facturas</h2>
@@ -102,10 +128,12 @@ const Invoice = () => {
                 // listAvailable={listAvailable}
                 search={search} />
 
-            <Tabledinamik invoice={pagination} seller={seller}
-                customer={customer} createInvo={createInvo}
-                updateInvo={updateInvo} delInvo={delInvo}
-                refresh={refresh} liquidationAct={liquidation} />
+            <TableInvoice
+                data={pagination}
+                updateInvo={updateInvo}
+                delInvo={delInvo}
+                transaccionPay={transaccionPay}
+                createInvo={createInvo} />
 
             {!loading ? <Paginationdesign
                 data={"invoice"}
@@ -117,6 +145,8 @@ const Invoice = () => {
                 onHide={() => setModalShow(false)}
                 title={"Created Customer"}
             />
+            {/* <ModalInvoiceTransac onHide={() => { setModalTransaccionPay(false) }} show={modalTransaccionPay} /> */}
+            <ModalInvoiceTransac itemSelect={itemSelect} onhide={() => setModalTransaccionPay(false)} show={modalTransaccionPay} />
         </div>
     );
 };

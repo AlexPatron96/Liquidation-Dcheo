@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Functionalitiesbtn = ({ aditional, buttons, listAvailable, search , filterList }) => {
+const Functionalitiesbtn = ({ aditional, buttons, listAvailable, search, filterList }) => {
 
     const [inputSearch, setInputSearch] = useState('');
 
@@ -29,17 +29,26 @@ const Functionalitiesbtn = ({ aditional, buttons, listAvailable, search , filter
                     filterList ? filterList() : null
                 }
             </div>
-            <h6>{inputSearch}</h6>
-            <div className="input-group inputFunc" >
-                <input type="text"
-                    className="form-control"
-                    placeholder="Ingresa lo que deseas buscar"
-                    aria-describedby="button-addon2"
-                    onChange={handleChange}
-                    value={inputSearch}
-                />
-                <button className="btn btn-primary" type="button" id="button-addon2" onClick={() => searchComp()}>Search</button>
+            <div className='d-flex flex gap-3 align-items-lg-stretch'>
+                {
+                    aditional ? aditional() : null
+                }
             </div>
+
+            <h6>{inputSearch}</h6>
+            {
+                search ? <div className="input-group inputFunc" >
+                    <input type="text"
+                        className="form-control"
+                        placeholder="Ingresa lo que deseas buscar"
+                        aria-describedby="button-addon2"
+                        onChange={handleChange}
+                        value={inputSearch}
+                    />
+                    <button className="btn btn-primary" type="button" id="button-addon2" onClick={() => searchComp()}>Buscar</button>
+                </div> : null
+            }
+
         </div>
     );
 };

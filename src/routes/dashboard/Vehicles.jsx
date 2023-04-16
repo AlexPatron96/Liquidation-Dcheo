@@ -1,59 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteVehThunk, getVehiclesThunk, updateVehThunk } from '../../store/slices/vehicles.slice';
-import { getRoutethunk } from '../../store/slices/dataTemp.slice';
-import TableList from '../../components/TableList';
 import LoadingScreen from '../../layout/LoadingScreen';
 import Paginationdesign from '../../components/Paginationdesign'
-import Formselectatom from '../../components/atom/Formselectatom';
-import Createveh from '../../components/molecules/Createveh';
-import Createdroute from '../../components/atom/Createdroute';
+import Createdroute from '../../components/creators/Createdroute';
 import Functionalitiesbtn from '../../components/atom/Functionalitiesbtn';
 import Buttonatom from '../../components/atom/Buttonatom';
-import verify from "../../img/verificado.gif";
 import { setPagination } from '../../store/slices/pagination.slice';
+import CreateVehiclesClouster from '../../components/creators/CreateVehiclesClouster';
+import CreateVehicle from '../../components/creators/CreateVehicle';
+import TableVehicles from '../../components/Show/TableVehicles';
+import { setErrorReceived } from '../../store/slices/errorReceived.slice';
+import Swal from 'sweetalert2';
+import { getRoutethunk } from '../../store/slices/dataTemp.slice';
+import { getRouteDayThunk } from '../../store/slices/routeday.slice';
 
 const Vehicles = () => {
 
     const dispatch = useDispatch();
+    // /************ VERIFICA SI NO HAY UN ERROR EN EL SLICE DE ERROR ****************/
+    // const errorReceived = useSelector(state => state.errorReceived);
+    // errorReceived.length === 0 ? null : Swal.fire({
+    //     title: "Error",
+    //     text: `Existe un error en esta operacion : ${errorReceived.error} `,
+    //     icon: 'error',
+    //     confirmButtonColor: '#d33',
+    //     confirmButtonText: 'OK'
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         dispatch(setErrorReceived([]))
+    //     }
+    // });
+    // /**************************************************************/
     useEffect(() => {
-        dispatch(getVehiclesThunk());
-        dispatch(getRoutethunk());
+        vehiclesRedux[0] ? null : dispatch(getVehiclesThunk());
     }, [])
 
     const vehiclesRedux = useSelector(state => state.vehicles);
-    const route = useSelector(state => state.temporary);
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
 
 
     const [modalShow, setModalShow] = useState(false);
     const [modalShowRoute, setModalShowRoute] = useState(false);
-    
-    const listShow = ["id", "Placa", "Conductor", "Dni", "Activo", "Ruta"];
-    const listDB = ["placa", "chofer", "dni", "isActive", "id_route"];
-    const listShowRoute = ["id", "Dia", "Detalle"];
-    const listDbRoute = ["dia", "detail"];
+
 
     const updateData = (id, data) => {
         dispatch(updateVehThunk(id, data));
     }
-    const deleteData = (id, data) => {
-        alert("Se esta eliminando un vehiculo")
-        dispatch(deleteVehThunk(id, data));
+    const deleteData = (id) => {
+        dispatch(deleteVehThunk(id));
     }
 
     const createdVeh = () => {
-        alert("crear un nuevo Veh")
         if (!modalShow) {
             setModalShow(true)
-            console.log("mostrar model veh");
         } else {
             setModalShow(false)
         }
     }
     const createdRoute = () => {
-        alert("crear un nueva Ruta")
         if (!modalShow) {
             setModalShowRoute(true)
             console.log("mostrar model created Routed");
@@ -62,15 +68,18 @@ const Vehicles = () => {
         }
     }
 
-    const search = (data) => {
-        // alert(data)
-        const filteredList = vehiclesRedux.filter((item) =>
-        (
-            (item.chofer).toLowerCase().includes(data.toLowerCase())
-        ));
-        dispatch(setPagination(filteredList));
+
+    const [showCreateByClouster, setShowCreateByClouster] = useState(false);
+
+    const createByClouster = () => {
+        if (!showCreateByClouster) {
+            setShowCreateByClouster(true)
+            console.log("mostrar model created showCreateByClouster");
+        } else {
+            setShowCreateByClouster(false)
+        }
     }
-    
+
     const btnCreated = () => {
         return (
             <>
@@ -78,20 +87,38 @@ const Vehicles = () => {
                     title={"Crear Vehiculo"}
                     color={"success"} ico={"fa-circle-plus"} />
                 <Buttonatom created={createdRoute}
-                    title={"Crear Ruta"}
+                    title={""}
                     color={"success"} ico={"fa-route"} />
+                <Buttonatom created={createByClouster}
+                    title={""}
+                    color={"success"} ico={"fa-cloud-arrow-up"} />
+                <Buttonatom created={refresh}
+                    title={""}
+                    color={"info"} ico={"fa-arrow-rotate-right bx-spin-hover"} />
             </>
         )
     }
+    const refresh = () => {
+        dispatch(getVehiclesThunk());
+        dispatch(getRoutethunk());
+        dispatch(getRouteDayThunk());
+    };
 
+    const search = (data) => {
+        const filteredList = vehiclesRedux.filter((item) =>
+        (
+            (item.driver).toLowerCase().includes(data.toLowerCase())
+        ));
+        dispatch(setPagination(filteredList));
+    }
     const listAvailable = () => {
         return (
             <>
-                <Formselectatom title={"Ver Rutas Disponibles"}
+                {/* <Formselectatom title={"Ver Rutas Disponibles"}
                     iterador={route}
                     firstdata={"id"}
                     secunddata={"dia"}
-                    disabledAction={true} />
+                    disabledAction={true} /> */}
             </>
         )
     }
@@ -100,19 +127,19 @@ const Vehicles = () => {
         <div className='vehicles pages'>
             <div>
                 <h2>
-                    Vehiculos Disponible
+                    Vehiculos
                 </h2>
                 <Functionalitiesbtn buttons={btnCreated}
                     listAvailable={listAvailable}
                     search={search} />
             </div>
             <div>
-                <TableList
-                    header={listShow}
+
+                <TableVehicles
                     data={pagination}
                     updateData={updateData}
-                    deleteData={deleteData}
-                />
+                    deleteData={deleteData} />
+
                 {!loading ? <Paginationdesign
                     data={"vehicles"}
                 />
@@ -120,27 +147,17 @@ const Vehicles = () => {
                 }
             </div>
 
-            <Createdroute listshow={listShowRoute}
-                listdb={listDbRoute}
+            <Createdroute
                 show={modalShowRoute}
                 onHide={() => setModalShowRoute(false)}
-                verify={verify} />
+            />
 
-            <Createveh show={modalShow}
+            <CreateVehicle show={modalShow}
                 onHide={() => setModalShow(false)}
-                listshow={listShow} listdb={listDB}
-                title={"Created Vehicle"}
-                verify={verify} />
+            />
+            <CreateVehiclesClouster show={showCreateByClouster} onHide={() => setShowCreateByClouster(false)} />
         </div>
     );
 };
 
 export default Vehicles;
-{/* <input type="text" value={"0"}/> */ }
-// const prop = ["#id", "Nombre", "Activo", "Ruta"];
-// const prop = ["#id", "Factura", "Fact Blanca", "Estatus", "Fecha Entrega", "Total Factura", "Saldo", "Detalles Ad", "Cliente", "Tansaccion", "Vendedor"];
-// const prop = {id, Condunctor, DNI , Placa , Ruta};
-// const url = "/api/v1/vehicles/all";
-// const method = "GET";
-// const data = null;
-// const dispatch = useDispatch();

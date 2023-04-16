@@ -13,18 +13,18 @@ const Home = () => {
         <div className='home pages'>
             <h1>Bienvenido a la App de Liquidacion</h1>
             
-            <div className='card-btn'>
+            <div className='card-btn' style={{margin:"5em"}}>
                 <Row>
                     <Col>
-                        1 of 2
+                        
                         <Link className='linkStyle' to={"/dashboard/liquidation/vehicles"}>
-                            <CardBtn title={"Liquidation of vehicles"} img={imgHome1} />
+                            <CardBtn title={"Liquidar Vehiculo"} img={imgHome1} />
                         </Link>
                     </Col>
                     <Col>
-                        2 of 2
+                        
                         <Link className='linkStyle' to={"/dashboard/liquidation/sellers"}>
-                            <CardBtn title={"Seller liquidation"} img={imgHome2} />
+                            <CardBtn title={"Liquidar Vendedor"} img={imgHome2} />
                         </Link>
                     </Col>
                 </Row>
