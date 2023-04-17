@@ -304,7 +304,6 @@ const Liquidationveh = () => {
         arraySendLiq.push(checkMoneyView);
         arraySendLiq.push(sellerDeliverCred);
 
-        
         arraySendLiq.push(codLiq);
         arraySendLiq.push(`${userLiquidador.username}`);
         arraySendLiq.push(`${(date.CurrendateDay()).toUpperCase()} - ${date.Currendate()}`);
