@@ -80,16 +80,15 @@ const Invoice = () => {
             timer: 1500
         })
         dispatch(postInvoiceTransacthunk(data));
-        // dispatch(postInvoicethunk(data));
-    }
+    };
 
     const updateInvo = (id, data) => {
         dispatch(updateInvoiceThunk(id, data));
-    }
+    };
 
     const delInvo = (id) => {
         dispatch(deleteInvoiceThunk(id));
-    }
+    };
 
     const search = (data) => {
 
@@ -104,15 +103,16 @@ const Invoice = () => {
         ));
         dispatch(setPagination(filteredList));
         console.log(filteredList);
-    }
+    };
+
     const [modalTransaccionPay, setModalTransaccionPay] = useState(false);
     const [itemSelect, setItemSelect] = useState("");
 
     const transaccionPay = (item) => {
         setModalTransaccionPay(true);
         setItemSelect(item);
-        // console.log(item);
-    }
+    };
+
     const refresh = () => {
         dispatch(getInvoiceThunk());
         dispatch(getRouteDayThunk());

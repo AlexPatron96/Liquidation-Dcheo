@@ -36,16 +36,16 @@ const Recepterinvoice = () => {
     /*********** Agregar  FACTURAS  DE LA LISTA DE LIQUIDACION*****************/
     const aggInvoice = (agg) => {
         const idsAdd = data.map(ids => ids.id)
-        console.log(idsAdd);
+        //console.log(idsAdd);
 
         const Verficador = agg.filter(item => {
-            console.log(!(idsAdd).includes((item.id)));
+            //console.log(!(idsAdd).includes((item.id)));
             return !(idsAdd).includes((item.id))
         });
-        console.log(Verficador);
-        console.log(data);
+        //console.log(Verficador);
+        //console.log(data);
         const concatData = data.concat(Verficador);
-        console.log(concatData);
+        //console.log(concatData);
 
         sessionStorage.setItem('invoiceGive', JSON.stringify(concatData));
 
@@ -57,7 +57,7 @@ const Recepterinvoice = () => {
 
     const handleAddInvoice = (e, item) => {
         const { checked, value, name } = e.target;
-        // console.log(item);
+        // //console.log(item);
         if (checked) {
             setSelectedInvoices([...selectedInvoices, item]);
             setCheckSelectedID(prevState => [...prevState, value]);
@@ -127,7 +127,7 @@ const Recepterinvoice = () => {
         arrayPrint.push(principal);
         arrayPrint.push(data);
         arrayPrint.push(totalEntregado);
-        console.log(arrayPrint);
+        //console.log(arrayPrint);
         Swal.fire({
             title: '¿Está seguro?',
             text: `Se realizara el registro de facturas entregadas a ${principal.seller}.`,

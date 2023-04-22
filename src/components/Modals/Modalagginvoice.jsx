@@ -15,7 +15,7 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
     const dispatch = useDispatch();
     const [refresh, setRefresh] = useState(false)
     const invoiceSaldo = data.filter((veh) => { return (veh.balance > 0) });
-    console.log(invoiceSaldo);
+    //console.log(invoiceSaldo);
     useEffect(() => {
         dispatch(setInvoice(invoiceSaldo));
         // dispatch(getInvoiceThunk());
@@ -42,7 +42,7 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
             (item.deliver_date).includes(data) || (item.seller.name).toLowerCase().includes(data.toLowerCase())
         ));
         dispatch(setPagination(filteredList));
-        console.log(filteredList);
+        //console.log(filteredList);
     }
     const handleClose = () => setShowAggInvoice(false);
     // const handleShow = () => setShowAggInvoice(true);

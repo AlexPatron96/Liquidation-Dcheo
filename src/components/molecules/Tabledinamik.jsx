@@ -14,7 +14,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
   const [data, setData] = useState(invoice);
   useEffect(() => {
     setData(invoice)
-    console.log("actualizando informacion table dinamik");
+    //console.log("actualizando informacion table dinamik");
   }, [refresh, invoice])
 
   /********************************* Busqueda de CLiente *******************************/
@@ -79,13 +79,13 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
         setTransRealized([...transRealized, { num_Fact, fecha_abono, abono, id_users, id_bills, id_client }])
       }
     }
-    console.log(transRealized);
+    //console.log(transRealized);
   }
   const sumTotalFact = Object.values(data).reduce((acc, cur) => acc + cur.saldo, 0);  //Total del saldo a cobrar
   const sumTotalCobrado = Object.values(transRealized).reduce((acc, cur) => acc + cur.abono, 0);
   const resetTotalCobrado = () => {
-    console.log("reset");
-    console.log(transRealized);
+    //console.log("reset");
+    //console.log(transRealized);
     setTransRealized([]);
   }
   /**********************************************************************************/
@@ -112,13 +112,13 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
 
   const handleChange = e => {
     const { name, value } = e.target;
-    console.log(name);
+    //console.log(name);
     if (name === "id_client") {
       setSearchCustomer(value);
-      console.log(name);
+      //console.log(name);
     }
     if (name === "total_fact") {
-      console.log(name + " " + value);
+      //console.log(name + " " + value);
       if (value.length !== 0) {
         setFormData(prevState => ({
           ...prevState,
@@ -130,10 +130,10 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
       }
     }
     if (name === "num_Fact") {
-      console.log(formData);
+      //console.log(formData);
 
       if (value.length === 3) {
-        console.log("es igual a 4");
+        //console.log("es igual a 4");
         setFormData(prevState => ({
           ...prevState,
           [name]: value + "-"
@@ -170,13 +170,13 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
         }));
       }
     } else {
-      console.log(name + " " + value);
+      //console.log(name + " " + value);
       setEditData(prevState => ({
         ...prevState,
         [name]: value
       }));
     }
-    console.log(editData);
+    //console.log(editData);
   };
 
   const handleAdd = () => {
@@ -184,7 +184,7 @@ const Tabledinamik = ({ invoice, seller, customer, createInvo, delInvo, updateIn
       delete formData.id;
       formData.saldo = formData.total_fact;
       createInvo(formData);
-      console.log(formData);
+      //console.log(formData);
       setEditingIndex(null);
       setSearchCustomer("");
       inputRef.current.focus();

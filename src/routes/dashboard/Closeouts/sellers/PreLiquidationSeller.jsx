@@ -98,7 +98,7 @@ const PreLiquidationSeller = () => {
                         <tbody>
                             {
                                 preLiquid.map((pre, index) => (
-                                    <tr>
+                                    <tr key={index} >
                                         <td>{index + 1}</td>
                                         <td>Usuario liquidador: <strong>{(pre?.userliquidator).toUpperCase()}</strong></td>
                                         <td>{pre?.pre_Date} - {date.getDayOfWeek(pre?.pre_Date)}</td>

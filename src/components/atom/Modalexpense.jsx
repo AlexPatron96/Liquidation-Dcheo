@@ -38,9 +38,9 @@ const Modalexpense = ({ obejet, listdbExpense, setExpense }) => {
     /*******************************************/
 
     const onSubmit = (data) => {
-        console.log(data);
+        //console.log(data);
         data.total = parseFloat(data.alimentacion) + parseFloat(data.combustible) + parseFloat(data.vehiculo) + parseFloat(data.peaje);
-        console.log(data);
+        //console.log(data);
         /***************Aqui toca enviar informacion*************/
         setExpense(data)
         /*======================================================*/

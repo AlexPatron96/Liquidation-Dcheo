@@ -10,7 +10,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
 
     const initialValueTransaccion = {
         settlement_code: codLiq,
-        id_seller: 'Seleccion',
+        id_seller: "Seleccion",
         sales: "",
         total: "",
         detail: "OK"
@@ -35,7 +35,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
 
     }, [codLiq])
 
-    const [total, setTotal] = useState(0);
+    // const [total, setTotal] = useState(0);
     const [formData, setFormData] = useState(new FormData());
 
 
@@ -53,11 +53,19 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
     };
 
     const onSubmit = (data) => {
-        data.settlement_code = codLiq;
-        setCredData(prevState => ([
-            ...prevState, data
-        ]));
-        reset();
+        if (data.id_seller === "Seleccion") {
+            Swal.fire({
+                icon: 'warning',
+                title: "Alerta",
+                text: "DEBE DE SELECCIONAR UN VENDEDOR"
+            })
+        } else {
+            data.settlement_code = codLiq;
+            setCredData(prevState => ([
+                ...prevState, data
+            ]));
+            reset();
+        }
     };
 
 
@@ -85,7 +93,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
         <div>
 
             <Button variant="primary" onClick={handleShow} className='styleBtnModal' style={{ fontSize: "19px", fontWeight: "500" }}>
-                <i class="fa-solid fa-credit-card bx-fw"></i>
+                <i className="fa-solid fa-credit-card bx-fw"></i>
                 CREDITOS
             </Button>
 
@@ -113,7 +121,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
 
                                 {/* Vendedor */}
                                 <Form.Group className="mb-3">
-                                    <i class="fa-solid fa-user-tag bx-fw"></i>
+                                    <i className="fa-solid fa-user-tag bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} > Vendedor</Form.Label>
                                     <Form.Select style={{ padding: "8px", width: "110px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
                                         {...register('id_seller', { required: true, onChange: onChange })}>
@@ -133,7 +141,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Venta x Ent</Form.Label>
                                     <Form.Control placeholder='$' className='form-expense'
-                                        {...register("sales", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })}
+                                        {...register("sales", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })}
                                     />
                                     <p className={`error-message ${errors["sales"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["sales"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
@@ -145,7 +153,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Total CREDITO ENT</Form.Label>
                                     <Form.Control placeholder='$' className='form-expense'
-                                        {...register("total", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })}
+                                        {...register("total", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })}
                                     />
                                     <p className={`error-message ${errors["total"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["total"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>

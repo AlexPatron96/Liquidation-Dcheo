@@ -17,14 +17,14 @@ const TableList = ({ header, data, updateData, deleteData }) => {
         let objetoModificado = {};
         claves.forEach((clave,) => {
             if (lodash.isObject(obj[clave])) {
-                console.log(obj[clave]);
+                //console.log(obj[clave]);
                 let newKey = `id_${clave}`
                 objetoModificado[newKey] = obj[clave];
             } else {
                 objetoModificado[clave] = obj[clave]
             }
         });
-        console.log(objetoModificado);
+        //console.log(objetoModificado);
         setEditingIndex(index);
         setEditedData(objetoModificado);
         setId(objetoModificado.id);
@@ -33,15 +33,15 @@ const TableList = ({ header, data, updateData, deleteData }) => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setEditedData({ ...editedData, [name]: value });
-        console.log(editedData);
+        //console.log(editedData);
     };
 
     const handleSave = (index) => {
-        console.log(editedData); 
+        //console.log(editedData); 
         editedData.id_seller ? editedData.id_sellers = editedData.id_seller : editedData.id_sellers = editedData.seller
         delete editedData.id_seller// Salida de Datos de edicion de la tabla
         updateData(id, editedData);
-        console.log(editedData);
+        //console.log(editedData);
         setEditingIndex(null);
         setEditedData({});
     };

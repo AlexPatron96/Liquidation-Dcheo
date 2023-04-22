@@ -32,18 +32,19 @@ const LiquidationInfoSeller = () => {
         let principal = {};
         principal.id_user = dataProcess?.user.id;
         principal.id_seller = dataProcess?.seller.id;
+        principal.balance_gen_sell = dataProcess?.balance_gen_sell;
         principal.settlement_code = dataProcess?.settlement_code;
         principal.total_collection_bills = (dataProcess?.total_collection_bills).toFixed(2);
         principal.total_money = parseFloat(dataProcess?.total_money) || 0;
         principal.total_expense = parseFloat(dataProcess?.total_expense) || 0;
         principal.total_discount = parseFloat(dataProcess?.total_discount) || 0;
         principal.total_received = dataProcess?.total_received || 0;
-        principal.detail = "ok";
+        principal.detail = dataProcess?.detail;
         principal.balance = dataProcess?.balance;
         principal.isLiquidated = false;
 
         let arraySendLiq = [];
-        arraySendLiq.push(dataProcess?.cash_sell?.[0].check_moneys);
+        arraySendLiq.push(dataProcess?.cash_sell?.[0]?.check_cash_sell);
         arraySendLiq.push(dataProcess?.discounts_sell?.[0]);
         arraySendLiq.push(dataProcess?.expense_sell?.[0]);
         arraySendLiq.push(dataProcess?.cash_sell?.[0]);
@@ -54,7 +55,9 @@ const LiquidationInfoSeller = () => {
         arraySendLiq.push(`${(date.CurrendateDay()).toUpperCase()} - ${date.Currendate()}`)
         arraySendLiq.push(`${dataProcess?.seller.code} - ${dataProcess?.seller.name}`)
         arraySendLiq.push(principal);
-        arraySendLiq.push(dataProcess?.cash_sell?.[0].check_moneys);
+        arraySendLiq.push(dataProcess?.cash_sell?.[0]?.check_cash_sell);
+        console.log(dataProcess?.cash_sell?.[0].check_cash_sell);
+
 
         Swal.fire({
             title: 'Informacion!',
@@ -82,13 +85,13 @@ const LiquidationInfoSeller = () => {
             }
         });
     };
-
+    //BUENA LOGICA PARA ENCONTRAR TEXTO DENTRO DE MUCHOS ITEM DE UN ARREGLO
     function encontrarArreglo(texto, arreglos) {
         const encontrado = arreglos.filter(arreglo => arreglo?.detail?.includes(texto));
         const result = (parseFloat(encontrado[0]?.pay || 0)).toFixed(2);
         return result;
     };
-
+    console.log(LiquidionSellView);
     return (
         <div>
             <h3 style={{ textAlign: "center" }}>
@@ -104,14 +107,14 @@ const LiquidationInfoSeller = () => {
                                 <th>Usuario liquidador</th>
                                 <th>Fecha de Liquidacion</th>
                                 <th>Vendedor</th>
-                                <th>Balance</th>
+                                <th>Cuadre</th>
                                 <th>Accion</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 LiquidionSellView.map((liq, index) => (
-                                    <tr key={index + 1}>
+                                    <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td><strong>{(liq?.user?.fullname)?.toUpperCase()}</strong></td>
                                         <td>{date.convertirFechaUTCaLocal(liq?.createdAt)} - {date.CurrendateDay(date.convertirFechaUTCaLocal(liq?.createdAt))}</td>
@@ -154,9 +157,9 @@ const LiquidationInfoSeller = () => {
                                 <h4>Liquidacion de Vendedores</h4>
                                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                                     <div>
-                                        <h5>Usuario: <span style={{ color: "#02B875" }}> {dataView?.user.fullname} </span> </h5>
+                                        <h5>Usuario: <span style={{ color: "#02B875" }}> {dataView?.user?.fullname} </span> </h5>
                                         <h5>Fecha de liquidacion: <span style={{ color: "#02B875" }}>{date.convertirFechaUTCaLocal(dataView?.createdAt)} </span> </h5>
-                                        <h5>Se esta liquidando al Vendedor: <span style={{ color: "#02B875" }}> {dataView?.seller.code} - {dataView?.seller.name}</span>  </h5>
+                                        <h5>Se esta liquidando al Vendedor: <span style={{ color: "#02B875" }}> {dataView?.seller.code} - {dataView?.seller?.name}</span>  </h5>
                                         <h5>Codigo de Liquidacion: <span style={{ color: "#02B875" }}> {dataView?.settlement_code}</span>  </h5>
                                     </div>
 
@@ -165,15 +168,15 @@ const LiquidationInfoSeller = () => {
                                         height: "150px", display: "flex", flexDirection: "column",
                                         justifyContent: "center", alignItems: "center", textAlign: "center"
                                     }}>
-                                        <h5 style={{ fontSize: "50px", color: `${dataView?.balance > 0 ? "#02B875" : dataView?.balance < 0 ? "#C20114" : "#02B875"}` }}>
-                                            {dataView?.balance > 0 ?
+                                        <h5 style={{ fontSize: "50px", color: `${dataView?.balance_gen_sell > 0 ? "#02B875" : dataView?.balance_gen_sell < 0 ? "#C20114" : "#02B875"}` }}>
+                                            {dataView?.balance_gen_sell > 0 ?
                                                 'A FAVOR' :
-                                                dataView?.balance < 0 ?
+                                                dataView?.balance_gen_sell < 0 ?
                                                     'EN CONTRA' :
                                                     'OK'}
                                         </h5>
                                         <h5>
-                                            $ {dataView?.balance}
+                                            $ {dataView?.balance_gen_sell}
                                         </h5>
                                     </div>
                                 </div>
@@ -204,8 +207,8 @@ const LiquidationInfoSeller = () => {
                                                             {/* <td style={{ borderRight: `4px solid ${inv?.pago ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.id_bills_bill.transaction?.[0].pay)) || 0}</td> */}
                                                             <td style={{ borderRight: `4px solid ${inv?.pago ? "#02B875" : "#FFCCE5"} ` }}>
                                                                 $ {
-
-                                                                    encontrarArreglo(dataView?.settlement_code, inv?.id_bills_bill?.transactions)
+                                                                    parseFloat(inv?.pass).toFixed(2)
+                                                                    // encontrarArreglo(dataView?.settlement_code, inv?.id_bills_bill?.transactions)
                                                                 }
                                                             </td>
                                                         </tr>
@@ -241,7 +244,7 @@ const LiquidationInfoSeller = () => {
 
                                     <div style={{ display: "flex", flexDirection: "row", gap: "3rem" }}>
 
-                                        <div style={{ width: "250px", height: "350px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                        <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                                             <h4>Dinero</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -250,7 +253,7 @@ const LiquidationInfoSeller = () => {
                                                     Cod:
                                                 </div>
                                                 <div style={{ fontSize: "12px" }}>
-                                                    {((dataView?.cash_sell?.[0].settlement_code))}
+                                                    {((dataView?.cash_sell?.[0]?.settlement_code))}
                                                 </div>
                                             </div>
 
@@ -260,11 +263,9 @@ const LiquidationInfoSeller = () => {
                                                     Monedas:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.cash_sell?.[0].coin).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.cash_sell?.[0]?.coin).toFixed(2))}
                                                 </div>
                                             </div>
-
-
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <div>
@@ -272,7 +273,7 @@ const LiquidationInfoSeller = () => {
                                                     Billetes:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.cash_sell?.[0].money).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.cash_sell?.[0]?.money).toFixed(2))}
                                                 </div>
                                             </div>
 
@@ -282,7 +283,7 @@ const LiquidationInfoSeller = () => {
                                                     Depositos:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.cash_sell?.[0].deposits_money).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.cash_sell?.[0]?.deposits_money).toFixed(2))}
                                                 </div>
                                             </div>
 
@@ -292,7 +293,7 @@ const LiquidationInfoSeller = () => {
                                                     Cheques:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.cash_sell?.[0].check_money).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.cash_sell?.[0]?.check_money).toFixed(2))}
                                                 </div>
                                             </div>
 
@@ -302,21 +303,20 @@ const LiquidationInfoSeller = () => {
                                                     Total:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.cash_sell?.[0].total).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.cash_sell?.[0]?.total).toFixed(2))}
                                                 </div>
                                             </div>
 
-                                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                                {/* <div> */}
+                                            {/* <div style={{ display: "flex", flexDirection: "column" }}>
+                                                
                                                 Detalle:
                                                 <div style={{ border: "2px solid grey", height: "100px", fontSize: "11px" }}>
                                                     {dataView?.cash_sell?.[0].detail}
                                                 </div>
-                                            </div>
-
+                                            </div> */}
                                         </div>
 
-                                        <div style={{ width: "250px", height: "350px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                        <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                                             <h4>Gastos</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -325,7 +325,7 @@ const LiquidationInfoSeller = () => {
                                                     Cod:
                                                 </div>
                                                 <div style={{ fontSize: "12px" }}>
-                                                    {((dataView?.expense_sell?.[0].settlement_code))}
+                                                    {((dataView?.expense_sell?.[0]?.settlement_code))}
                                                 </div>
                                             </div>
 
@@ -335,7 +335,7 @@ const LiquidationInfoSeller = () => {
                                                     Alimentos:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.expense_sell?.[0].feeding).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.expense_sell?.[0]?.feeding).toFixed(2))}
                                                 </div>
                                             </div>
 
@@ -345,7 +345,7 @@ const LiquidationInfoSeller = () => {
                                                     Viaticos:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.expense_sell?.[0].perdiem).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.expense_sell?.[0]?.perdiem).toFixed(2))}
                                                 </div>
                                             </div>
 
@@ -355,7 +355,7 @@ const LiquidationInfoSeller = () => {
                                                     Combustible:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.expense_sell?.[0].fuel).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.expense_sell?.[0]?.fuel).toFixed(2))}
                                                 </div>
                                             </div>
 
@@ -365,21 +365,21 @@ const LiquidationInfoSeller = () => {
                                                     Total:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.expense_sell?.[0].total).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.expense_sell?.[0]?.total).toFixed(2))}
                                                 </div>
                                             </div>
 
-                                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                                {/* <div> */}
+                                            {/* <div style={{ display: "flex", flexDirection: "column" }}>
+                                                
                                                 Detalle:
                                                 <div style={{ border: "2px solid grey", height: "100px", fontSize: "11px" }}>
                                                     {dataView?.expense_sell?.[0].detail}
                                                 </div>
-                                            </div>
+                                            </div> */}
 
                                         </div>
 
-                                        <div style={{ width: "250px", height: "350px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                        <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                                             <h4>Descuentos</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -388,7 +388,7 @@ const LiquidationInfoSeller = () => {
                                                     Cod:
                                                 </div>
                                                 <div style={{ fontSize: "12px" }}>
-                                                    {((dataView?.discounts_sell?.[0].settlement_code))}
+                                                    {((dataView?.discounts_sell?.[0]?.settlement_code))}
                                                 </div>
                                             </div>
 
@@ -398,7 +398,7 @@ const LiquidationInfoSeller = () => {
                                                     Descuentos:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.discounts_sell?.[0].total_discount).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.discounts_sell?.[0]?.total_discount).toFixed(2))}
                                                 </div>
                                             </div>
 
@@ -408,7 +408,7 @@ const LiquidationInfoSeller = () => {
                                                     Retenciones:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.discounts_sell?.[0].retention).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.discounts_sell?.[0]?.retention).toFixed(2))}
                                                 </div>
                                             </div>
 
@@ -418,17 +418,16 @@ const LiquidationInfoSeller = () => {
                                                     Total:
                                                 </div>
                                                 <div>
-                                                    $ {(parseFloat(dataView?.discounts_sell?.[0].total_other).toFixed(2))}
+                                                    $ {(parseFloat(dataView?.discounts_sell?.[0]?.total_other).toFixed(2))}
                                                 </div>
                                             </div>
 
-                                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                                {/* <div> */}
+                                            {/* <div style={{ display: "flex", flexDirection: "column" }}>
                                                 Detalle:
                                                 <div style={{ border: "2px solid grey", height: "100px", fontSize: "11px" }}>
                                                     {dataView?.discounts_sell?.[0].detail}
                                                 </div>
-                                            </div>
+                                            </div> */}
 
                                         </div>
 
@@ -452,14 +451,14 @@ const LiquidationInfoSeller = () => {
                                             <tbody style={{ fontSize: "12px" }}>
 
                                                 {
-                                                    dataView?.cash_sell?.[0].check_moneys.map((check, index) => (
+                                                    dataView?.cash_sell?.[0]?.check_cash_sell?.map((check, index) => (
                                                         <tr key={index}>
-                                                            <td>{check?.id_client_client.fullname}</td>
-                                                            <td>{check?.references}</td>
-                                                            <td>{check?.number_check}</td>
-                                                            <td>{check?.id_bank_bank.name_bank}</td>
-                                                            <td>{check?.type}</td>
-                                                            <td>$ {(parseFloat(check?.total)).toFixed(2)}</td>
+                                                            <td>{check?.check_sell?.id_client_client?.fullname}</td>
+                                                            <td>{check?.check_sell?.references}</td>
+                                                            <td>{check?.check_sell?.number_check}</td>
+                                                            <td>{check?.check_sell?.id_bank_bank?.name_bank}</td>
+                                                            <td>{check?.check_sell?.type}</td>
+                                                            <td>$ {(parseFloat(check?.check_sell?.total)).toFixed(2)}</td>
                                                         </tr>
                                                     ))
                                                 }
@@ -468,7 +467,11 @@ const LiquidationInfoSeller = () => {
                                     </div>
 
                                 </div>
-
+                                <div>
+                                    <span style={{ whiteSpace: "pre-wrap" }}>
+                                        {dataView?.detail}
+                                    </span>
+                                </div>
                             </div>
                         )
                     }

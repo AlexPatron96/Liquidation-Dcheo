@@ -82,7 +82,7 @@ const Cash = ({ codLiq, receptedDiscount, codeDiscountLocalStorage, typeLiquidat
         <div>
 
             <Button variant="primary" onClick={handleShow} className='styleBtnModal' style={{ fontSize: "19px", fontWeight: "500" }}>
-                <i class="fa-solid fa-tags bx-fx"></i>
+                <i className="fa-solid fa-tags bx-fx"></i>
                 DESCUENTOS
             </Button>
 
@@ -111,7 +111,7 @@ const Cash = ({ codLiq, receptedDiscount, codeDiscountLocalStorage, typeLiquidat
                                     <i className="fa-solid fa-tags bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Descuento </Form.Label>
                                     <Form.Control className='form-discount' placeholder='$'
-                                        {...register('total_discount', { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register('total_discount', { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["total_discount"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["total_discount"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -122,7 +122,7 @@ const Cash = ({ codLiq, receptedDiscount, codeDiscountLocalStorage, typeLiquidat
                                     <i className="fa-solid fa-retweet bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Retenciones</Form.Label>
                                     <Form.Control className='form-discount' placeholder='$'
-                                        {...register('retention', { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register('retention', { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["retention"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["retention"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -132,7 +132,7 @@ const Cash = ({ codLiq, receptedDiscount, codeDiscountLocalStorage, typeLiquidat
                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Total de Descuentos</Form.Label>
                                     <Form.Control value={total} placeholder='$' className='form-discount'
-                                        {...register("total_other", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })}
+                                        {...register("total_other", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })}
                                     />
                                     <p className={`error-message ${errors["total_other"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["total_other"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>

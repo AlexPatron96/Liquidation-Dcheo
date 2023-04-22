@@ -33,7 +33,7 @@ export const getSellerThunk = () => (dispatch) => {
             alert("No se pudo actualizar la lista de clientes");
         })
         .finally(() => dispatch(setIsLoading(false)))
-}
+};
 
 export const postSellerthunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
@@ -48,7 +48,31 @@ export const postSellerthunk = (data) => (dispatch) => {
             dispatch(setErrorReceived(err.response.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
-}
+};
+
+export const postSellerBalancethunk = (data) => (dispatch) => {
+    dispatch(setIsLoading(true));
+    return axios.post(`${URL_BASE}/api/v1/seller/new-balance`, data, getConfig())
+        .then((res) => {
+            dispatch(getSellerThunk());
+        })
+        .catch(err => {
+            dispatch(setErrorReceived(err.response?.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+};
+
+export const postSellCuadrethunk = (data) => (dispatch) => {
+    dispatch(setIsLoading(true));
+    return axios.post(`${URL_BASE}/api/v1/cuadre-sell/new`, data, getConfig())
+        .then((res) => {
+            dispatch(getSellerThunk());
+        })
+        .catch(err => {
+            dispatch(setErrorReceived(err.response?.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+};
 
 export const postSellerClousterthunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
@@ -63,7 +87,7 @@ export const postSellerClousterthunk = (data) => (dispatch) => {
             dispatch(setErrorReceived(err.response.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
-}
+};
 
 export const updateSellerThunk = (id, data) => (dispatch) => {
     console.log(data);
@@ -77,7 +101,7 @@ export const updateSellerThunk = (id, data) => (dispatch) => {
             dispatch(setErrorReceived(err.response.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
-}
+};
 
 export const deleteSellerThunk = (id) => (dispatch) => {
     dispatch(setIsLoading(true));
@@ -90,5 +114,5 @@ export const deleteSellerThunk = (id) => (dispatch) => {
             dispatch(setErrorReceived(err.response.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
-}
+};
 export default sellerSlice.reducer;

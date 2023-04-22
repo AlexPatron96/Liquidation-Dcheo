@@ -68,7 +68,7 @@ const Liquidationveh = () => {
 
     const handleAddInvoice = (e, item) => {
         const { checked, value, name } = e.target;
-        console.log(item);
+        //console.log(item);
         if (checked) {
             setSelectedInvoices([...selectedInvoices, item]);
             setCheckSelectedID(prevState => [...prevState, value]);
@@ -116,10 +116,10 @@ const Liquidationveh = () => {
                 setCheckSelectedID([]);
             }
         })
-        console.log(invoiceDia);
-        // console.log(invoiceDia);
-        // console.log(checkSelectedID);
-        // console.log(eliminador);
+        //console.log(invoiceDia);
+        // //console.log(invoiceDia);
+        // //console.log(checkSelectedID);
+        // //console.log(eliminador);
     }
     /************************************************************************/
 
@@ -165,7 +165,7 @@ const Liquidationveh = () => {
             ...prevState,
             [name]: value
         }));
-        console.log(cash);
+        //console.log(cash);
     };
     const handleExpense = e => {
         const { name, value } = e.target;
@@ -173,7 +173,7 @@ const Liquidationveh = () => {
             ...prevState,
             [name]: value
         }));
-        console.log(expense);
+        //console.log(expense);
     };
     const handleProductReturn = e => {
         const { name, value } = e.target;
@@ -181,7 +181,7 @@ const Liquidationveh = () => {
             ...prevState,
             [name]: value
         }));
-        console.log(productReturn);
+        //console.log(productReturn);
     };
     const handleLiqVehTotal = e => {
         const { name, value } = e.target;
@@ -189,22 +189,22 @@ const Liquidationveh = () => {
             ...prevState,
             [name]: value
         }));
-        console.log(liqVehTotal);
+        //console.log(liqVehTotal);
     };
 
     const cashtotal = () => {
         const sumTotalCash = parseFloat(cash.monedas) + parseFloat(cash.efectivo) + parseFloat(cash.depositos) + parseFloat(cash.cheque);
-        // console.log(sumTotalCash);
-        // console.log(cash.total);
+        // //console.log(sumTotalCash);
+        // //console.log(cash.total);
         setCash(prevState => ({
             ...prevState,
             total: (sumTotalCash).toFixed(2)
         }));
         if (isNaN(sumTotalCash)) {
             Swal.fire('Alert', 'Debe de llenar todos los campos para poder calcular el total. Puede poner  "0" en caso de que el campo no tenga un valor ', "warning")
-            console.log("error");
+            //console.log("error");
         }
-        console.log(cash);
+        //console.log(cash);
     }
     const expensetotal = () => {
         const sumTotal = parseFloat(expense.alimentacion) + parseFloat(expense.combustible) + parseFloat(expense.vehiculo) + parseFloat(expense.peaje);
@@ -215,33 +215,33 @@ const Liquidationveh = () => {
         }));
         if (isNaN(sumTotal)) {
             Swal.fire('Alert', 'Debe de llenar todos los campos para poder calcular el total. Puede poner "0" en caso de que el campo no tenga un valor ', "warning")
-            console.log("error");
+            //console.log("error");
         }
-        console.log(expense);
+        //console.log(expense);
     }
     const productReturntotal = () => {
         const sumTotal = parseFloat(productReturn.mal_estado) + parseFloat(productReturn.rechazados) + parseFloat(productReturn.caducados);
-        // console.log(sumTotal);
-        // console.log(productReturn.total);
-        // console.log(productReturn);
+        // //console.log(sumTotal);
+        // //console.log(productReturn.total);
+        // //console.log(productReturn);
         setProductReturn(prevState => ({
             ...prevState,
             total: (sumTotal).toFixed(2)
         }));
         if (isNaN(sumTotal)) {
             Swal.fire('Alert', 'Debe de llenar todos los campos para poder calcular el total. Puede poner "0" en caso de que el campo no tenga un valor ', "warning")
-            console.log("error");
+            //console.log("error");
         }
-        console.log(productReturn);
+        //console.log(productReturn);
     }
     const liqVehTotalCal = () => {
         const sumEnviado = parseFloat(liqVehTotal.total_fact_ent) + parseFloat(liqVehTotal.total_fact_cob);
         const sumRecibido = parseFloat(cash.total) + parseFloat(expense.total) + parseFloat(productReturn.total);
         const balance = sumEnviado - sumRecibido;
-        console.log(liqVehTotal);
-        console.log(sumEnviado);
-        console.log(sumRecibido);
-        console.log(balance);
+        //console.log(liqVehTotal);
+        //console.log(sumEnviado);
+        //console.log(sumRecibido);
+        //console.log(balance);
         setLiqVehTotal(prevState => ({
             ...prevState,
             total_enviado: (sumEnviado).toFixed(2)
@@ -256,13 +256,13 @@ const Liquidationveh = () => {
         }));
         if (balance === 0) {
             Swal.fire('Correcto', 'El balance a sido Correcto ', "success")
-            console.log("ok");
+            //console.log("ok");
         } else if (balance > 0) {
             Swal.fire('Alert', 'El balance se no cuadra, existe valores excedentes', "warning")
-            console.log("ok");
+            //console.log("ok");
         } else {
             Swal.fire('Alert', 'El balance se no cuadra, existe valores faltantes', "error")
-            console.log("ok");
+            //console.log("ok");
         }
     }
 
@@ -272,13 +272,13 @@ const Liquidationveh = () => {
     /*********** CREAR - ACTUALIZAR - ELIMINAR FACTURAS DE LA BD*****************/
     const createInvo = (data) => {
         // alert('Creando factura')
-        console.log(data);
+        //console.log(data);
         // dispatch(postInvoicethunk(data));
         setRefresh(true)
     }
     const updateInvo = (data) => {
         alert('actualizando factura')
-        console.log(data);
+        //console.log(data);
         // dispatch(updateInvoiceThunk(data));
         setRefresh(true)
     }
@@ -286,7 +286,7 @@ const Liquidationveh = () => {
         // dispatch(deleteInvoiceThunk(id));
         setRefresh(true)
     }
-    // console.log(invoice);
+    // //console.log(invoice);
     const showSelectInvoice = () => {
         setShowAggInvoice(true);
     }

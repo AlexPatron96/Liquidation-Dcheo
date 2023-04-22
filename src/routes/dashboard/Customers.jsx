@@ -52,7 +52,7 @@ const Customers = () => {
     const [modalShow, setModalShow] = useState(false);
 
     const [showCreateByClouster, setShowCreateByClouster] = useState(false);
-
+    console.log(pagination);;
     const createByClouster = () => {
         if (!showCreateByClouster) {
             setShowCreateByClouster(true)

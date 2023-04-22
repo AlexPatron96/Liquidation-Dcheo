@@ -35,7 +35,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
         defaultValues: initialValueTransaccion
     });
     // const valuesActual = getValues();
-    // console.log(valuesActual);
+    // //console.log(valuesActual);
     const cashLocalStorage = JSON.parse(sessionStorage.getItem(codeCashLocalStorage));
     const checkStorage = JSON.parse(sessionStorage.getItem(codeCheckLocalStorage));
     const checkStorageView = JSON.parse(sessionStorage.getItem(codeCheckLocalStorage + "view"));
@@ -46,7 +46,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
         getThunkBank();
         checkStorageView ? setCheckView(checkStorageView) : setCheckView([]);
         checkStorage ? setCheckData(checkStorage) : setCheckData([]);
-        console.log(typeLiquidation);
+        //console.log(typeLiquidation);
         typeLiquidation === "vehicle" ? setTypeIsSelected(true) : setTypeIsSelected(false);
         customer[0] ? null : dispatch(getCustomerThunk());
 
@@ -58,7 +58,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
         cashLocalStorage ? setValue("total", cashLocalStorage.total) : "";
         cashLocalStorage ? setTotal(cashLocalStorage.total) : "";
         cashLocalStorage ? setValue("detail", cashLocalStorage.detail) : "";
-        console.log("cuantas veces ingresa");
+        //console.log("cuantas veces ingresa");
 
     }, [codLiq])
 
@@ -76,12 +76,12 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
     }
 
     const postThunkBank = async (data) => {
-        console.log(URL_BASE);
-        console.log(data);
+        //console.log(URL_BASE);
+        //console.log(data);
         dispatch(setIsLoading(true));
         return axios.post(`${URL_BASE}/api/v1/bank/new`, data, getConfig())
             .then(res => {
-                console.log("Post Bank");
+                //console.log("Post Bank");
                 getThunkBank();
             })
             .catch(err => {
@@ -124,12 +124,13 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
 
     const resetAction = () => {
         reset();
+        setSearchCustomer('');
         setCheckView([]);
         setCheckData([]);
         setTotal(0);
         setFormData(new FormData());
         sessionStorage.removeItem(codeCashLocalStorage);
-        sessionStorage.setremoveItemItem(codeCheckLocalStorage);
+        sessionStorage.removeItem(codeCheckLocalStorage);
         sessionStorage.removeItem(codeCheckLocalStorage + "view");
     };
 
@@ -164,8 +165,9 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
     });
 
     const handleAdd = () => {
-
-        if (formChekData.total !== "") {
+        //console.log(formChekData);
+        //console.log(formChekData.id_bank !== "");
+        if (formChekData.id_client !== '' && formChekData.id_bank !== "" && formChekData.total !== "") {
 
             setCheckData(prevState => ([
                 ...prevState, formChekData
@@ -206,7 +208,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
             Swal.fire({
                 icon: 'warning',
                 title: 'Cancelado!',
-                text: 'Se ingresando un registro en blanco',
+                text: 'No puede agregar un registro sin completar ciertos campos.',
                 showConfirmButton: true,
                 // timer: 1000
             });
@@ -218,7 +220,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
 
     const handleChange = e => {
         const { name, value } = e.target;
-        console.log(name + "  - " + value);
+        //console.log(name + "  - " + value);
         setFormChekData(prevState => ({
             ...prevState,
             settlement_code: codLiq
@@ -239,18 +241,18 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
 
         } else if (name === "id_bank") {
 
-            console.log(value);
+            //console.log(value);
             const separador = value.split("-");
             const bank = { id: separador[0], name_bank: separador[1] }
-            console.log(bank);
+            //console.log(bank);
             setFormChekDataView(prevState => ({
                 ...prevState,
                 [name]: bank.name_bank
             }));
-            console.log(value);
+            //console.log(value);
             setFormChekData(prevState => ({
                 ...prevState,
-                [name]: bank.id
+                [name]: parseInt(bank.id)
             }));
 
         } else {
@@ -326,7 +328,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
         <div>
 
             <Button variant="primary" onClick={handleShow} className='styleBtnModal' style={{ fontSize: "19px", fontWeight: "500" }}>
-                <i class="fa-solid fa-sack-dollar bx-fx"></i>
+                <i className="fa-solid fa-sack-dollar bx-fx"></i>
                 <h5>DINERO</h5>
             </Button>
             <Modal show={showCash} onHide={handleClose} size="lg" centered>
@@ -355,7 +357,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
                                     <i className="fa-solid fa-coins bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} > Monedas</Form.Label>
                                     <Form.Control className='form-cash' placeholder='$'
-                                        {...register('coin', { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register('coin', { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["coin"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["coin"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -365,7 +367,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
                                     <i className="fa-regular fa-money-bill-1 bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} > Billetes</Form.Label>
                                     <Form.Control className='form-cash ' placeholder='$'
-                                        {...register('money', { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register('money', { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["money"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["money"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -376,7 +378,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
                                     <i className="fa-solid fa-receipt bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Total en Depositos</Form.Label>
                                     <Form.Control className='form-cash ' placeholder='$'
-                                        {...register("deposits_money", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register("deposits_money", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["deposits_money"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["deposits_money"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -386,7 +388,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
                                     <i className="fa-solid fa-money-check bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Total de Cheques</Form.Label>
                                     <Form.Control placeholder='$' className='form-cash'
-                                        {...register("check_money", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register("check_money", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["check_money"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["check_money"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -396,7 +398,7 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Total de Dinero</Form.Label>
                                     <Form.Control value={total} placeholder='$' className='form-cash'
-                                        {...register("total", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })}
+                                        {...register("total", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })}
                                     />
                                     <p className={`error-message ${errors["total"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["total"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
@@ -512,11 +514,11 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
                                                 style={{ padding: "5px", width: "150px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
                                                 value={formChekData.id_bank}
                                                 onChange={handleChange} >
-                                                <option >Seleccione un Banco</option>
+                                                <option > {formChekData.id_bank ? bank.filter(bg => (bg?.id === parseInt(formChekData?.id_bank)))[0].name_bank : "Seleccione un Banco"} </option>
                                                 {
                                                     bank.map((bg, index) => (
                                                         // <option key={index} value={JSON.stringify(bg)} > {bg?.id} - {bg?.name_bank}</option>
-                                                        <option key={index} value={`${bg?.id}-${bg?.name_bank}`} > {bg?.id} - {bg?.name_bank}</option>
+                                                        <option key={index} value={`${bg?.id}-${bg?.name_bank}`} >{formChekData.id_bank === bg?.id ? `${bg?.id} - ${bg?.name_bank}` : `${bg?.id} - ${bg?.name_bank}`} </option>
                                                     ))
                                                 }
                                             </select>

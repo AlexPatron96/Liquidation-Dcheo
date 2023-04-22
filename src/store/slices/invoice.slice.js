@@ -52,7 +52,6 @@ export const postInvoiceTransacthunk = (data) => (dispatch) => {
     .then((res) => {
       dispatch(getInvoiceThunk());
       dispatch(setTransaccion(res.data.result))
-      console.log(res.data);
     })
     .catch(err => {
       dispatch(setErrorReceived(err.response?.data));

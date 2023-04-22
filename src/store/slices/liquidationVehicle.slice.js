@@ -42,8 +42,6 @@ export const postVehicleLiquidationthunk = (data) => (dispatch) => {
             dispatch(getVehicleLiquidationThunk());
         })
         .catch(err => {
-            console.log("Error en Slice");
-
             dispatch(setErrorReceived(err.response.data));
         })
         .finally(() => dispatch(setIsLoading(false)));

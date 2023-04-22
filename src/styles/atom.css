@@ -73,8 +73,9 @@
     font-weight: 100;
 }
 
-.none{
-display: none !important;}
+.none {
+    display: none !important;
+}
 
 .listClient {
     border: 2px solid var(--first-color);
@@ -85,24 +86,50 @@ display: none !important;}
 
 }
 
-.listClient option:hover{
+.listClient option:hover {
     background: lightblue;
 }
-.dateSaldoCero{
+
+.dateSaldoCero {
     font-size: 13px;
 }
-.dateRed{
+
+.dateRed {
     background: #ff00195e;
     font-size: 13px;
 }
-.dateYellow{
+
+.dateRedBorder {
+    border: 2px solid #ff00195e;
+    border-radius: 5px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.dateYellow {
     background: rgb(236, 209, 7);
     font-size: 13px;
 }
-.dateGreen{
+
+.dateYellowBorder {
+    border: 2px solid rgb(236, 209, 7);
+    border-radius: 5px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.dateGreen {
     background: var(--color2);
     font-size: 13px;
 }
+
+.dateGreenBorder {
+    border: 2px solid var(--color2);
+    border-radius: 5px;
+    font-size: 13px;
+    text-align: center;
+}
+
 :root {
     /*========== Colors ==========*/
     /* --nave: url(https://www.flaticon.es/download/icon/2285537?icon_id=2285537&author=427&team=427&keyword=lanzadera&pack=2285527&style=0&style_id=6&format=png&color=%23000000&colored=2&size=512&selection=1&premium=0&type=standard); */

@@ -45,7 +45,31 @@ export const postVehiclethunk = (data) => (dispatch) => {
             dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
-}
+};
+
+export const postVehicleBalancethunk = (data) => (dispatch) => {
+    dispatch(setIsLoading(true));
+    return axios.post(`${URL_BASE}/api/v1/vehicles/new-balance`, data, getConfig())
+        .then((res) => {
+            dispatch(getVehiclesThunk());
+        })
+        .catch(err => {
+            dispatch(setErrorReceived(err.response?.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+};
+export const postVehicleCuadrethunk = (data) => (dispatch) => {
+    dispatch(setIsLoading(true));
+    return axios.post(`${URL_BASE}/api/v1/cuadre-veh/new`, data, getConfig())
+        .then((res) => {
+            dispatch(getVehiclesThunk());
+        })
+        .catch(err => {
+            dispatch(setErrorReceived(err.response?.data));
+        })
+        .finally(() => dispatch(setIsLoading(false)));
+};
+
 export const postVehicleClousterthunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
     return axios.post(`${URL_BASE}/api/v1/vehicles/new-clouster`, data, getConfig())
@@ -59,7 +83,7 @@ export const postVehicleClousterthunk = (data) => (dispatch) => {
             dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
-}
+};
 
 export const updateVehThunk = (id, data) => (dispatch) => {
     dispatch(setIsLoading(true));
@@ -74,7 +98,7 @@ export const updateVehThunk = (id, data) => (dispatch) => {
             dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
-}
+};
 
 export const deleteVehThunk = (id) => (dispatch) => {
 
@@ -90,7 +114,7 @@ export const deleteVehThunk = (id) => (dispatch) => {
             dispatch(setErrorReceived(err.response.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
-}
+};
 
 export const { setVehicle } = vehiclesSlice.actions;
 

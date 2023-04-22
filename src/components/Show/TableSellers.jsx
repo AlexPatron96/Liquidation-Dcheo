@@ -3,6 +3,8 @@ import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRoutethunk } from '../../store/slices/dataTemp.slice';
 import Swal from "sweetalert2";
+import { postSellerBalancethunk } from '../../store/slices/seller.slice';
+import Modalcuadrebalan from '../Modals/Modalcuadrebalan';
 
 const TableSellers = ({ data, updateData, deleteData }) => {
 
@@ -74,10 +76,18 @@ const TableSellers = ({ data, updateData, deleteData }) => {
             }
         })
     }
-
+    const createBalance = (item) => {
+        // console.log(data);
+        dispatch(postSellerBalancethunk(item));
+    };
+    const [modalBalance, setModalBalance] = useState(false);
+    const [itemSelected, setItemSelected] = useState({});
 
     return (
         <div className='tables-view'>
+
+            <Modalcuadrebalan show={modalBalance} onHide={() => { setModalBalance(false) }} data={itemSelected} tipo={'ven'} />
+
             <Table striped bordered hover responsive style={{ width: "980px" }}>
                 <thead >
                     <tr>
@@ -86,7 +96,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
                         <th style={{ width: "200px" }}>Nombre</th>
                         <th style={{ width: "100px" }}>Activo</th>
                         <th style={{ width: "130px" }}>Ruta</th>
-                        <th style={{ width: "100px" }}>Balance</th>
+                        <th style={{ width: "200px" }}>Balance</th>
                         <th style={{ width: "40px" }}>Accion</th>
                     </tr>
                 </thead>
@@ -141,7 +151,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
                                 </td>)
                                 :
                                 (<td>
-                                    {item.name}
+                                    {(item.name)?.substring(0, 20)}
                                 </td>)
                             }
 
@@ -187,7 +197,22 @@ const TableSellers = ({ data, updateData, deleteData }) => {
                             }
 
                             <td>
-                                {item.balance_sell?.total}
+                                {item?.balance_sell === null ? (<a href="#" onClick={() => createBalance(item)}>Crear</a>)
+                                    :
+                                    (
+                                        <div className={item.balance_sell?.total > 0 ? "dateYellowBorder" : (item.balance_sell?.total < 0 ? "dateRedBorder" : "dateGreenBorder")}>
+                                            <a href='#' onClick={() => { setModalBalance(true); setItemSelected(item); }}>{
+                                                <h6 >
+                                                    <span>
+                                                        {item.balance_sell?.total < 0 ?
+                                                            "EN CONTRA  $ " + parseFloat(item?.balance_sell?.total).toFixed(2) :
+                                                            item.balance_sell?.total > 0 ? "A FAVOR  $ " + parseFloat(item?.balance_sell?.total).toFixed(2)
+                                                                : "OK $ " + parseFloat(item?.balance_sell?.total).toFixed(2)}
+                                                    </span>
+                                                </h6>}
+                                            </a>
+                                        </div>
+                                    )}
                             </td>
 
                             <td className='tdBtn' style={{ maxWidth: "145px" }}>

@@ -150,7 +150,7 @@ const ProductReturn = ({ codLiq, codinvo, receptedproduct, codeproductLocalStora
     return (
         <div>
             <Button variant="primary" onClick={handleShow} className='styleBtnModal' style={{ fontSize: "19px", fontWeight: "500" }}>
-                <i class="fa-solid fa-basket-shopping bx-fw"></i>
+                <i className="fa-solid fa-basket-shopping bx-fw"></i>
                 PRODUCTOS
                 {/* <h5>PRODUCTOS</h5> */}
             </Button>
@@ -181,30 +181,30 @@ const ProductReturn = ({ codLiq, codinvo, receptedproduct, codeproductLocalStora
 
                                 {/* Mal Estado */}
                                 <Form.Group className="mb-3" style={{ textAlign: "center" }}>
-                                    <i class="fa-solid fa-house-crack bx-fw"></i>
+                                    <i className="fa-solid fa-house-crack bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} > Mal Estado</Form.Label>
                                     <Form.Control className='form-expense' placeholder='$'
-                                        {...register('disrepair', { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register('disrepair', { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["disrepair"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["disrepair"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
 
                                 {/* Productos Caducados */}
                                 <Form.Group className="mb-3" style={{ textAlign: "center" }}>
-                                    <i class="fa-solid fa-business-time bx-fw"></i>
+                                    <i className="fa-solid fa-business-time bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} > Caducados</Form.Label>
                                     <Form.Control className='form-expense' placeholder='$'
-                                        {...register('expired', { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register('expired', { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["expired"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["expired"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
 
                                 {/* Devueltos o retornados */}
                                 <Form.Group className="mb-3">
-                                    <i class="fa-solid fa-arrow-right-arrow-left bx-fw"></i>
+                                    <i className="fa-solid fa-arrow-right-arrow-left bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Devueltos</Form.Label>
                                     <Form.Control className='form-expense' placeholder='$'
-                                        {...register("rejected", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register("rejected", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["rejected"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["rejected"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -215,7 +215,7 @@ const ProductReturn = ({ codLiq, codinvo, receptedproduct, codeproductLocalStora
                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Total Procesados</Form.Label>
                                     <Form.Control value={total} placeholder='$' className='form-expense'
-                                        {...register("total", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })}
+                                        {...register("total", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })}
                                     />
                                     <p className={`error-message ${errors["total"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["total"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>

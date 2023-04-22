@@ -23,13 +23,14 @@ const Createdcustomer = (props) => {
     const listDB = ["fullname", "code_external", "address", "dni", "id_seller", "id_route_day"];
 
     const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm();
 
 
 
     const [selectedOption, setSelectedOption] = useState("Cédula");
 
     const onSubmit = (data) => {
+        data.fullname = data.fullname.toUpperCase();
         Swal.fire({
             title: '¿Está seguro?',
             text: "Esta creando un nuevo Cliente",
@@ -63,7 +64,18 @@ const Createdcustomer = (props) => {
     }
 
 
-
+    const [selectSeller, setSelectSeller] = useState('');
+    const sellerCode = (sellerRecept) => {
+        console.log(sellers);
+        const result = sellers.filter(sell => sell.id === parseInt(sellerRecept));
+        const datos = routeDay?.filter(rouD => rouD?.id_route_route?.external_code === result[0]?.code)
+        // return result[0]?.code
+        return datos
+    };
+    const onchangeSeller = (e) => {
+        setSelectSeller(e.target.value);
+        console.log(e.target.value);
+    };
     return (
         <div>
 
@@ -139,13 +151,13 @@ const Createdcustomer = (props) => {
                         {/* Vendedor */}
                         <Form.Group className="mb-3">
                             <Form.Label>{listShow[4]}</Form.Label>
-                            <Form.Select {...register(`${listDB[4]}`, { required: true })}
+                            <Form.Select  {...register(`${listDB[4]}`, { required: true, onChange: onchangeSeller })}
                                 style={{ fontSize: "14px" }}
                             >
                                 <option >Seleccione Vendedor</option>
                                 {
                                     sellers?.map((seller, index) => (
-                                        <option key={index} value={(seller.id)}>{(seller.id)} - {seller.name}</option>
+                                        <option key={index} value={(seller.id)}>{(seller.code)} - {seller.name}</option>
                                     ))
                                 }
                             </Form.Select>
@@ -161,9 +173,9 @@ const Createdcustomer = (props) => {
                             >
                                 <option >Dia de Atencion</option>
                                 {
-                                    routeDay?.map((rou, index) => (
+                                    sellerCode(selectSeller)?.map((rou, index) => (
                                         <option key={index} value={(rou.id)}>
-                                            {(rou.id)}  - {rou.id_route_route?.name} - {rou.day?.day}
+                                            {(rou.id_route_route?.external_code)}  - {rou.id_route_route?.name} - {rou.day?.day}
                                         </option>
                                     ))
                                 }
@@ -175,6 +187,7 @@ const Createdcustomer = (props) => {
 
                 </Modal.Body>
                 <Modal.Footer>
+                    {/* <Button onClick={() => sellerCode(selectSeller)}>CLICk</Button> */}
                     <Button variant="success" type="submit" onClick={handleSubmit(onSubmit)}>
                         Crear
                     </Button>

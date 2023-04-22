@@ -16,7 +16,7 @@ const ModalInvoiceTransac = ({ onhide, show, itemSelect }) => {
     const userLiquidador = useSelector(state => state.userLoged)
     const invoice = useSelector(state => state.invoice)
     const invoiceNew = useSelector(state => state.transaction)
-
+    console.log(itemSelect);
     const initialValueTransaccion = {
         id_bill: 'id',
         num_bill: 'num_bill',
@@ -29,16 +29,11 @@ const ModalInvoiceTransac = ({ onhide, show, itemSelect }) => {
         defaultValues: initialValueTransaccion
     });
 
-    // console.log(itemSelect?.item?.id);
-    // console.log(invoice?.[0]?.id);
 
     const payIfItExists = () => {
 
-        itemSelect?.active === true ? setValue('id_bill', itemSelect?.item.id) : setValue('id_bill', invoiceNew.id);
-        itemSelect?.active === true ? setValue('num_bill', itemSelect?.item.num_bill) : setValue('num_bill', invoiceNew.num_bill);
-        // itemSelect?.active === true ? setValue('id_bill', itemSelect?.item.id) : setValue('id_bill', invoice?.[0]?.id);
-        // itemSelect?.active === true ? setValue('num_bill', itemSelect?.item.num_bill) : setValue('num_bill', invoice?.[0]?.num_bill);
-        // setValue('num_bill', itemSelect?.item.num_bill);
+        itemSelect?.active === true ? setValue('id_bill', itemSelect?.item.id) : setValue('id_bill', invoiceNew?.id);
+        itemSelect?.active === true ? setValue('num_bill', itemSelect?.item.num_bill) : setValue('num_bill', invoiceNew?.num_bill);
         setValue('balance_date', date.Currendate());
         setValue('pay', 0);
         setValue('id_user', userLiquidador?.id)
@@ -59,11 +54,8 @@ const ModalInvoiceTransac = ({ onhide, show, itemSelect }) => {
     };
 
     const onSubmit = (data) => {
-        // console.log((itemSelect?.active ? data.pay > itemSelect?.item.balance : data.pay > invoice?.[0].balance));
-        // console.log(data.pay > itemSelect?.item.balance);
-        // console.log(data.pay <= 0);
+
         if (data.pay <= 0 || (itemSelect?.active ? data.pay > itemSelect?.item.balance : data.pay > invoice?.[0].balance)) {
-            // console.log("El pago es mayo o menor que el de la factura");
             Swal.fire({
                 icon: 'warning',
                 title: 'Error!',
@@ -72,7 +64,6 @@ const ModalInvoiceTransac = ({ onhide, show, itemSelect }) => {
                 timer: 1500
             })
         } else {
-            // console.log("abono o pago correcto");
             Swal.fire({
                 title: '¿Está seguro?',
                 text: "Deseas Guardar transaccion realizada",
@@ -125,9 +116,9 @@ const ModalInvoiceTransac = ({ onhide, show, itemSelect }) => {
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <h5>Realize el pago total o abono</h5>
                         <span style={{ fontSize: "13px" }}>Cliente:
-                            {itemSelect?.active === true ? itemSelect.item?.client.fullname : invoiceNew.id_client}</span>
+                            {itemSelect?.active === true ? itemSelect.item?.client?.fullname : invoiceNew?.id_client}</span>
                         <span style={{ fontSize: "14px" }}>Saldo Anterior: $
-                            {itemSelect?.active === true ? itemSelect.item?.balance : invoiceNew.balance}</span>
+                            {itemSelect?.active === true ? itemSelect.item?.balance : invoiceNew?.balance}</span>
                     </div>
 
                     <Form className='formModal' onSubmit={handleSubmit(onSubmit)}>
@@ -156,7 +147,7 @@ const ModalInvoiceTransac = ({ onhide, show, itemSelect }) => {
                         {/* Valor */}
                         <Form.Group className="mb-3">
                             <Form.Label>Valor $</Form.Label>
-                            <Form.Control style={{ width: "80px", borderColor: "red" }} {...register("pay", { required: true, pattern: /^\d*\.?\d+$/ })}
+                            <Form.Control style={{ width: "80px", borderColor: "red" }} {...register("pay", { required: true, pattern: /^[-]?\d*.?\d+$/ })}
                             />
                             <p className={`error-message ${errors["pay"] ? 'showError' : ''}`}>Solo se permiten números en este campo.</p>
                         </Form.Group>

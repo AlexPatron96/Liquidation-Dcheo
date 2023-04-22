@@ -12,7 +12,7 @@ import Modalagginvoice from '../../../../components/Modals/Modalagginvoice';
 import ModalTransaccion from '../../../../components/Modals/ModalTransaccion';
 import TableLiquidationSeller from '../../../../components/Show/TableLiquidationSeller';
 import { getInvoiceThunk } from '../../../../store/slices/invoice.slice';
-import { postSellerLiquidationthunk, setLiquidationSlice } from '../../../../store/slices/liquidation.slice';
+import { postSellerLiquidationthunk } from '../../../../store/slices/liquidation.slice';
 import { getSellerThunk } from '../../../../store/slices/seller.slice';
 import date from "../../../../utils/date"
 import genCod from '../../../../utils/genCod';
@@ -33,7 +33,7 @@ const Liquidationsell = () => {
     const invoice = useSelector(state => state.invoice)
     const invoiceDia = useSelector(state => state.liquidation);
     const sellerLiqui = seller.filter((sell) => (sell.id === parseInt(sellerByLiqui)));
-    console.log(sellerLiqui);
+    //console.log(sellerLiqui);
     const [codLiq, setCodLiq] = useState("")
 
     const filterInvoiceDia = invoice.filter((sell) => {
@@ -42,7 +42,7 @@ const Liquidationsell = () => {
     });
 
     const [invoiceLiquidation, setInvoiceLiquidation] = useState(filterInvoiceDia);
-    // console.log(invoiceLiquidation);
+    // //console.log(invoiceLiquidation);
 
     // const filterInvoiceDia = invoice.filter((sell) => {
     //     return ((sell.seller.id === parseInt(sellerByLiqui)) &&
@@ -55,6 +55,7 @@ const Liquidationsell = () => {
     const codeCashLocalStorage = `cashLiq${sellerLiqui[0]?.code}-${sellerLiqui[0]?.id}`;
     const codeCheckLocalStorage = `checkLiq${sellerLiqui[0]?.code}-${sellerLiqui[0]?.id}`;
     const codeTransacLocalStorage = `trans${sellerLiqui[0]?.code}-${sellerLiqui[0]?.id}`;
+    const codePrinDetailStorage = `prinDetail${sellerLiqui?.[0]?.code}-${sellerLiqui?.[0]?.id}`;
 
 
     const loadInvoice = () => {
@@ -66,11 +67,14 @@ const Liquidationsell = () => {
         const cashSesionStorage = JSON.parse(sessionStorage.getItem(codeCashLocalStorage));
         const checkSesionStorage = JSON.parse(sessionStorage.getItem(codeCheckLocalStorage));
 
-        sesionLocal?.[0] ? console.log("si existe") : sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(filterInvoiceDia));
+        sesionLocal?.[0] ? null : sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(filterInvoiceDia));
         sesionLocal?.[0] ? setInvoiceLiquidation(sesionLocal) : setInvoiceLiquidation(invoiceLiquidation);
-        sesionLocal?.[0] ? console.log('Sesion storage') : console.log("Backend");
+        // sesionLocal?.[0] ? console.log('Sesion storage') : console.log("Backend");
         checkSesionStorage?.[0] ? setCheckMoney(checkSesionStorage) : setCheckMoney([]);
-        sesionLocalTrans?.[0] ? setTransaction(sesionLocalTrans) : setTransaction([]);
+        const filteredTransac = sesionLocalTrans?.filter(trans => {
+            return sesionLocal?.some(factura => factura?.num_bill === trans?.num_bill);
+        });
+        sesionLocalTrans?.[0] ? setTransaction(filteredTransac) : setTransaction([]);
 
         setCodLiq(genCod(`LIQ-${sellerLiqui[0]?.code}-`));
         cashSesionStorage ? setCash(cashSesionStorage) : setCash({});
@@ -101,7 +105,7 @@ const Liquidationsell = () => {
 
     const handleAddInvoice = (e, item) => {
         const { checked, value, name } = e.target;
-        // console.log(item);
+        // //console.log(item);
         if (checked) {
             setSelectedInvoices([...selectedInvoices, item]);
             setCheckSelectedID(prevState => [...prevState, value]);
@@ -145,6 +149,7 @@ const Liquidationsell = () => {
 
     const [modalTransaccionPay, setModalTransaccionPay] = useState(false);
     const [itemTableliqui, setItemTableliqui] = useState([]);
+    // console.log(transaction);
     const sumTotalCobrado = Object.values(transaction).reduce((acc, cur) => acc + parseFloat(cur?.pay), 0);
     const modaltransaccionPay = (item) => {
         setModalTransaccionPay(true);
@@ -160,7 +165,7 @@ const Liquidationsell = () => {
 
             const validadorLiquidation = invoiceLiquidation.forEach(inv => {
                 if (inv.num_bill === item.num_bill) {
-                    console.log("encontre la factura");
+                    //console.log("encontre la factura");
                     const newInv = {
                         ...inv,
                         pago: item.pay
@@ -180,7 +185,7 @@ const Liquidationsell = () => {
 
             const validadorLiquidation = invoiceLiquidation.forEach(inv => {
                 if (inv.num_bill === item.num_bill) {
-                    console.log("encontre la factura");
+                    //console.log("encontre la factura");
                     const newInv = {
                         ...inv,
                         pago: item.pay
@@ -193,7 +198,7 @@ const Liquidationsell = () => {
                     sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
                 }
             });
-            console.log(invoiceLiquidation);
+            //console.log(invoiceLiquidation);
             setTransaction(prevState => [...prevState, item]);
             sessionStorage.setItem(codeTransacLocalStorage, JSON.stringify([...transaction, item]));
         }
@@ -211,12 +216,14 @@ const Liquidationsell = () => {
     const [discount, setDiscount] = useState([]);
     const [checkMoney, setCheckMoney] = useState([]);
     const [checkMoneyView, setCheckMoneyView] = useState([]);
+    const [principalDetail, setPrincipalDetail] = useState('');
 
-    const totalExpenses = parseFloat(expenses.total || 0);
-    const totalCash = parseFloat(cash.total || 0);
-    const totalDiscount = parseFloat(discount.total_other || 0);
+    const totalExpenses = parseFloat(expenses?.total || 0);
+    const totalCash = parseFloat(cash?.total || 0);
+    const totalDiscount = parseFloat(discount?.total_other || 0);
     const totalVendedor = (totalExpenses + totalCash + totalDiscount).toFixed(2);
     const cuadre = (parseFloat(totalVendedor).toFixed(2) - ((sumTotalCobrado).toFixed(2) || 0)).toFixed(2);
+    const balanceSeller = parseFloat(sellerLiqui?.[0]?.balance_sell?.total) + parseFloat(cuadre);
     // const cuadre = ( ((expenses?.total) || 0) - ((discount?.total_other) || 0) - ((cash?.total) || 0) - ((sumTotalCobrado).toFixed(2) || 0)).toFixed(2);
     const receptedExpenses = (item) => {
         setExpenses(item);
@@ -232,19 +239,26 @@ const Liquidationsell = () => {
         setCheckMoneyView(checkView);
     };
 
+    const detailGeneral = `
+    DETALLE GENERAL: ${principalDetail} 
+    GASTOS: ${expenses?.detail || "Falta Guardar"}.
+    DESCUENTOS: ${discount?.detail || "Falta Guardar"}.
+    DINERO RECAUDADO: ${cash?.detail || "Falta Guardar"}.`;
+
     /************************************************************************/
     const loaderData = () => {
         let principal = {};
-        principal.id_user = userLiquidador.id;
+        principal.id_user = userLiquidador?.id;
         principal.id_seller = sellerLiqui[0]?.id;
-        principal.balance_gen_sell = sellerLiqui?.[0].balance_sell.total;
+        principal.balance_gen_sell = balanceSeller;
+        principal.date_liquidation = date.Currendate();
         principal.settlement_code = codLiq;
         principal.total_collection_bills = (sumTotalCobrado).toFixed(2);
         principal.total_money = parseFloat(cash?.total) || 0;
         principal.total_expense = parseFloat(expenses?.total) || 0;
         principal.total_discount = parseFloat(discount?.total_other) || 0;
         principal.total_received = totalVendedor || 0;
-        principal.detail = "ok";
+        principal.detail = detailGeneral;
         principal.balance = cuadre;
         principal.isLiquidated = false;
 
@@ -256,7 +270,7 @@ const Liquidationsell = () => {
         arraySendLiq.push(transaction);
         arraySendLiq.push(invoiceLiquidation)
         arraySendLiq.push(codLiq)
-        arraySendLiq.push(`${userLiquidador.username}`)
+        arraySendLiq.push(`${userLiquidador?.username}`)
         arraySendLiq.push(`${(date.CurrendateDay()).toUpperCase()} - ${date.Currendate()}`)
         arraySendLiq.push(`${sellerLiqui[0]?.code} - ${sellerLiqui[0]?.name}`)
         arraySendLiq.push(principal);
@@ -272,15 +286,17 @@ const Liquidationsell = () => {
         setExpenses([]);
         setDiscount([]);
         setCash([]);
+        setCheckMoney([]);
+        setCheckMoneyView([]);
 
+        sessionStorage.removeItem(codeInvoLocalStorage);
+        sessionStorage.removeItem(codeTransacLocalStorage);
         sessionStorage.removeItem(codeExpeLocalStorage);
         sessionStorage.removeItem(codeDiscountLocalStorage);
         sessionStorage.removeItem(codeCashLocalStorage);
-        sessionStorage.removeItem(codeInvoLocalStorage);
         sessionStorage.removeItem(codeCheckLocalStorage);
         sessionStorage.removeItem(codeCheckLocalStorage + "view");
-        sessionStorage.removeItem(codeTransacLocalStorage);
-        sessionStorage.removeItem('printSeller');
+        sessionStorage.removeItem(codePrinDetailStorage);
     };
 
 
@@ -288,7 +304,7 @@ const Liquidationsell = () => {
         let direccion = `/dashboard/liquidation/sellers/print/${codLiq}`;
 
         const arraySendLiq = loaderData();
-        
+
         Swal.fire({
             title: '¿Está seguro?',
             text: `Se realizara la liquidacion del vendedor ${sellerLiqui[0]?.name}, no se podra revertir los cambios despues de confirmar la liquidacion .`,
@@ -308,8 +324,8 @@ const Liquidationsell = () => {
                         showConfirmButton: true,
                     });
                 } else {
+
                     sessionStorage.setItem("printSeller", JSON.stringify(arraySendLiq));
-                    deleteData();
                     dispatch(postSellerLiquidationthunk(arraySendLiq));
                     Swal.fire({
                         icon: 'success',
@@ -321,7 +337,8 @@ const Liquidationsell = () => {
                     setTimeout(() => {
                         window.open(direccion, "", "height=600,width=1200,center");
                     }, [1000]);
-                    navigate(`/dashboard/liquidation/sellers/${principal.id_seller}/received-inovices`)
+                    navigate(`/dashboard/liquidation/sellers/${arraySendLiq[10].id_seller}/received-inovices`)
+                    deleteData();
                 }
             } else {
                 Swal.fire({
@@ -342,8 +359,8 @@ const Liquidationsell = () => {
 
     function imprimirContenido() {
         let direccion = `/dashboard/liquidation/sellers/print/${codLiq}`;
-        const arraySendLiq = loaderData();        
-
+        const arraySendLiq = loaderData();
+        console.log(arraySendLiq);
         if (!(codLiq) || Object.keys(expenses).length === 0 || Object.keys(discount).length === 0 || Object.keys(cash).length === 0) {
             Swal.fire({
                 title: 'Alerta',
@@ -375,7 +392,7 @@ const Liquidationsell = () => {
                     color={"success"} ico={"fa-truck-ramp-box bx-fade-up-hover"} />
             </>
         )
-    }
+    };
 
 
 
@@ -389,7 +406,7 @@ const Liquidationsell = () => {
                 <h4>Liquidacion de Vendedores</h4>
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0 2rem" }}>
                     <div>
-                        <h5>Usuario: <span style={{ color: "#02B875" }}> {userLiquidador.username} </span> </h5>
+                        <h5>Usuario: <span style={{ color: "#02B875" }}> {userLiquidador?.username} </span> </h5>
                         <h5>Fecha de liquidacion: <span style={{ color: "#02B875" }}>{date.CurrendateDay()} {date.Currendate()} </span> </h5>
                         <h5>Se esta liquidando al Vendedor:
                             <span style={{ color: "#02B875" }}> {sellerLiqui[0]?.code} - {sellerLiqui[0]?.name}</span>
@@ -398,10 +415,11 @@ const Liquidationsell = () => {
                     <div style={{ border: "2px solid var(--first-color)", padding: "0.5rem", textAlign: "center" }}>
                         <h5>Balance General:</h5>
                         <h4 style={{
-                            color: `${sellerLiqui?.[0].balance_sell.total > 0 ?
-                                "#FFAC42" : sellerLiqui?.[0].balance_sell.total < 0 ? "#C20114" : "#02B875"}`
+                            fontSize: "39px",
+                            color: `${balanceSeller > 0 ?
+                                "#FFAC42" : balanceSeller < 0 ? "#C20114" : "#02B875"}`
                         }}>
-                            ${parseFloat(sellerLiqui?.[0].balance_sell.total).toFixed(2)}
+                            ${parseFloat(balanceSeller).toFixed(2)}
                         </h4>
                     </div>
 
@@ -462,6 +480,24 @@ const Liquidationsell = () => {
                         receptedCash={receptedCash}
                         codeCheckLocalStorage={codeCheckLocalStorage}
                         codeCashLocalStorage={codeCashLocalStorage} />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", width: "1400px", margin: "0 auto", justifyContent: "center", padding: "2rem" }}>
+                    <span style={{ whiteSpace: "pre-wrap" }}>
+                        {
+                            detailGeneral
+                        }
+                    </span>
+                    <div style={{ display: "flex", flexDirection: "row", width: "1400px", margin: "0 auto", justifyContent: "center", padding: "2rem" }}>
+                        Anadir a Detalle General
+                        <input className="form-control form-control-sm"
+                            style={{ fontSize: "15px", width: "90%" }}
+                            type="text" value={principalDetail}
+                            onChange={(e) => {
+                                setPrincipalDetail(e.target.value);
+                                sessionStorage.setItem(codePrinDetailStorage, JSON.stringify(e.target.value));
+                            }} />
+                    </div>
                 </div>
 
                 <div className='btn-liquidation'>

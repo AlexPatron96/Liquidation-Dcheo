@@ -9,7 +9,7 @@ const Paginationdesign = ({ data  }) => {
     const itemFromPage = 10;
     useEffect(() => {
         dispatch(setPagination([...dataRecepted].splice(0, itemFromPage)))
-        // console.log(dataRecepted);
+        // //console.log(dataRecepted);
     }, [dataRecepted])
 
     const pages = [];
@@ -23,7 +23,7 @@ const Paginationdesign = ({ data  }) => {
     const onPageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
         const firstIndex = pageNumber * itemFromPage
-        console.log("boton actual" + pageNumber);
+        //console.log("boton actual" + pageNumber);
         dispatch(setPagination([...dataRecepted].splice((firstIndex - itemFromPage), itemFromPage)))
         // setNewData([...vehiclesRedux].splice((firstIndex - itemFromPage), itemFromPage))
     }
@@ -31,7 +31,7 @@ const Paginationdesign = ({ data  }) => {
     const onPrevClick = () => {
         const prev = currentPage - 1
         const LastIndex = (prev - 1) * itemFromPage
-        console.log("anterior");
+        //console.log("anterior");
         dispatch(setPagination([...dataRecepted].splice(LastIndex, itemFromPage)))
         // setNewData([...vehiclesRedux].splice(LastIndex, itemFromPage))
         if ((currentPage - 1) % pageNumberLimit === 0) {
@@ -44,7 +44,7 @@ const Paginationdesign = ({ data  }) => {
     const onNextClick = () => {
         const next = currentPage + 1
         const firstIndex = next * itemFromPage
-        console.log("siguiente");
+        //console.log("siguiente");
         dispatch(setPagination([...dataRecepted].splice((firstIndex - itemFromPage), itemFromPage)))
         // setNewData([...vehiclesRedux].splice((firstIndex - itemFromPage), itemFromPage))
         if (currentPage + 1 > maxPageLimit) {

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSellerThunk } from "../../store/slices/seller.slice";
 import { getCustomerThunk } from "../../store/slices/customer.slice";
 import { setErrorReceived } from "../../store/slices/errorReceived.slice";
+import Modaldetailprod from "../Modals/Modaldetailprod";
 
 
 const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, onviewpay, setItemSelect }) => {
@@ -263,7 +264,8 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
             }
         })
     };
-
+    const [modalDetail, setModalDetail] = useState(false);
+    const [detailItemSelect, setDetailItemSelect] = useState([]);
     return (
 
         <div className='tables-view'>
@@ -309,7 +311,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
 
                                 <ListGroup multiple="" className={searchCustomer.length > 1 ? `listClient` : `none`} >
                                     {filteredList.slice(0, 10).map((item) => (
-                                        <option className={searchCustomer.length > 1  ? `` : `none`}
+                                        <option className={searchCustomer.length > 1 ? `` : `none`}
                                             key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }} >{item.id} - {item.fullname} </option>
                                     ))}
                                 </ListGroup>
@@ -496,8 +498,12 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
 
                                 </td>)
                                 :
-                                (<td style={{ width: "250px", fontSize: "13px" }}>
-                                    {(item.client?.fullname)?.substring(0, 20)}
+                                (<td style={{ width: "250px", fontSize: "13px", cursor: "pointer" }}>
+                                    <span onClick={() => { setModalDetail(true); setDetailItemSelect(item);}}>
+                                        <a href="#">
+                                            {(item.client?.fullname)?.substring(0, 20)}
+                                        </a>
+                                    </span>
                                 </td>)
                             }
 
@@ -686,6 +692,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
 
                 </tbody>
             </Table>
+            <Modaldetailprod show={modalDetail} onHide={() => { setModalDetail(false) }}  data={detailItemSelect}/>
         </div>
     );
 };

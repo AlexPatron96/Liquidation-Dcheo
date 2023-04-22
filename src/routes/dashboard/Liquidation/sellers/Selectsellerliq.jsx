@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import CardBtn from '../../../../components/CardBtn';
 import imgSeller from '../../../../img/imgSeller.png';
-import { setLiquidationSlice } from '../../../../store/slices/liquidation.slice';
+// import { setLiquidationSlice } from '../../../../store/slices/liquidation.slice';
 import date from '../../../../utils/date';
 import Swal from 'sweetalert2';
 import { getInvoiceThunk } from '../../../../store/slices/invoice.slice';
@@ -20,6 +20,8 @@ const Selectsellerliq = () => {
     }, [])
 
     const seller = useSelector(state => state.seller);
+    console.log(seller);
+    const sellerActive = seller.filter(sell => sell?.isActive === true);
     const invoice = useSelector(state => state.invoice);
     const identificarDia = date.CurrendateDay();
     // const codeInvoLocalStorage = `invoLiq${sellerLiqui[0]?.code}-${sellerLiqui[0]?.id}`;
@@ -27,7 +29,7 @@ const Selectsellerliq = () => {
     const selectSeller = (data) => {
         Swal.fire({
             title: '¿Está seguro?',
-            text: `Vas a realizar la liquidacion de el Vendedor ${data.name} del dia ${identificarDia}`,
+            text: `Vas a realizar la liquidacion de el Vendedor ${data?.name} del dia ${identificarDia}`,
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -35,12 +37,12 @@ const Selectsellerliq = () => {
             showCancelButton: true
         }).then((result) => {
             if (result.isConfirmed) {
-                const filterInvoiceDia = invoice.filter((sell) => {
-                    return ((sell.seller.id === parseInt(data.id)) &&
-                        (sell.client?.route_day.day.day === currentdate.CurrendateDay(" ")) &&
-                        (sell.balance !== 0))
+                const filterInvoiceDia = invoice?.filter((sell) => {
+                    return ((sell?.seller?.id === parseInt(data?.id)) &&
+                        (sell?.client?.route_day?.day?.day === currentdate.CurrendateDay(" ")) &&
+                        (sell?.balance !== 0))
                 });
-                dispatch(setLiquidationSlice(filterInvoiceDia));
+                // dispatch(setLiquidationSlice(filterInvoiceDia));
                 sessionStorage.setItem(`invoLiq${data?.code}-${data?.id}`, JSON.stringify(filterInvoiceDia))
                 navigate(`/dashboard/liquidation/sellers/${data.id}`);
             }
@@ -54,12 +56,13 @@ const Selectsellerliq = () => {
                 <div className='card-btn' >
                     <Row>
                         {
-                            seller?.map((sell, index) => (
+                            sellerActive?.map((sell, index) => (
                                 <Col key={index} >
                                     {/* to={"/dashboard/do-vehicleliquidation"} to={`/dashboard/liquidation/vehicles/${veh.id}`}  */}
                                     <Link className='linkStyle' style={{margin:"0.5rem 3rem"}} onClick={() => selectSeller(sell)}>
                                         <h5>{index + 1}</h5>
                                         <CardBtn title={(sell.name).substring(0, 18)} img={imgSeller} />
+                                        {/* <h6></h6> */}
                                     </Link>
                                 </Col>
                             ))

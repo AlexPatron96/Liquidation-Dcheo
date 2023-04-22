@@ -25,93 +25,14 @@ const LiquidationSellerPdf = () => {
     const seller = data?.[9];
     const principal = data?.[10];
 
-    console.log(principal);
+    console.log(checkMoney);
     console.log(data);
 
-    const balanceGenCal = (parseFloat(principal?.balance_gen_sell) + parseFloat(principal?.balance));
+    // const balanceGenCal = (parseFloat(principal?.balance_gen_sell) + parseFloat(principal?.balance));
 
     useEffect(() => {
         window.print();
     }, [])
-
-    // function generateInvoice() {
-
-    //     const doc = new jsPDF();
-    //     const invoiceItems = [
-    //         { item: 'Producto 1', description: 'Descripción del producto 1', price: 10 },
-    //         { item: 'Producto 2', description: 'Descripción del producto 2', price: 20 },
-    //         { item: 'Producto 3', description: 'Descripción del producto 3', price: 30 },
-    //     ];
-
-    //     doc.text('Factura', 14, 20);
-    //     doc.setFontSize(10);
-    //     doc.text('Fecha: 2023-03-12', 14, 30);
-    //     doc.text('Número de factura: 001', 14, 45);
-
-    //     doc.setFontSize(12);
-    //     doc.text('Productos', 14, 50);
-
-    //     const startY = 60;
-    //     const margin = 10;
-    //     const cellWidth = (doc.internal.pageSize.width - (margin * 2)) / 3;
-    //     const cellHeight = 20;
-
-    //     doc.rect(margin, startY, doc.internal.pageSize.width - (margin * 2), cellHeight);
-    //     doc.text('Producto', margin + 5, startY + 15);
-    //     doc.text('Descripción', margin + cellWidth + 5, startY + 15);
-    //     doc.text('Precio', margin + (cellWidth * 2) + 5, startY + 15);
-
-    //     let y = startY + cellHeight + 5;
-    //     let subtotal = 0;
-    //     invoiceItems.forEach(item => {
-    //         doc.rect(margin, y, doc.internal.pageSize.width - (margin * 2), cellHeight);
-    //         doc.text(item.item, margin + 5, y + 15);
-    //         doc.text(item.description, margin + cellWidth + 5, y + 15);
-    //         doc.text(`$ ${item.price}`, margin + (cellWidth * 2) + 5, y + 15);
-    //         subtotal += item.price;
-    //         y += cellHeight;
-    //     });
-
-    //     const tax = 0.16;
-    //     const total = subtotal + (subtotal * tax);
-
-    //     doc.text(`Subtotal: $ ${subtotal.toFixed(2)}`, margin + (cellWidth * 2) + 5, y + 5);
-    //     doc.text(`Impuesto (16%): $ ${(subtotal * tax).toFixed(2)}`, margin + (cellWidth * 2) + 5, y + 10);
-    //     doc.text(`Total: $ ${total.toFixed(2)}`, margin + (cellWidth * 2) + 5, y + 15);
-
-    //     doc.save('factura.pdf');
-    // }
-    // function generateTable() {
-    //     const doc = new jsPDF();
-    //     const products = [
-    //         { id: 1, name: 'Producto 1', price: 10 },
-    //         { id: 2, name: 'Producto 2', price: 20 },
-    //         { id: 3, name: 'Producto 3', price: 30 },
-    //     ];
-
-    //     doc.text('Tabla de productos', 14, 20);
-
-    //     const startY = 30;
-    //     const margin = 10;
-    //     const cellWidth = (doc.internal.pageSize.width - (margin * 2)) / 3;
-    //     const cellHeight = 20;
-
-    //     doc.rect(margin, startY, doc.internal.pageSize.width - (margin * 2), cellHeight);
-    //     doc.text('ID', margin + 5, startY + 15);
-    //     doc.text('Nombre', margin + cellWidth + 5, startY + 15);
-    //     doc.text('Precio', margin + (cellWidth * 2) + 5, startY + 15);
-
-    //     let y = startY + cellHeight + 5;
-    //     products.forEach(product => {
-    //         doc.rect(margin, y, doc.internal.pageSize.width - (margin * 2), cellHeight);
-    //         doc.text(product.id.toString(), margin + 5, y + 15);
-    //         doc.text(product.name, margin + cellWidth + 5, y + 15);
-    //         doc.text(`$ ${product.price}`, margin + (cellWidth * 2) + 5, y + 15);
-    //         y += cellHeight;
-    //     });
-
-    //     doc.save('tabla.pdf');
-    // }
 
     return (
         <div>
@@ -128,14 +49,14 @@ const LiquidationSellerPdf = () => {
                 </div>
 
                 <div style={{ border: "2px solid grey", width: "225px", height: "150px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
-                    <h5 style={{ fontSize: "50px", color: `${balanceGenCal > 0 ? "#02B875" : balanceGenCal < 0 ? "#C20114" : "#02B875"}` }}>
-                        {balanceGenCal > 0 ?
+                    <h5 style={{ fontSize: "50px", color: `${principal?.balance_gen_sell > 0 ? "#02B875" : principal?.balance_gen_sell < 0 ? "#C20114" : "#02B875"}` }}>
+                        {principal?.balance_gen_sell > 0 ?
                             'A FAVOR' :
-                            balanceGenCal < 0 ?
+                            principal?.balance_gen_sell < 0 ?
                                 'EN CONTRA' :
                                 'OK'}
                     </h5>
-                    <h5>${balanceGenCal.toFixed(2)}</h5>
+                    <h5>${principal?.balance_gen_sell}</h5>
                 </div>
             </div>
 
@@ -162,7 +83,7 @@ const LiquidationSellerPdf = () => {
                                         <td>{inv?.num_bill || inv?.id_bills_bill.num_bill}</td>
                                         <td>$ {(((inv?.total_bill)) || inv?.id_bills_bill.total_bill)}</td>
                                         <td>$ {((parseFloat(inv?.balance))) || inv?.id_bills_bill.balance}</td>
-                                        <td style={{ borderRight: `4px solid ${inv?.pago ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pago)) || 0}</td>
+                                        <td style={{ borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pass)) || 0}</td>
                                     </tr>
                                 ))
                             }
@@ -194,7 +115,7 @@ const LiquidationSellerPdf = () => {
 
                 <div style={{ display: "flex", flexDirection: "row", gap: "3rem" }}>
 
-                    <div style={{ width: "250px", height: "350px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                    <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                         <h4>Dinero</h4>
 
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -257,17 +178,17 @@ const LiquidationSellerPdf = () => {
                             </div>
                         </div>
 
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                            {/* <div> */}
+                        {/* <div style={{ display: "flex", flexDirection: "column" }}>
+                     
                             Detalle:
                             <div style={{ border: "2px solid grey", height: "100px", fontSize: "11px" }}>
                                 {cash?.detail}
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
 
-                    <div style={{ width: "250px", height: "350px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                    <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                         <h4>Gastos</h4>
 
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -320,17 +241,17 @@ const LiquidationSellerPdf = () => {
                             </div>
                         </div>
 
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                            {/* <div> */}
+                        {/* <div style={{ display: "flex", flexDirection: "column" }}>
+                            
                             Detalle:
                             <div style={{ border: "2px solid grey", height: "100px", fontSize: "11px" }}>
                                 {expenses?.detail}
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
 
-                    <div style={{ width: "250px", height: "350px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                    <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                         <h4>Descuentos</h4>
 
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -373,13 +294,13 @@ const LiquidationSellerPdf = () => {
                             </div>
                         </div>
 
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                            {/* <div> */}
+                        {/* <div style={{ display: "flex", flexDirection: "column" }}>
+                     
                             Detalle:
                             <div style={{ border: "2px solid grey", height: "100px", fontSize: "11px" }}>
                                 {discount?.detail}
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
 
@@ -407,19 +328,23 @@ const LiquidationSellerPdf = () => {
                             {
                                 checkMoney?.map((check, index) => (
                                     <tr key={index}>
-                                        <td>{check?.id_client}</td>
-                                        <td>{check?.id_seller}</td>
-                                        <td>{check?.number_check}</td>
-                                        <td>{check?.id_bank}</td>
-                                        <td>{check?.type}</td>
-                                        <td>{check?.total}</td>
+                                        <td>{check?.id_client || check?.check_sell?.id_client_client?.fullname}</td>
+                                        <td>{check?.references || check?.check_sell?.references}</td>
+                                        <td>{check?.number_check || check?.check_sell?.number_check}</td>
+                                        <td>{check?.id_bank || check?.check_sell?.id_bank_bank?.name_bank }</td>
+                                        <td>{check?.type || check?.check_sell?.type}</td>
+                                        <td>$ {(check?.total) || check?.check_sell?.total}</td>
                                     </tr>
                                 ))
                             }
                         </tbody>
                     </Table>
                 </div>
-
+                <div>
+                    <span style={{ whiteSpace: "pre-wrap" }}>
+                        {principal?.detail}
+                    </span>
+                </div>
             </div>
             <div>
                 <button style={{ border: "none", background: "none" }} onClick={() => { window.close() }}>CLOSE</button>

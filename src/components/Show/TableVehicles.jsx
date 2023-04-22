@@ -3,6 +3,9 @@ import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRoutethunk } from '../../store/slices/dataTemp.slice';
 import Swal from "sweetalert2";
+import { postVehicleBalancethunk } from '../../store/slices/vehicles.slice';
+import date from '../../utils/date';
+import Modalcuadrebalan from '../Modals/Modalcuadrebalan';
 
 // import lodash from 'lodash';
 // import { Row } from 'react-bootstrap';
@@ -80,21 +83,29 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                 setEditedData({});
             }
         })
-    }
+    };
+
+    const createBalance = (item) => {
+        // console.log(data);
+        dispatch(postVehicleBalancethunk(item));
+    };
+    const [modalBalance, setModalBalance] = useState(false);
+    const [itemSelected, setItemSelected] = useState({});
 
     return (
         <div className='tables-view'>
+            <Modalcuadrebalan show={modalBalance} onHide={() => { setModalBalance(false) }} data={itemSelected} tipo={'veh'} />
             <Table striped bordered hover responsive style={{ width: "980px" }}>
                 <thead >
                     <tr>
-                        <th style={{ width: "15px" }}>#</th>
+                        {/* <th style={{ width: "15px" }}>#</th> */}
                         <th style={{ width: "40px" }}>Id</th>
-                        <th style={{ width: "100px" }}>Placa</th>
-                        <th style={{ width: "150px" }}>Conductor</th>
+                        <th style={{ width: "90px" }}>Placa</th>
+                        <th style={{ width: "175px" }}>Conductor</th>
                         <th style={{ width: "130px" }}>Identificacion</th>
-                        <th style={{ width: "100px" }}>Activo</th>
-                        <th style={{ width: "130px" }}>Ruta</th>
-                        <th style={{ width: "80px" }}>Balance</th>
+                        <th style={{ width: "70px" }}>Activo</th>
+                        <th style={{ width: "110px" }}>Ruta</th>
+                        <th style={{ width: "200px" }}>Balance</th>
                         <th style={{ width: "40px" }}>Accion</th>
                     </tr>
                 </thead>
@@ -102,7 +113,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                     {data?.map((item, index) => (
                         <tr key={index} style={{ height: "50px" }}>
 
-                            <td style={{ width: "15px" }}>{index + 1}</td>
+                            {/* <td style={{ width: "15px" }}>{index + 1}</td> */}
 
                             {editingIndex === index ?
                                 (<td style={{ textAlign: "center" }}>
@@ -117,7 +128,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                                 </td>)
                                 :
                                 (<td style={{ textAlign: "center" }}>
-                                    {item.id}
+                                    {item?.id}
                                 </td>)
                             }
 
@@ -133,7 +144,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                                 </td>)
                                 :
                                 (<td>
-                                    {item.enrollment}
+                                    {item?.enrollment}
                                 </td>)
                             }
 
@@ -149,7 +160,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                                 </td>)
                                 :
                                 (<td>
-                                    {item.driver}
+                                    {item?.driver}
                                 </td>)
                             }
 
@@ -165,7 +176,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                                 </td>)
                                 :
                                 (<td>
-                                    {item.dni}
+                                    {item?.dni}
                                 </td>)
                             }
 
@@ -184,7 +195,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                                 </td>)
                                 :
                                 (<td>
-                                    {item.isActive === true ? "Si" : "No"}
+                                    {item?.isActive === true ? "Si" : "No"}
                                 </td>)
                             }
 
@@ -197,7 +208,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                                         onChange={handleInputChange}       >
                                         <option>Seleccione Ruta</option>
                                         {
-                                            route.map((rout, index) => (
+                                            route?.map((rout, index) => (
                                                 <option key={index} value={rout?.id}>{rout?.name} - {rout?.external_code} </option>
                                             ))
                                         }
@@ -206,12 +217,28 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                                 </td>)
                                 :
                                 (<td>
-                                    {item.route?.name} - {item.route?.external_code}
+                                    {item?.route?.name} - {item?.route?.external_code}
                                 </td>)
                             }
 
                             <td>
-                                {item.balance_veh?.total}
+                                {item?.balance_veh === null ? (<a href="#" onClick={() => createBalance(item)}>Crear</a>)
+                                    :
+                                    (
+                                        <div className={item.balance_veh?.total > 0 ? "dateYellowBorder" : (item.balance_veh?.total < 0 ? "dateRedBorder" : "dateGreenBorder")}>
+                                            <a href='#' onClick={() => { setModalBalance(true); setItemSelected(item); }}>{
+                                                <h6 >
+                                                    <span>
+                                                        {item.balance_veh?.total < 0 ?
+                                                            "EN CONTRA  $ " + parseFloat(item?.balance_veh?.total).toFixed(2) :
+                                                            item.balance_veh?.total > 0 ? "A FAVOR  $ " + parseFloat(item?.balance_veh?.total).toFixed(2)
+                                                                : "OK $ " + parseFloat(item?.balance_veh?.total).toFixed(2)}
+                                                    </span>
+                                                </h6>}
+                                            </a>
+                                        </div>
+                                    )}
+
                             </td>
 
                             <td className='tdBtn' style={{ maxWidth: "145px" }}>

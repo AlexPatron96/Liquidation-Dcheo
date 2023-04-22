@@ -34,9 +34,9 @@ const Modalprodret = ({ obejet, listdbProducRetorn, setProductReturn }) => {
 
     /*******************************************/
     const onSubmit = (data) => {
-        console.log(data);
+        //console.log(data);
         data.total = parseFloat(data.mal_estado) + parseFloat(data.rechazados);
-        console.log(data);
+       //console.log(data);
         /***************Aqui toca enviar informacion*************/
         setProductReturn(data)
         /*======================================================*/

@@ -94,7 +94,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
 
         <div>
             <Button variant="primary" onClick={handleShow} className='styleBtnModal' style={{ fontSize: "19px", fontWeight: "500" }}>
-                <i class="fa-solid fa-hand-holding-dollar bx-fw"> </i>
+                <i className="fa-solid fa-hand-holding-dollar bx-fw"> </i>
                 <h5>GASTOS</h5>
             </Button>
 
@@ -123,7 +123,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
                                     <i className="fa-solid fa-car  bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} > Viaticos</Form.Label>
                                     <Form.Control className='form-expense' placeholder='$'
-                                        {...register('perdiem', { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register('perdiem', { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["perdiem"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["perdiem"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -133,7 +133,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
                                     <i className="fa-solid fa-utensils bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} > Alimentacion</Form.Label>
                                     <Form.Control className='form-expense' placeholder='$'
-                                        {...register('feeding', { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register('feeding', { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["feeding"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["feeding"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -143,7 +143,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
                                     <i className="fa-solid fa-gas-pump bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Combustible</Form.Label>
                                     <Form.Control className='form-expense' placeholder='$'
-                                        {...register("fuel", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                        {...register("fuel", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                     <p className={`error-message ${errors["fuel"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["fuel"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                 </Form.Group>
@@ -155,7 +155,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
                                             <i className="fa-solid fa-truck-fast bx-fw"></i>
                                             <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Gastos de Camion</Form.Label>
                                             <Form.Control placeholder='$' className='form-expense'
-                                                {...register("vehicle_expenses", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })} />
+                                                {...register("vehicle_expenses", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })} />
                                             <p className={`error-message ${errors["vehicle_expenses"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                             <p className={`error-message ${errors["vehicle_expenses"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
                                         </Form.Group>
@@ -168,7 +168,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
                                             <i className="fa-solid fa-caravan bx-fw"></i>
                                             <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Gastos de Moto</Form.Label>
                                             <Form.Control className='form-expense' placeholder='$'
-                                                {...register("motorcycle_expenses", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })}
+                                                {...register("motorcycle_expenses", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })}
                                             />
                                             <p className={`error-message ${errors["motorcycle_expenses"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                             <p className={`error-message ${errors["motorcycle_expenses"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
@@ -180,10 +180,10 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
                                     typeIsSelected ? "" :
                                         <Form.Group className="mb-3">
                                             {/* <i className="fa-solid fa-caravan bx-fw"></i> */}
-                                            <i class="fa-solid fa-sailboat bx-fw"></i>
+                                            <i className="fa-solid fa-sailboat bx-fw"></i>
                                             <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Gastos de Lancha</Form.Label>
                                             <Form.Control className='form-expense' placeholder='$'
-                                                {...register("boat_expenses", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })}
+                                                {...register("boat_expenses", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })}
                                             />
                                             <p className={`error-message ${errors["boat_expenses"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                             <p className={`error-message ${errors["boat_expenses"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>
@@ -195,7 +195,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                     <Form.Label style={{ fontSize: "12px", margin: "0.5rem 0" }} >Total de Gastos</Form.Label>
                                     <Form.Control value={total} placeholder='$' className='form-expense'
-                                        {...register("total", { required: true, onChange: onChange, pattern: /^\d*\.?\d+$/ })}
+                                        {...register("total", { required: true, onChange: onChange, pattern: /^[-]?\d*.?\d+$/ })}
                                     />
                                     <p className={`error-message ${errors["total"]?.type === "required" ? 'showError' : ''}`}>Campo requerido</p>
                                     <p className={`error-message ${errors["total"]?.type === "pattern" ? 'showError' : ''}`}>Solo se permite numeros</p>

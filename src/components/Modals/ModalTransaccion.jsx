@@ -45,6 +45,7 @@ const ModalTransaccion = ({ onHide, user, data, datatransac, show, transactionfu
     };
 
     const onSubmit = (data) => {
+        data.pay = parseFloat(data.pay)
         if (data.pay > itemSelect.balance || data.pay <= 0) {
             console.log("El pago es mayo o menor que el de la factura");
             Swal.fire({
@@ -55,18 +56,6 @@ const ModalTransaccion = ({ onHide, user, data, datatransac, show, transactionfu
                 timer: 1500
             })
         } else {
-            // console.log("abono o pago correcto");
-            // Swal.fire({
-            //     title: '¿Está seguro?',
-            //     text: "Deseas Guardar transaccion realizada",
-            //     icon: 'question',
-            //     showCancelButton: true,
-            //     confirmButtonColor: '#029C63',
-            //     cancelButtonColor: '#d33',
-            //     confirmButtonText: 'Si, Guardar!',
-            //     reverseButtons: true
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
             Swal.fire({
                 icon: 'success',
                 title: 'Guardado!',
@@ -78,18 +67,6 @@ const ModalTransaccion = ({ onHide, user, data, datatransac, show, transactionfu
             // console.log(data);
             reset(initialValueTransaccion)
             onHide();
-            // } else {
-            //     Swal.fire({
-            //         icon: 'warning',
-            //         title: 'Cancelado!',
-            //         text: 'Se a cancelado el registro',
-            //         showConfirmButton: false,
-            //         timer: 1000
-            //     })
-            //     reset(initialValueTransaccion)
-            //     onHide();
-            // }
-            // })
         }
     }
 
@@ -149,7 +126,7 @@ const ModalTransaccion = ({ onHide, user, data, datatransac, show, transactionfu
                             <Form.Label>Valor $</Form.Label>
 
                             <Form.Control style={{ width: "80px", borderColor: "red" }}
-                                {...register("pay", { required: true, pattern: /^\d*\.?\d+$/ })}
+                                {...register("pay", { required: true, pattern: /^[-]?\d*.?\d+$/ })}
                             />
 
 

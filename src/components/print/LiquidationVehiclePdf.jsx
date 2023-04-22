@@ -379,7 +379,7 @@ const LiquidationVehiclePdf = () => {
 
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <div>
-                                <i class="fa-solid fa-house-crack bx-fw"></i>
+                                <i className="fa-solid fa-house-crack bx-fw"></i>
                                 Dañados:
                             </div>
                             <div>
@@ -389,7 +389,7 @@ const LiquidationVehiclePdf = () => {
 
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <div>
-                                <i class="fa-solid fa-business-time bx-fw"></i>
+                                <i className="fa-solid fa-business-time bx-fw"></i>
                                 Caducados:
                             </div>
                             <div>
@@ -399,7 +399,7 @@ const LiquidationVehiclePdf = () => {
 
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <div>
-                                <i class="fa-solid fa-arrow-right-arrow-left bx-fw"></i>
+                                <i className="fa-solid fa-arrow-right-arrow-left bx-fw"></i>
                                 Retornados:
                             </div>
                             <div>

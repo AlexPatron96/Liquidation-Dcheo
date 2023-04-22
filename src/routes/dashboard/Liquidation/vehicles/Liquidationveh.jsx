@@ -19,6 +19,7 @@ import genCod from '../../../../utils/genCod';
 import { getVehiclesThunk } from '../../../../store/slices/vehicles.slice';
 import ProductReturn from '../../../../components/cards/ProductReturn';
 import DeliverCred from '../../../../components/cards/DeliverCred';
+import { postVehicleLiquidationthunk } from '../../../../store/slices/liquidationVehicle.slice';
 
 const Liquidationveh = () => {
 
@@ -37,7 +38,7 @@ const Liquidationveh = () => {
     const vehicle = useSelector(state => state.vehicles);
     const invoice = useSelector(state => state.invoice);
     const invoiceFilter = invoice.filter(inv => inv.balance !== 0);
-    console.log(invoiceFilter);
+    //console.log(invoiceFilter);
 
     const invoiceDia = useSelector(state => state.liquidation);
     const vehicleLiqui = vehicle?.filter((veh) => (veh.id === parseInt(idVehicleByLiqui)));
@@ -134,7 +135,7 @@ const Liquidationveh = () => {
 
     const handleAddInvoice = (e, item) => {
         const { checked, value, name } = e.target;
-        // console.log(item);
+        // //console.log(item);
         if (checked) {
             setSelectedInvoices([...selectedInvoices, item]);
             setCheckSelectedID(prevState => [...prevState, value]);
@@ -170,7 +171,7 @@ const Liquidationveh = () => {
 
             const validadorLiquidation = invoiceLiquidation.forEach(inv => {
                 if (inv.num_bill === item.num_bill) {
-                    console.log("encontre la factura");
+                    //console.log("encontre la factura");
                     const newInv = {
                         ...inv,
                         pago: item.pay
@@ -190,7 +191,7 @@ const Liquidationveh = () => {
 
             const validadorLiquidation = invoiceLiquidation.forEach(inv => {
                 if (inv.num_bill === item.num_bill) {
-                    console.log("encontre la factura");
+                    //console.log("encontre la factura");
                     const newInv = {
                         ...inv,
                         pago: item.pay
@@ -203,7 +204,7 @@ const Liquidationveh = () => {
                     sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
                 }
             });
-            console.log(invoiceLiquidation);
+            //console.log(invoiceLiquidation);
             setTransaction(prevState => [...prevState, item]);
             sessionStorage.setItem(codeTransacLocalStorage, JSON.stringify([...transaction, item]));
         }
@@ -227,10 +228,10 @@ const Liquidationveh = () => {
     const [principalDetail, setPrincipalDetail] = useState('');
     const [sellerDeliverCred, setSellerDeliverCred] = useState([]);
 
-    const totalProductRet = parseFloat(productReturn.total || 0);
-    const totalExpenses = parseFloat(expenses.total || 0);
-    const totalCash = parseFloat(cash.total || 0);
-    const totalDiscount = parseFloat(discount.total_other || 0);
+    const totalProductRet = parseFloat(productReturn?.total || 0);
+    const totalExpenses = parseFloat(expenses?.total || 0);
+    const totalCash = parseFloat(cash?.total || 0);
+    const totalDiscount = parseFloat(discount?.total_other || 0);
     const totalCredit = Object.values(sellerDeliverCred).reduce((acc, cur) => acc + parseFloat(cur?.total), 0);
     const totalSellerSales = Object.values(sellerDeliverCred).reduce((acc, cur) => acc + parseFloat(cur?.sales), 0);;
 
@@ -241,15 +242,15 @@ const Liquidationveh = () => {
 
     const detailGeneral = `
     DETALLE GENERAL: ${principalDetail} 
-    GASTOS: ${expenses.detail || "Falta Guardar"}.
-    DESCUENTOS: ${discount.detail || "Falta Guardar"}.
-    DINERO RECAUDADO: ${cash.detail || "Falta Guardar"}.
-    PRODUCTOS: ${productReturn.detail || "Falta Guardar"}`;
+    GASTOS: ${expenses?.detail || "Falta Guardar"}.
+    DESCUENTOS: ${discount?.detail || "Falta Guardar"}.
+    DINERO RECAUDADO: ${cash?.detail || "Falta Guardar"}.
+    PRODUCTOS: ${productReturn?.detail || "Falta Guardar"}`;
 
     const receptedproduct = (item, invo) => {
         setProductReturn(item);
         setProductReturnInvoice(invo);
-        console.log(invo);
+        //console.log(invo);
     };
 
     const receptedExpenses = (item) => {
@@ -268,7 +269,7 @@ const Liquidationveh = () => {
 
     const recepteddeliver = (item) => {
         setSellerDeliverCred(item);
-        console.log(item);
+        //console.log(item);
     };
     /************************************************************************/
     const loaderData = () => {
@@ -309,6 +310,7 @@ const Liquidationveh = () => {
         arraySendLiq.push(`${(date.CurrendateDay()).toUpperCase()} - ${date.Currendate()}`);
         arraySendLiq.push(`${vehicleLiqui[0]?.enrollment} - ${vehicleLiqui[0]?.driver}`);
         arraySendLiq.push(principal);
+
         return arraySendLiq;
     };
 
@@ -328,7 +330,7 @@ const Liquidationveh = () => {
         setTransaction([]);
 
         sessionStorage.removeItem(codeCheckLocalStorage);
-        sessionStorage.removeItem(codeCheckLocalStorage) + "view";
+        sessionStorage.removeItem(codeCheckLocalStorage + "view");
         sessionStorage.removeItem(codeDiscountLocalStorage);
         sessionStorage.removeItem(codeCashLocalStorage);
         sessionStorage.removeItem(codeExpeLocalStorage);
@@ -345,7 +347,7 @@ const Liquidationveh = () => {
     const liquidar = () => {
         let direccion = `/dashboard/liquidation/vehicle/print/${vehicleLiqui[0]?.id}`;
         const arraySendLiq = loaderData();
-        console.log(arraySendLiq);
+        //console.log(arraySendLiq);
         Swal.fire({
             title: '¿Está seguro?',
             text: `Se realizara la liquidacion del Vehiculo de entrega conducido por  ${vehicleLiqui[0]?.driver}, no se podra revertir los cambios despues de confirmar la liquidacion .`,
@@ -369,9 +371,9 @@ const Liquidationveh = () => {
                 } else {
                     sessionStorage.setItem("printVehicle" + vehicleLiqui[0]?.id, JSON.stringify(arraySendLiq));
 
-                    // deleteData();
+                    deleteData();
 
-                    dispatch(getVehicleLiquidationThunk(arraySendLiq));
+                    dispatch(postVehicleLiquidationthunk(arraySendLiq));
                     Swal.fire({
                         icon: 'success',
                         title: 'Guardado!',
@@ -398,13 +400,13 @@ const Liquidationveh = () => {
 
     const cancelLiquidation = () => {
         deleteData();
-        navigate('/dashboard/liquidation/sellers');
+        navigate('/dashboard');
     };
 
     function imprimirContenido() {
         let direccion = `/dashboard/liquidation/vehicle/print/${vehicleLiqui[0]?.id}`;
         const arraySendLiq = loaderData();
-        console.log(arraySendLiq);
+        //console.log(arraySendLiq);
         if (!(codLiq) || Object.keys(expenses).length === 0 || Object.keys(discount).length === 0 ||
             Object.keys(cash).length === 0 || Object.keys(productReturn).length === 0 || Object.keys(sellerDeliverCred).length === 0) {
             Swal.fire({
@@ -417,7 +419,7 @@ const Liquidationveh = () => {
         } else {
             sessionStorage.setItem("printVehicle" + vehicleLiqui[0]?.id, JSON.stringify(arraySendLiq));
             window.open(direccion, "", "height=600,width=1200,center");
-            
+
         }
     };
     /************************************************************************/

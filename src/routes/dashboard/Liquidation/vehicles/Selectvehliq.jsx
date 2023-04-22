@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import CardBtn from '../../../../components/CardBtn';
 import imgVehC from '../../../../img/conductor.png';
-import { setLiquidationSlice } from '../../../../store/slices/liquidation.slice';
+// import { setLiquidationSlice } from '../../../../store/slices/liquidation.slice';
 import { getVehiclesThunk } from '../../../../store/slices/vehicles.slice';
 import date from '../../../../utils/date';
 import Swal from 'sweetalert2';
@@ -37,12 +37,12 @@ const Selectliqveh = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 const filterInvoiceDia = invoice.filter((veh) => {
-                    return ((veh.client.route_day.day.day === currentdate.CurrendateDay("ayer")) &&
+                    return ((veh?.client?.route_day?.day?.day === currentdate.CurrendateDay("ayer")) &&
                         (veh.balance !== 0))
                 });
-                dispatch(setLiquidationSlice(filterInvoiceDia));
+                // dispatch(setLiquidationSlice(filterInvoiceDia));
                 sessionStorage.setItem(`invoLiq${data?.dni}-${data?.id}`, JSON.stringify(filterInvoiceDia))
-                navigate(`/dashboard/liquidation/vehicles/${data.id}`);
+                navigate(`/dashboard/liquidation/vehicles/${data?.id}`);
             }
         });
     };
