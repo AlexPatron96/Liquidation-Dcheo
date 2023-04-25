@@ -28,8 +28,8 @@ const Recepterinvoice = () => {
     const [selectedInvoices, setSelectedInvoices] = useState([]);
     const [checkSelectedID, setCheckSelectedID] = useState([]);
     const filterInvoiceDia = invoice.filter((sell) => {
-        return ((sell.seller.id === parseInt(sellerByLiqui)) &&
-            (sell.balance !== 0) && (sell.client.route_day.day.day === date.DatePastPresent('manana')))
+        return ((sell?.seller?.id === parseInt(sellerByLiqui)) &&
+            (sell?.balance !== 0) && (sell?.client?.route_day?.day?.day === date.DatePastPresent('manana')))
     });
 
     const [data, setData] = useState(filterInvoiceDia);

@@ -67,14 +67,20 @@ const Liquidationsell = () => {
         const cashSesionStorage = JSON.parse(sessionStorage.getItem(codeCashLocalStorage));
         const checkSesionStorage = JSON.parse(sessionStorage.getItem(codeCheckLocalStorage));
 
-        sesionLocal?.[0] ? null : sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(filterInvoiceDia));
         sesionLocal?.[0] ? setInvoiceLiquidation(sesionLocal) : setInvoiceLiquidation(invoiceLiquidation);
-        // sesionLocal?.[0] ? console.log('Sesion storage') : console.log("Backend");
+        sesionLocal?.[0] ? console.log('Sesion storage') : console.log("Backend");
+        // console.log(sesionLocal);
+        // console.log(invoiceLiquidation);
+        // console.log(sesionLocalTrans);
+
         checkSesionStorage?.[0] ? setCheckMoney(checkSesionStorage) : setCheckMoney([]);
         const filteredTransac = sesionLocalTrans?.filter(trans => {
-            return sesionLocal?.some(factura => factura?.num_bill === trans?.num_bill);
+            return (sesionLocal?.[0] ? sesionLocal?.some(factura => factura?.num_bill === trans?.num_bill) :
+                filterInvoiceDia?.some(factura => factura?.num_bill === trans?.num_bill));
         });
+
         sesionLocalTrans?.[0] ? setTransaction(filteredTransac) : setTransaction([]);
+        sesionLocal?.[0] ? null : sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(invoiceLiquidation));
 
         setCodLiq(genCod(`LIQ-${sellerLiqui[0]?.code}-`));
         cashSesionStorage ? setCash(cashSesionStorage) : setCash({});
@@ -84,6 +90,17 @@ const Liquidationsell = () => {
 
     };
 
+    const filterTrans = () => {
+        const sesionLocal = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
+        const sesionLocalTrans = JSON.parse(sessionStorage.getItem(codeTransacLocalStorage));
+
+        const filteredTransac = sesionLocalTrans?.filter(trans => {
+            return (sesionLocal?.[0] ? sesionLocal?.some(factura => factura?.num_bill === trans?.num_bill) :
+                filterInvoiceDia?.some(factura => factura?.num_bill === trans?.num_bill));
+        });
+
+        sesionLocalTrans?.[0] ? setTransaction(filteredTransac) : setTransaction([]);
+    };
 
     const [selectedInvoices, setSelectedInvoices] = useState([]);
     const [checkSelectedID, setCheckSelectedID] = useState([]);
@@ -137,6 +154,7 @@ const Liquidationsell = () => {
                 setInvoiceLiquidation(eliminador);
                 setSelectedInvoices([]);
                 setCheckSelectedID([]);
+                filterTrans();
             }
         })
     };
@@ -173,8 +191,11 @@ const Liquidationsell = () => {
                     setInvoiceLiquidation(prevState => prevState.map(prevInv => prevInv.num_bill === item.num_bill ? newInv : prevInv));
                     // Guardar en sessionStorage
                     const sessionInvoiceLiquidation = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
-                    const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
+                    const newSessionInvoiceLiquidation = (sessionInvoiceLiquidation?.[0] ?
+                        sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv) :
+                        invoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv));
                     sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
+                    console.log(newSessionInvoiceLiquidation);
                 }
             });
             setTransaction(eliminador);
@@ -194,7 +215,12 @@ const Liquidationsell = () => {
 
                     // Guardar en sessionStorage
                     const sessionInvoiceLiquidation = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
-                    const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
+
+                    // const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
+                    const newSessionInvoiceLiquidation = (sessionInvoiceLiquidation?.[0] ?
+                        sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv) :
+                        invoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv));
+                    console.log(newSessionInvoiceLiquidation);
                     sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
                 }
             });
@@ -225,6 +251,7 @@ const Liquidationsell = () => {
     const cuadre = (parseFloat(totalVendedor).toFixed(2) - ((sumTotalCobrado).toFixed(2) || 0)).toFixed(2);
     const balanceSeller = parseFloat(sellerLiqui?.[0]?.balance_sell?.total) + parseFloat(cuadre);
     // const cuadre = ( ((expenses?.total) || 0) - ((discount?.total_other) || 0) - ((cash?.total) || 0) - ((sumTotalCobrado).toFixed(2) || 0)).toFixed(2);
+
     const receptedExpenses = (item) => {
         setExpenses(item);
     };
@@ -262,6 +289,11 @@ const Liquidationsell = () => {
         principal.balance = cuadre;
         principal.isLiquidated = false;
 
+        let balance = {}
+        balance.id_balance = sellerLiqui?.[0]?.balance_sell?.id;
+        balance.value = cuadre;
+
+
         let arraySendLiq = [];
         arraySendLiq.push(checkMoney);
         arraySendLiq.push(discount);
@@ -275,6 +307,7 @@ const Liquidationsell = () => {
         arraySendLiq.push(`${sellerLiqui[0]?.code} - ${sellerLiqui[0]?.name}`)
         arraySendLiq.push(principal);
         arraySendLiq.push(checkMoneyView);
+        arraySendLiq.push(balance);
 
         return arraySendLiq;
     };
@@ -421,6 +454,7 @@ const Liquidationsell = () => {
                         }}>
                             ${parseFloat(balanceSeller).toFixed(2)}
                         </h4>
+                        <span style={{ fontSize: "10px" }}>Anterior: $ {parseFloat(sellerLiqui?.[0]?.balance_sell?.total).toFixed(2)}</span>
                     </div>
 
                 </div>

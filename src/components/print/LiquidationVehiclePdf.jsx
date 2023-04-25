@@ -153,7 +153,7 @@ const LiquidationVehiclePdf = () => {
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <span>Total:</span>
-                                <h5>${principal?.total_sent}</h5>
+                                <h5>$ {parseFloat(principal?.total_sent).toFixed(2)}</h5>
                             </div>
 
                         </div>

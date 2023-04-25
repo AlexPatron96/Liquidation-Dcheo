@@ -76,11 +76,15 @@ const Liquidationveh = () => {
         const prinDetailSesionStorage = JSON.parse(sessionStorage.getItem(codePrinDetailStorage));
         const productSesionStorage = JSON.parse(sessionStorage.getItem(codeProductLocalStorage));
 
-        sesionLocal?.[0] ? setInvoiceLiquidation(sesionLocal) : sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(filterInvoiceDia));
-        sesionLocal?.[0] ? setInvoiceLiquidation(sesionLocal) : setInvoiceLiquidation(invoiceLiquidation);
-
+        sesionLocal?.[0] ? setInvoiceLiquidation(sesionLocal) : setInvoiceLiquidation(filterInvoiceDia);
+        
         checkSesionStorage?.[0] ? setCheckMoney(checkSesionStorage) : setCheckMoney([]);
-        sesionLocalTrans?.[0] ? setTransaction(sesionLocalTrans) : setTransaction([]);
+        const filteredTransac = sesionLocalTrans?.filter(trans => {
+            return (sesionLocal?.[0] ? sesionLocal?.some(factura => factura?.num_bill === trans?.num_bill) :
+            filterInvoiceDia?.some(factura => factura?.num_bill === trans?.num_bill));
+        });
+        sesionLocalTrans?.[0] ? setTransaction(filteredTransac) : setTransaction([]);
+        sesionLocal?.[0] ? null : sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(filterInvoiceDia));
 
         setCodLiq(genCod(`LIQ-VEH${vehicleLiqui?.[0]?.id}-`));
         cashSesionStorage ? setCash(cashSesionStorage) : setCash({});
@@ -93,6 +97,17 @@ const Liquidationveh = () => {
 
     };
 
+    const filterTrans = () => {
+        const sesionLocal = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
+        const sesionLocalTrans = JSON.parse(sessionStorage.getItem(codeTransacLocalStorage));
+
+        const filteredTransac = sesionLocalTrans?.filter(trans => {
+            return (sesionLocal?.[0] ? sesionLocal?.some(factura => factura?.num_bill === trans?.num_bill) :
+                filterInvoiceDia?.some(factura => factura?.num_bill === trans?.num_bill));
+        });
+
+        sesionLocalTrans?.[0] ? setTransaction(filteredTransac) : setTransaction([]);
+    };
     const [selectedInvoices, setSelectedInvoices] = useState([]);
     const [checkSelectedID, setCheckSelectedID] = useState([]);
 
@@ -129,6 +144,7 @@ const Liquidationveh = () => {
                 setInvoiceLiquidation(eliminador);
                 setSelectedInvoices([]);
                 setCheckSelectedID([]);
+                filterTrans();
             }
         })
     };
@@ -179,7 +195,10 @@ const Liquidationveh = () => {
                     setInvoiceLiquidation(prevState => prevState.map(prevInv => prevInv.num_bill === item.num_bill ? newInv : prevInv));
                     // Guardar en sessionStorage
                     const sessionInvoiceLiquidation = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
-                    const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
+                    // const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
+                    const newSessionInvoiceLiquidation = (sessionInvoiceLiquidation?.[0] ?
+                        sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv) :
+                        invoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv));
                     sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
                 }
             });
@@ -200,7 +219,10 @@ const Liquidationveh = () => {
 
                     // Guardar en sessionStorage
                     const sessionInvoiceLiquidation = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
-                    const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
+                    // const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
+                    const newSessionInvoiceLiquidation = (sessionInvoiceLiquidation?.[0] ?
+                        sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv) :
+                        invoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv));
                     sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
                 }
             });
@@ -293,6 +315,10 @@ const Liquidationveh = () => {
         principal.detail = detailGeneral;
         principal.isLiquidated = false;
 
+        let balance = {}
+        balance.id_balance = vehicleLiqui?.[0]?.balance_veh?.id;
+        balance.value = cuadre;
+
         let arraySendLiq = [];
         arraySendLiq.push(checkMoney);
         arraySendLiq.push(discount);
@@ -310,6 +336,7 @@ const Liquidationveh = () => {
         arraySendLiq.push(`${(date.CurrendateDay()).toUpperCase()} - ${date.Currendate()}`);
         arraySendLiq.push(`${vehicleLiqui[0]?.enrollment} - ${vehicleLiqui[0]?.driver}`);
         arraySendLiq.push(principal);
+        arraySendLiq.push(balance);
 
         return arraySendLiq;
     };

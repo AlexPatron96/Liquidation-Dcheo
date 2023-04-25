@@ -21,7 +21,7 @@ export const setUserThunk = (data) => (dispatch) => {
     return axios.post(`${URL_BASE}/api/v1/auth/login`, data)
         .then((res) => {
             console.log(res);
-            dispatch(setUserLoged(res.data.data))
+            dispatch(setUserLoged(res.data.data));
             localStorage.setItem('userLiquidation', JSON.stringify(res.data.data))
             localStorage.setItem('tokenLiquidation', res.data.data.token)
             // localStorage.setItem('logged_in', JSON.stringify(true))
@@ -30,6 +30,7 @@ export const setUserThunk = (data) => (dispatch) => {
             console.log(err);
             if (err.response?.status === 404 || err.response?.status === 400) {
                 // dispatch(setErrorReceived(err.response?.data))
+                dispatch(setUserLoged(err?.response?.data));
             }
         })
         .finally(() => dispatch(setIsLoading(false)));
