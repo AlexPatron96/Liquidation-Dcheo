@@ -13,11 +13,7 @@ const Sidebar = () => {
     };
 
     const activeAcordeon = () => {
-        // if (displayAccordion) {
-        //     setDisplayAccordion(false);
-        // } else {
-        //     setDisplayAccordion(true);
-        // }
+      
         displayAccordion ? setDisplayAccordion(false) : setDisplayAccordion(true);
     };
 
@@ -44,7 +40,7 @@ const Sidebar = () => {
 
                         <div className={`accordion-content ${activeSidebar ? "activeText" : null}`}>
 
-                            <Link className='linkStyleSid' to={"/dashboard/closeoutsVeh"} onClick={active}>
+                            <Link className='linkStyleSid' to={"/dashboard/closeout/vehicle"} onClick={active}>
                                 <i className="fa-solid fa-route bx-fw"></i>
                                 Vehiculos
                             </Link>

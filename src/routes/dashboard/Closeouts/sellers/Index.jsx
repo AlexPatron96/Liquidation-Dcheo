@@ -3,6 +3,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import acceptLiqui from "../../../../img/accept.png"
 import preLiqui from "../../../../img/factura.png"
+import imgVen from "../../../../img/smart.png"
 import viewSelect from "../../../../img/viewSelect.png"
 import { Outlet } from 'react-router-dom';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -18,6 +19,11 @@ const Index = () => {
 
     return (
         <div>
+            
+            <div style={{ display: "flex", flexDirection: 'row', alignItems: "center", justifyContent: "center", paddingTop:"0.5rem"}}>
+                <h5>VENDEDORES  </h5>
+                <img className='bx-fade-right' src={imgVen} alt="" style={{ width: "50px", position: "relative", }} />
+            </div>
             <div className='card-btn' style={{ margin: "2em" }}>
                 <Row>
                     <Col>
@@ -52,9 +58,9 @@ const Index = () => {
 
             {
                 selectItem ? (
-                    <Outlet /> 
+                    <Outlet />
                 ) : (
-                    <div style={{display:"flex", flexDirection: "column", alignItems:"center"}}>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <h3>SELECCIONE LO QUE DESEA VISUALIZAR</h3>
                         <img src={viewSelect} alt="" style={{ width: "49%" }} />
                     </div>

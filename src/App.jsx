@@ -24,9 +24,11 @@ import Recepterinvoice from "./routes/dashboard/Liquidation/sellers/Recepterinvo
 import InvoiceGive from "./components/print/InvoiceGive";
 import IndexCloseout from "./routes/dashboard/Closeouts/Index"
 import IndexCloseoutSell from "./routes/dashboard/Closeouts/sellers/Index"
+import IndexCloseoutVeh from "./routes/dashboard/Closeouts/vehicles/Index"
 import LiquidationInfoSeller from "./routes/dashboard/Closeouts/sellers/LiquidationInfoSeller"
 import PreLiquidationSeller from "./routes/dashboard/Closeouts/sellers/PreLiquidationSeller"
 import LiquidationVehiclePdf from "./components/print/LiquidationVehiclePdf";
+import LiquidationInfoVeh from "./routes/dashboard/Closeouts/vehicles/LiquidationInfoVeh";
 function App() {
   const isLoading = useSelector(state => state.isLoading)
 
@@ -63,6 +65,10 @@ function App() {
               <Route path="/dashboard/closeout/seller" element={<IndexCloseoutSell />}>
                 <Route path="/dashboard/closeout/seller/liquidation-seller" element={<LiquidationInfoSeller />} />
                 <Route path="/dashboard/closeout/seller/pre-liquidation-seller" element={<PreLiquidationSeller />} />
+              </Route>
+              <Route path="/dashboard/closeout/vehicle" element={<IndexCloseoutVeh />}>
+                <Route path="/dashboard/closeout/vehicle/liquidation-vehicle" element={<LiquidationInfoVeh />} />
+                {/* <Route path="/dashboard/closeout/seller/pre-liquidation-seller" element={<PreLiquidationSeller />} /> */}
               </Route>
 
             </Route>

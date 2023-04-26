@@ -119,11 +119,11 @@ const Login = () => {
                             </Form.Group> */}
                             <div className='cont-btn-recoveryPass'>
                                 <button className='btn-recoveryPass'>
-                                    <Link to={"/auth/sigin"}>Olvido su Contraseña <i class="fa-solid fa-arrow-pointer bx-fw"></i></Link>
+                                    <Link to={"/auth/sigin"}>Olvido su Contraseña <i className="fa-solid fa-arrow-pointer bx-fw"></i></Link>
                                 </button>
                             </div>
-                            <div class="cont-btn-sigin">
-                                <button type='submit' class="btn-sigin">INGRESAR</button>
+                            <div className="cont-btn-sigin">
+                                <button type='submit' className="btn-sigin">INGRESAR</button>
                             </div>
                         </Form>
                     </div>

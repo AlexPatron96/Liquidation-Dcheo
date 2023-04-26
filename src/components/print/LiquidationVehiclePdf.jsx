@@ -15,6 +15,7 @@ const LiquidationVehiclePdf = () => {
 
     const seller = useSelector(state => state.seller);
     const data = JSON.parse(sessionStorage.getItem("printVehicle" + idVehicleByLiqui));
+    console.log(data);
     const checkMoney = data?.[8];
     const discount = data?.[1];
     const expenses = data?.[2];
@@ -44,15 +45,15 @@ const LiquidationVehiclePdf = () => {
                 </div>
 
                 <div style={{ border: "2px solid grey", width: "225px", height: "150px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
-                    <h5 style={{ fontSize: "50px", color: `${principal?.balance > 0 ? "#02B875" : principal?.balance < 0 ? "#C20114" : "#02B875"}` }}>
-                        {principal?.balance > 0 ?
+                    <h5 style={{ fontSize: "50px", color: `${principal?.balance_gen_veh > 0 ? "#02B875" : principal?.balance_gen_veh < 0 ? "#C20114" : "#02B875"}` }}>
+                        {principal?.balance_gen_veh > 0 ?
                             'A FAVOR' :
-                            principal?.balance < 0 ?
+                            principal?.balance_gen_veh < 0 ?
                                 'EN CONTRA' :
                                 'OK'}
                     </h5>
                     <h5>
-                        $ {principal?.balance}
+                        $ {principal?.balance_gen_veh}
                     </h5>
                 </div>
             </div>
@@ -79,7 +80,7 @@ const LiquidationVehiclePdf = () => {
                                         <td>{inv?.num_bill || inv?.id_bills_bill.num_bill}</td>
                                         <td>$ {(((inv?.total_bill)) || inv?.id_bills_bill.total_bill)}</td>
                                         <td>$ {((parseFloat(inv?.balance))) || inv?.id_bills_bill.balance}</td>
-                                        <td style={{ borderRight: `4px solid ${inv?.pago ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pago)) || 0}</td>
+                                        <td style={{ borderRight: `4px solid ${inv?.pago || inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pago)) || (parseFloat(inv?.pass))}</td>
                                     </tr>
                                 ))
                             }
