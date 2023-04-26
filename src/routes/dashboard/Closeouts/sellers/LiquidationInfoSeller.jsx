@@ -223,6 +223,7 @@ const LiquidationInfoSeller = () => {
                                                 <h4>Total Cobrado</h4>
                                                 <h5>$ {dataView?.total_collection_bills}</h5>
                                             </div>
+                                            
                                             <div>
                                                 <h4>Total Recibido</h4>
                                                 <h5>$ {dataView?.total_received}</h5>
