@@ -37,9 +37,12 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
 
     const search = (data) => {
         const filteredList = invoiceSaldo.filter((item) => (
-            (item.client.fullname).toLowerCase().includes(data.toLowerCase()) ||
-            (item.client.dni).includes(data) || (item.num_bill).includes(data) ||
-            (item.deliver_date).includes(data) || (item.seller.name).toLowerCase().includes(data.toLowerCase())
+            (item?.num_bill).toLowerCase().includes(data.toLowerCase()) ||
+            (item?.client?.fullname).toLowerCase().includes(data.toLowerCase()) ||
+            (item?.client?.route_day?.day?.day).toLowerCase().includes(data.toLowerCase()) ||
+            (item?.client?.route_day?.id_route_route?.external_code).toLowerCase().includes(data.toLowerCase()) ||
+            (item?.client?.dni).includes(data) || (item?.num_bill).includes(data) ||
+            (item?.deliver_date).includes(data) || (item?.seller?.name).toLowerCase().includes(data.toLowerCase())
         ));
         dispatch(setPagination(filteredList));
         //console.log(filteredList);

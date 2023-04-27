@@ -119,8 +119,12 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
                                     </div>
                                     <div>
                                         <span>BALANCE:</span>
-                                        <h6 style={{ fontSize: "25px", borderRadius: "8px", padding: "0.25rem" }} className={itemSelect?.balance_veh?.total > 0 ? "dateYellow" : (itemSelect?.balance_veh?.total < 0 ? "dateRed" : "dateGreen")} >
+                                        <h6 style={{ fontSize: "25px", borderRadius: "8px", padding: "0.25rem" }} className={parseFloat(itemSelect?.balance_veh?.total) > 0 ? "dateYellow" : (parseFloat(itemSelect?.balance_veh?.total) < 0 ? "dateRed" : "dateGreen")} >
                                             $ {parseFloat(itemSelect?.balance_veh?.total).toFixed(2)}
+
+                                            {
+                                                console.log(itemSelect?.balance_veh?.total)
+                                            }
                                         </h6>
                                         {/* <h6 style={{ fontSize: "25px" }}></h6> */}
                                     </div>
@@ -149,7 +153,7 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
                                     </div>
                                     <div>
                                         <span>BALANCE:</span>
-                                        <h6 style={{ fontSize: "25px", borderRadius: "8px", padding: "0.25rem" }} className={itemSelect?.balance_veh?.total > 0 ? "dateYellow" : (itemSelect?.balance_veh?.total < 0 ? "dateRed" : "dateGreen")} >
+                                        <h6 style={{ fontSize: "25px", borderRadius: "8px", padding: "0.25rem" }} className={itemSelect?.balance_sell?.total > 0 ? "dateYellow" : (itemSelect?.balance_sell?.total < 0 ? "dateRed" : "dateGreen")} >
                                             $ {parseFloat(itemSelect?.balance_sell?.total).toFixed(2)}
                                         </h6>
                                     </div>
@@ -242,7 +246,6 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
                                     <div style={{textAlign:"center"}}>
                                         <h6>Nota: <span style={{fontWeight:"100"}}>Despues de creado no se puede eliminar.</span></h6>
                                         
-
                                     </div>
                                 </div>
                             )
@@ -252,12 +255,8 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    {/*   <Button variant='info' onClick={editAction}>{editTransaction ? "Editar" : "Dejar de editar"}</Button>
-                    <Button onClick={onHide}>Cerrar</Button>
-                    <Button variant="warning" type="submit" onClick={resetPay}>
-                        Cancelar Pago
-                    </Button>*/}
-                    <Button variant="success" type="submit" onClick={() => { newCuadreBalance() }}>
+                    
+                    <Button variant="success" type="submit" onClick={() => { newCuadreBalance(); onHide(); }}>
                         <i className="fa-solid fa-dollar-sign bx-fw"></i>
                         Cuadre
                     </Button>

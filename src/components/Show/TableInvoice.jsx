@@ -64,9 +64,13 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
     const [searchCustomer, setSearchCustomer] = useState("");
     const [searchCustomerEdit, setSearchCustomerEdit] = useState("");
 
-    const filteredList = customer.filter((item) =>
-        item.fullname?.toLowerCase().includes(searchCustomer?.toLowerCase()) || (item.dni).includes(searchCustomer)
-    );
+    const filteredList = customer.filter((item) => {
+        if (editMode === true) {
+            return (item.fullname?.toLowerCase().includes(searchCustomerEdit?.toLowerCase()) || (item.dni).includes(searchCustomerEdit));
+        } else {
+            return (item.fullname?.toLowerCase().includes(searchCustomer?.toLowerCase()) || (item.dni).includes(searchCustomer));
+        }
+    });
 
     const handleSearchCustomerChange = (event) => {
         if (editMode === true) {
@@ -241,7 +245,8 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
     const handleSave = (id) => {
         Swal.fire({
             title: '¿Está seguro?',
-            text: `Estas editando al cliente ${editedData.fullname}, deseas guardar los cambios.`,
+            text: `Estas editando al cliente ${editedData?.client.fullname}, deseas guardar los cambios.
+            Debes de tomar en cuenta que al cambiar los datos modificarias la estructura de la factura.`,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#029C63',
@@ -251,7 +256,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
             if (result.isConfirmed) {
                 Swal.fire(
                     'Guardado!',
-                    `Se han actualizado los cambios en ${editedData.fullname}.`,
+                    `Se han actualizado los cambios en ${editedData?.client.fullname}.`,
                     'success'
                 )
                 delete editedData.client;
@@ -274,7 +279,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                     <tr>
                         <th style={{ width: "15px" }}>#</th>
                         <th style={{ width: "40px" }}>Id</th>
-                        <th style={{ width: "350px" }}>Cliente</th>
+                        <th style={{ width: "550px" }}>Cliente</th>
                         <th style={{ width: "200px" }}># Documento</th>
                         <th style={{ width: "135px" }}>Tipo Doc.</th>
                         <th style={{ width: "100px" }}>Estatus</th>
@@ -312,7 +317,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                                 <ListGroup multiple="" className={searchCustomer.length > 1 ? `listClient` : `none`} >
                                     {filteredList.slice(0, 10).map((item) => (
                                         <option className={searchCustomer.length > 1 ? `` : `none`}
-                                            key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }} >{item.id} - {item.fullname} </option>
+                                            key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }} >{(item?.route_day?.id_route_route?.external_code)} - {item.fullname} </option>
                                     ))}
                                 </ListGroup>
                                 {error?.id_client ? (<p style={{
@@ -482,26 +487,28 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                             }
 
                             {editingIndex === index ?
-                                (<td>
-                                    <input name="id_client" className="form-control form-control-sm" ref={inputRef}
-                                        style={{ fontSize: "13px", minWidth: "210px" }}
-                                        type="text" value={searchCustomerEdit}
-                                        onClick={() => setActiveListSearchCustomer(true)}
-                                        onChange={handleSearchCustomerChange} />
+                                (<div>
+                                    <td>
+                                        <input name="id_client" className="form-control form-control-sm" ref={inputRef}
+                                            style={{ fontSize: "13px", minWidth: "210px" }}
+                                            type="text" value={searchCustomerEdit}
+                                            onClick={() => setActiveListSearchCustomer(true)}
+                                            onChange={handleSearchCustomerChange} />
 
-                                    <ListGroup className={activeListSearchCustomer && searchCustomerEdit.length > 1 ? `listClient` : `none`} >
-                                        {filteredList.slice(0, 10).map((item) => (
-                                            <option className={activeListSearchCustomer ? `` : `none`}
-                                                key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }} >{item.id} - {item.fullname}</option>
-                                        ))}
-                                    </ListGroup>
+                                        <ListGroup className={searchCustomerEdit.length > 1 ? `listClient` : `none`} >
+                                            {filteredList.slice(0, 10).map((item) => (
+                                                <option className={searchCustomerEdit.length > 1 ? `` : `none`}
+                                                    key={item.id} value={item.id} onClick={() => { handleItemCustomerClick(item) }} >{item.id} - {item.fullname}</option>
+                                            ))}
+                                        </ListGroup>
 
-                                </td>)
+                                    </td>
+                                </div>)
                                 :
                                 (<td style={{ width: "250px", fontSize: "13px", cursor: "pointer" }}>
-                                    <span onClick={() => { setModalDetail(true); setDetailItemSelect(item);}}>
+                                    <span onClick={() => { setModalDetail(true); setDetailItemSelect(item); }}>
                                         <a href="#">
-                                            {(item.client?.fullname)?.substring(0, 20)}
+                                            {(item?.client?.fullname)?.substring(0, 20)}
                                         </a>
                                     </span>
                                 </td>)
@@ -531,14 +538,14 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                                 <td>
                                     <select name="isWhite"
                                         className="form-select h-25"
-                                        style={{ padding: "3px", width: "70px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
+                                        style={{ padding: "3px", width: "70px", backgroundPosition: "right 0.1rem center", fontSize: "12px" }}
                                         value={editedData.isWhite}
                                         onChange={handleInputChange}>
                                         <option value={false}>No</option>
                                         <option value={true}>Si</option>
                                     </select>
                                 </td>
-                                : <td>{item?.isWhite === true ? "Nota Venta" : "Factura"}</td>
+                                : <td style={{ fontSize: "13px" }}>{item?.isWhite === true ? "Nota Venta" : "Factura"}</td>
                             }
 
                             {editingIndex === index ?
@@ -606,7 +613,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                                             className="form-control form-control-sm"
                                             style={{ padding: "3px", width: "60px", fontSize: "13px" }}
                                             type="text"
-                                            name="total_bill"
+                                            name="balance"
                                             value={(editedData.balance)}
                                             onChange={handleInputChange}
                                         />
@@ -692,7 +699,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
 
                 </tbody>
             </Table>
-            <Modaldetailprod show={modalDetail} onHide={() => { setModalDetail(false) }}  data={detailItemSelect}/>
+            <Modaldetailprod show={modalDetail} onHide={() => { setModalDetail(false) }} data={detailItemSelect} />
         </div>
     );
 };

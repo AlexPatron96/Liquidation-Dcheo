@@ -43,7 +43,8 @@ const Invoice = () => {
     const invoice = useSelector(state => state.invoice);
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
-
+    
+    console.log(invoice);
     const [modalShow, setModalShow] = useState(false);
 
     const createdCustomer = () => {

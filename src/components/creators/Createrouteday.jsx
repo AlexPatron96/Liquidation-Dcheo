@@ -46,7 +46,9 @@ const Createrouteday = () => {
         "#F7C6B3",
         "#C1B1E1",
         "#D4B2D8",
-        "#D4B2D8"
+        "#FFFFCC",
+        "#B2FFFF",
+        "#FFE5B4"
     ];
 
     const onSubmitRouteDay = (data) => {

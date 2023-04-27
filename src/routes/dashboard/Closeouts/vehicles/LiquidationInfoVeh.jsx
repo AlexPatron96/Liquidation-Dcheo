@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import date from '../../../../utils/date';
@@ -6,9 +6,15 @@ import imgView from "../../../../img/imgView.png"
 import Swal from 'sweetalert2';
 import { getVehicleLiquidationThunk } from '../../../../store/slices/liquidationVehicle.slice';
 import { getSellerThunk } from '../../../../store/slices/seller.slice';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import axios from 'axios';
+
+
 
 const LiquidationInfoVeh = () => {
     const dispatch = useDispatch();
+
     useEffect(() => {
         LiquidionVehView[0] ? null : dispatch(getVehicleLiquidationThunk());
         dispatch(getSellerThunk());
@@ -103,6 +109,82 @@ const LiquidationInfoVeh = () => {
 
 
 
+
+
+
+    const sectionRef = useRef(null);
+
+    // const captureSection = (sectionRef) => {
+    //     html2canvas(sectionRef.current).then(canvas => {
+    //         const imgData = canvas.toDataURL();
+    //         const link = document.createElement('a');
+    //         link.download = 'captura.png';
+    //         link.href = imgData;
+    //         link.click();
+    //     });
+    // }
+
+    // const saveImageToServerAsPDF = (sectionRef, serverUrl) => {
+    //     if (!sectionRef.current) {
+    //         console.error('Elemento no válido');
+    //         return;
+    //     }
+    //     const scale = 3; // Factor de escala para aumentar la resolución de la imagen
+    //     const canvas = document.createElement('canvas');
+    //     canvas.width = sectionRef.current.offsetWidth * scale;
+    //     canvas.height = sectionRef.current.offsetHeight * scale;
+    //     canvas.style.width = `${sectionRef.current.offsetWidth}px`;
+    //     canvas.style.height = `${sectionRef.current.offsetHeight}px`;
+    //     const ctx = canvas.getContext('2d');
+    //     ctx.scale(scale, scale);
+    //     html2canvas(sectionRef.current, { canvas: canvas }).then(canvas => {
+    //         const imgData = canvas.toDataURL('image/jpeg', 1.0);
+    //         const pdf = new jsPDF({
+    //             orientation: 'landscape',
+    //             unit: 'px',
+    //             format: [canvas.width / scale, canvas.height / scale]
+    //         });
+    //         pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width / scale, canvas.height / scale);
+    //         pdf.save('captura.pdf');
+    //         const formData = new FormData();
+    //         formData.append('pdf', pdf.output('blob'), 'captura.pdf');
+    //         axios.post(serverUrl, formData)
+    //             .then(response => {
+    //                 console.log(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.error(error);
+    //             });
+    //     });
+    // }
+
+
+    const handleDownload = () => {
+        html2canvas(sectionRef.current, { scale: 2, useCORS: true })
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfImageHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                pdf.addImage(
+                    imgData,
+                    'PNG',
+                    0,
+                    0,
+                    pdfWidth,
+                    pdfImageHeight,
+                    undefined,
+                    'FAST'
+                );
+                pdf.save('download.pdf');
+            })
+            .catch((error) => console.log(error));
+    };
+
+
+
     return (
         <div>
             <h3 style={{ textAlign: "center" }}>
@@ -143,6 +225,10 @@ const LiquidationInfoVeh = () => {
                                                         <i className={`fa-solid ${(((dataView.settlement_code || `001`) === liq.settlement_code) && clickView === false) ? "fa-eye-slash" : "fa-eye"} bx-fw`}></i>
                                                     </Button>
                                                 </div>
+                                                <div>
+                                                    <button onClick={handleDownload}>Download PDF</button>
+
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -160,7 +246,7 @@ const LiquidationInfoVeh = () => {
                                 <img src={imgView} alt="image the view" style={{ width: "60%" }} />
                             </div>
                         ) : (
-                            <div>
+                            <div ref={sectionRef}>
                                 <h3 style={{ textAlign: "center" }}>LIQUIDACION</h3>
                                 <h4 style={{ textAlign: "center" }}>Distribuidora DCheo</h4>
                                 <h4>Liquidacion de Vehiculos de entrega</h4>
@@ -201,13 +287,16 @@ const LiquidationInfoVeh = () => {
                                             </thead>
                                             <tbody style={{ fontSize: "12px" }}>
                                                 {
+                                                    console.log(dataView)
+                                                }
+                                                {
                                                     dataView?.bills_liquidation_vehs?.map((inv, index) => (
                                                         <tr key={index}>
                                                             <td>{index + 1}</td>
-                                                            <td>{inv?.client?.fullname || inv?.id_bills_bill.client?.fullname}</td>
-                                                            <td>{inv?.num_bill || inv?.id_bills_bill.num_bill}</td>
-                                                            <td>$ {(((inv?.total_bill)) || inv?.id_bills_bill.total_bill)}</td>
-                                                            <td>$ {((parseFloat(inv?.balance))) || inv?.id_bills_bill.balance}</td>
+                                                            <td>{inv?.client?.fullname || inv?.id_bills_bill?.client?.fullname}</td>
+                                                            <td>{inv?.num_bill || inv?.id_bills_bill?.num_bill}</td>
+                                                            <td>$ {((inv?.total_bill) || inv?.id_bills_bill?.total_bill)}</td>
+                                                            <td>$ {parseFloat(inv?.saldo).toFixed(2)}</td>
                                                             <td style={{ borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pass)) || 0}</td>
                                                         </tr>
                                                     ))
@@ -364,14 +453,6 @@ const LiquidationInfoVeh = () => {
                                                     $ {(parseFloat(dataView?.cash_veh?.total).toFixed(2))}
                                                 </div>
                                             </div>
-
-                                            {/* <div style={{ display: "flex", flexDirection: "column" }}>
-                                            
-                                            Detalle:
-                                            <div style={{ border: "2px solid grey", height: "100px", fontSize: "11px" }}>
-                                                {cash?.detail}
-                                            </div>
-                                        </div> */}
 
                                         </div>
 
@@ -561,7 +642,7 @@ const LiquidationInfoVeh = () => {
                                     <div style={{ display: "flex", gap: "1.5rem" }}>
 
                                         <div style={{ marginTop: "1rem" }}>
-                                            <h4>
+                                            <h4 style={{ fontSize: "16px" }}>
                                                 Notas de Venta de P. R.
                                             </h4>
                                             <Table striped bordered hover size="sm" style={{ width: "400px", fontSize: "10px" }}>
@@ -571,7 +652,6 @@ const LiquidationInfoVeh = () => {
                                                         <th>Client</th>
                                                         <th>#Documento</th>
                                                         <th>Total</th>
-                                                        <th>Saldo</th>
                                                         <th>Vendedor</th>
                                                     </tr>
                                                 </thead>
@@ -581,11 +661,10 @@ const LiquidationInfoVeh = () => {
                                                         dataView?.products_returned?.bill_product_return?.map((inv, index) => (
                                                             <tr key={index}>
                                                                 <td>{index + 1}</td>
-                                                                <td>{inv?.id_client || inv?.id_bills_bill.client?.fullname || inv?.client?.fullname}</td>
-                                                                <td>{inv?.num_bill || inv?.id_bills_bill.num_bill}</td>
-                                                                <td>$ {(((inv?.total_bill)) || inv?.id_bills_bill.total_bill)}</td>
-                                                                <td>$ {((parseFloat(inv?.balance))) || inv?.id_bills_bill.balance}</td>
-                                                                <td style={{ borderRight: `4px solid var(--first-color) ` }}>{seller.filter(seller => seller.id === parseInt(inv?.id_seller))[0]?.name || inv?.seller?.name}</td>
+                                                                <td>{(inv?.id_client || inv?.id_bills_bill?.client?.full || inv?.client?.fullname)?.substring(0, 15)}</td>
+                                                                <td>{inv?.num_bill || inv?.id_bills_bill?.num_bill}</td>
+                                                                <td>$ {(((inv?.total_bill)) || inv?.id_bills_bill?.total_bill)}</td>
+                                                                <td style={{ borderRight: `4px solid var(--first-color) ` }}>{seller.filter(seller => seller.id === parseInt(inv?.id_seller))[0]?.name || inv?.id_bills_bill?.seller?.name}</td>
                                                             </tr>
                                                         ))
                                                     }
@@ -594,10 +673,10 @@ const LiquidationInfoVeh = () => {
                                         </div>
 
                                         <div style={{ marginTop: "1rem" }}>
-                                            <h4>
+                                            <h4 style={{ fontSize: "16px" }}>
                                                 Depositos o Cheques
                                             </h4>
-                                            <Table striped bordered hover size="sm" style={{ width: "400px", fontSize: "10px" }}>
+                                            <Table striped bordered hover size="sm" style={{ width: "400px", fontSize: "9px" }}>
                                                 <thead>
                                                     <tr>
                                                         <th>Cliente</th>
@@ -613,12 +692,12 @@ const LiquidationInfoVeh = () => {
                                                     {
                                                         dataView?.cash_veh?.check_cash_veh?.map((check, index) => (
                                                             <tr key={index}>
-                                                                <td>{check?.id_client}</td>
-                                                                <td>{check?.references}</td>
-                                                                <td>{check?.number_check}</td>
-                                                                <td>{check?.id_bank}</td>
-                                                                <td>{check?.type}</td>
-                                                                <td>${parseFloat(check?.total).toFixed(2)}</td>
+                                                                <td>{(check?.check_veh?.id_client_client?.fullname).substring(0, 15)}</td>
+                                                                <td>{check?.check_veh?.references}</td>
+                                                                <td>{check?.check_veh?.number_check}</td>
+                                                                <td>{check?.check_veh?.id_bank_bank?.name_bank}</td>
+                                                                <td>{check?.check_veh?.type}</td>
+                                                                <td>${parseFloat(check?.check_veh?.total).toFixed(2)}</td>
                                                             </tr>
                                                         ))
                                                     }
@@ -629,8 +708,8 @@ const LiquidationInfoVeh = () => {
                                     </div>
 
                                     <div>
-                                        <span style={{ whiteSpace: "pre-wrap" }}>
-                                            {dataView?.principal?.detail}
+                                        <span style={{ whiteSpace: "pre-wrap", fontSize: "12px" }}>
+                                            {dataView?.detail}
                                         </span>
                                     </div>
 

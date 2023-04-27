@@ -68,7 +68,7 @@ const Createdcustomer = (props) => {
     const sellerCode = (sellerRecept) => {
         console.log(sellers);
         const result = sellers.filter(sell => sell.id === parseInt(sellerRecept));
-        const datos = routeDay?.filter(rouD => rouD?.id_route_route?.external_code === result[0]?.code)
+        const datos = routeDay?.filter(rouD => (rouD?.id_route_route?.external_code)?.toString() === (result[0]?.code)?.toString());
         // return result[0]?.code
         return datos
     };

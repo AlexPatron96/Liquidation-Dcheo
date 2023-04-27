@@ -203,12 +203,12 @@ const LiquidationInfoSeller = () => {
                                                             <td>{inv?.id_bills_bill.client?.fullname}</td>
                                                             <td>{inv?.id_bills_bill?.num_bill}</td>
                                                             <td>$ {(inv?.id_bills_bill?.total_bill).toFixed(2)}</td>
-                                                            <td>$ {(inv?.id_bills_bill?.balance).toFixed(2)}</td>
+                                                            <td>$ {(inv?.saldo).toFixed(2)}</td>
                                                             {/* <td style={{ borderRight: `4px solid ${inv?.pago ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.id_bills_bill.transaction?.[0].pay)) || 0}</td> */}
-                                                            <td style={{ borderRight: `4px solid ${inv?.pago ? "#02B875" : "#FFCCE5"} ` }}>
+                                                            <td style={{ borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>
                                                                 $ {
-                                                                    parseFloat(inv?.pass).toFixed(2)
-                                                                    // encontrarArreglo(dataView?.settlement_code, inv?.id_bills_bill?.transactions)
+                                                                    (inv?.pass === null ? "0.00" : parseFloat(inv?.pass).toFixed(2))
+                                                                    // encontrarArreglo(dataView?. settlement_code, inv?.id_bills_bill?.transactions)
                                                                 }
                                                             </td>
                                                         </tr>
@@ -223,7 +223,6 @@ const LiquidationInfoSeller = () => {
                                                 <h4>Total Cobrado</h4>
                                                 <h5>$ {dataView?.total_collection_bills}</h5>
                                             </div>
-                                            
                                             <div>
                                                 <h4>Total Recibido</h4>
                                                 <h5>$ {dataView?.total_received}</h5>

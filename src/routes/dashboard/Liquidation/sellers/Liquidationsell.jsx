@@ -36,19 +36,22 @@ const Liquidationsell = () => {
     //console.log(sellerLiqui);
     const [codLiq, setCodLiq] = useState("")
 
+    // const filterInvoiceDia = invoice.filter((sell) => {
+    //     return ((sell.seller.id === parseInt(sellerByLiqui)) &&
+    //         (sell.balance !== 0))
+    // });
+    console.log(invoice);
+    console.log(date.CurrendateDay(" "));
+    console.log(sellerByLiqui);
     const filterInvoiceDia = invoice.filter((sell) => {
         return ((sell.seller.id === parseInt(sellerByLiqui)) &&
-            (sell.balance !== 0))
+            ((sell.client?.route_day.day.day).toLowerCase() === (date.CurrendateDay(" ")).toLowerCase()) &&
+            (sell.balance !== 0));
     });
 
     const [invoiceLiquidation, setInvoiceLiquidation] = useState(filterInvoiceDia);
     // //console.log(invoiceLiquidation);
 
-    // const filterInvoiceDia = invoice.filter((sell) => {
-    //     return ((sell.seller.id === parseInt(sellerByLiqui)) &&
-    //         (sell.client?.route_day.day.day === date.CurrendateDay(" ")) &&
-    //         (sell.balance !== 0))
-    // });
     const codeInvoLocalStorage = `invoLiq${sellerLiqui[0]?.code}-${sellerLiqui[0]?.id}`;
     const codeExpeLocalStorage = `expensesLiq${sellerLiqui[0]?.code}-${sellerLiqui[0]?.id}`;
     const codeDiscountLocalStorage = `discountLiq${sellerLiqui[0]?.code}-${sellerLiqui[0]?.id}`;
