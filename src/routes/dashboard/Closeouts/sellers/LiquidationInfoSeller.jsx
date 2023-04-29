@@ -155,20 +155,20 @@ const LiquidationInfoSeller = () => {
                                 <h3 style={{ textAlign: "center" }}>LIQUIDACION</h3>
                                 <h4 style={{ textAlign: "center" }}>Distribuidora DCheo</h4>
                                 <h4>Liquidacion de Vendedores</h4>
-                                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                                    <div>
-                                        <h5>Usuario: <span style={{ color: "#02B875" }}> {dataView?.user?.fullname} </span> </h5>
-                                        <h5>Fecha de liquidacion: <span style={{ color: "#02B875" }}>{date.convertirFechaUTCaLocal(dataView?.createdAt)} </span> </h5>
-                                        <h5>Se esta liquidando al Vendedor: <span style={{ color: "#02B875" }}> {dataView?.seller.code} - {dataView?.seller?.name}</span>  </h5>
-                                        <h5>Codigo de Liquidacion: <span style={{ color: "#02B875" }}> {dataView?.settlement_code}</span>  </h5>
+                                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", fontSize: "12px" }}>
+                                    <div >
+                                        <h5 style={{ fontSize: "16px" }}>Usuario: <span style={{ fontSize: "16px", color: "#02B875" }}> {dataView?.user?.fullname} </span> </h5>
+                                        <h5 style={{ fontSize: "16px" }}>Fecha de liquidacion: <span style={{ color: "#02B875" }}>{date.convertirFechaUTCaLocal(dataView?.createdAt)} </span> </h5>
+                                        <h5 style={{ fontSize: "16px" }}>Se esta liquidando al Vendedor: <span style={{ color: "#02B875" }}> {dataView?.seller.code} - {dataView?.seller?.name}</span>  </h5>
+                                        <h5 style={{ fontSize: "16px" }}>Codigo de Liquidacion: <span style={{ color: "#02B875" }}> {dataView?.settlement_code}</span>  </h5>
                                     </div>
 
                                     <div style={{
-                                        border: "2px solid grey", width: "225px",
-                                        height: "150px", display: "flex", flexDirection: "column",
+                                        border: "2px solid grey", width: "200px",
+                                        height: "125px", display: "flex", flexDirection: "column",
                                         justifyContent: "center", alignItems: "center", textAlign: "center"
                                     }}>
-                                        <h5 style={{ fontSize: "50px", color: `${dataView?.balance_gen_sell > 0 ? "#02B875" : dataView?.balance_gen_sell < 0 ? "#C20114" : "#02B875"}` }}>
+                                        <h5 style={{ fontSize: "40px", color: `${dataView?.balance_gen_sell > 0 ? "#02B875" : dataView?.balance_gen_sell < 0 ? "#C20114" : "#02B875"}` }}>
                                             {dataView?.balance_gen_sell > 0 ?
                                                 'A FAVOR' :
                                                 dataView?.balance_gen_sell < 0 ?
@@ -184,15 +184,16 @@ const LiquidationInfoSeller = () => {
                                 <div id="contenido-a-imprimir" style={{ margin: "1rem" }}>
                                     <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
 
-                                        <Table striped bordered hover size='sm' style={{ width: "1000px" }}>
+                                        <Table striped bordered hover size='sm' style={{ width: "1000px", fontSize: "11px" }}>
                                             <thead>
-                                                <tr>
+                                                <tr style={{ textAlign: "center" }}>
                                                     <th>#</th>
                                                     <th>Cliente</th>
                                                     <th># Documento</th>
                                                     <th>Total</th>
-                                                    <th>Saldo</th>
+                                                    <th>Saldo Anterior</th>
                                                     <th>Abono</th>
+                                                    <th>Saldo Actual</th>
                                                 </tr>
                                             </thead>
                                             <tbody style={{ fontSize: "12px" }}>
@@ -200,15 +201,21 @@ const LiquidationInfoSeller = () => {
                                                     dataView?.bills_liquidation_sellers.map((inv, index) => (
                                                         <tr key={index}>
                                                             <td>{index + 1}</td>
-                                                            <td>{inv?.id_bills_bill.client?.fullname}</td>
-                                                            <td>{inv?.id_bills_bill?.num_bill}</td>
-                                                            <td>$ {(inv?.id_bills_bill?.total_bill).toFixed(2)}</td>
-                                                            <td>$ {(inv?.saldo).toFixed(2)}</td>
+                                                            <td style={{ fontSize: "10px" }}>{inv?.id_bills_bill.client?.fullname}</td>
+                                                            <td style={{ fontSize: "10px" }}>{inv?.id_bills_bill?.num_bill}</td>
+                                                            <td style={{ fontSize: "10px" }}>$ {(inv?.id_bills_bill?.total_bill).toFixed(2)}</td>
+                                                            <td style={{ fontSize: "10px" }}>$ {(inv?.saldo)?.toFixed(2)}</td>
+                                                            <td style={{ fontSize: "10px" }}>$ {(inv?.pass === null ? "0.00" : inv?.pass?.toFixed(2))}</td>
                                                             {/* <td style={{ borderRight: `4px solid ${inv?.pago ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.id_bills_bill.transaction?.[0].pay)) || 0}</td> */}
-                                                            <td style={{ borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>
+                                                            {/* <td style={{ borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>
                                                                 $ {
                                                                     (inv?.pass === null ? "0.00" : parseFloat(inv?.pass).toFixed(2))
                                                                     // encontrarArreglo(dataView?. settlement_code, inv?.id_bills_bill?.transactions)
+                                                                }
+                                                            </td> */}
+                                                            <td style={{ borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>
+                                                                $ {
+                                                                    (inv?.pass === null ? "0.00" : parseFloat(inv?.saldo) - parseFloat(inv?.pass))
                                                                 }
                                                             </td>
                                                         </tr>
@@ -220,17 +227,17 @@ const LiquidationInfoSeller = () => {
 
                                         <div style={{ textAlign: "center" }}>
                                             <div>
-                                                <h4>Total Cobrado</h4>
-                                                <h5>$ {dataView?.total_collection_bills}</h5>
+                                                <h4 style={{ fontSize: "18px" }}>Total Cobrado</h4>
+                                                <h5 style={{ fontSize: "16px" }}>$ {dataView?.total_collection_bills}</h5>
                                             </div>
                                             <div>
-                                                <h4>Total Recibido</h4>
-                                                <h5>$ {dataView?.total_received}</h5>
-                                            </div>
+                                                <h4 style={{ fontSize: "18px" }}>Total Recibido</h4>
+                                                <h5 style={{ fontSize: "16px" }}>$ {dataView?.total_received}</h5>
+                                            </div >
                                             <div>
-                                                <h4>Cuadre</h4>
-                                                <h5>${dataView?.balance}</h5>
-                                                <span style={{ color: `${dataView?.balance > 0 ? "#FFAC42" : dataView?.balance < 0 ? "#C20114" : "#02B875"}` }}>
+                                                <h4 style={{ fontSize: "18px" }}>Cuadre</h4>
+                                                <h5 style={{ fontSize: "16px" }}>${dataView?.balance}</h5>
+                                                <span style={{ fontSize: "12px", color: `${dataView?.balance > 0 ? "#FFAC42" : dataView?.balance < 0 ? "#C20114" : "#02B875"}` }}>
                                                     {dataView?.balance > 0 ?
                                                         `El Vendedor ${dataView.seller.name} tiene un saldo a Favor` :
                                                         dataView?.balance < 0 ?
@@ -245,7 +252,7 @@ const LiquidationInfoSeller = () => {
                                     <div style={{ display: "flex", flexDirection: "row", gap: "3rem" }}>
 
                                         <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                                            <h4>Dinero</h4>
+                                            <h4 style={{ fontSize: "20px" }}>Dinero</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <div>
@@ -317,7 +324,7 @@ const LiquidationInfoSeller = () => {
                                         </div>
 
                                         <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                                            <h4>Gastos</h4>
+                                            <h4 style={{ fontSize: "20px" }}>Gastos</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <div>
@@ -380,7 +387,7 @@ const LiquidationInfoSeller = () => {
                                         </div>
 
                                         <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                                            <h4>Descuentos</h4>
+                                            <h4 style={{ fontSize: "20px" }}>Descuentos</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <div>
@@ -440,12 +447,12 @@ const LiquidationInfoSeller = () => {
                                         <Table striped bordered size='sm' hover style={{ width: "100%" }}>
                                             <thead>
                                                 <tr>
-                                                    <th>Cliente</th>
-                                                    <th>Receptor</th>
-                                                    <th># Doc</th>
-                                                    <th>Banco</th>
-                                                    <th>Tipo Doc</th>
-                                                    <th>Total</th>
+                                                    <th style={{fontSize:"12px"}}>Cliente</th>
+                                                    <th style={{fontSize:"12px"}}>Receptor</th>
+                                                    <th style={{fontSize:"12px"}}># Doc</th>
+                                                    <th style={{fontSize:"12px"}}>Banco</th>
+                                                    <th style={{fontSize:"12px"}}>Tipo Doc</th>
+                                                    <th style={{fontSize:"12px"}}>Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody style={{ fontSize: "12px" }}>
@@ -453,12 +460,12 @@ const LiquidationInfoSeller = () => {
                                                 {
                                                     dataView?.cash_sell?.[0]?.check_cash_sell?.map((check, index) => (
                                                         <tr key={index}>
-                                                            <td>{check?.check_sell?.id_client_client?.fullname}</td>
-                                                            <td>{check?.check_sell?.references}</td>
-                                                            <td>{check?.check_sell?.number_check}</td>
-                                                            <td>{check?.check_sell?.id_bank_bank?.name_bank}</td>
-                                                            <td>{check?.check_sell?.type}</td>
-                                                            <td>$ {(parseFloat(check?.check_sell?.total)).toFixed(2)}</td>
+                                                            <td style={{fontSize:"10px"}}>{check?.check_sell?.id_client_client?.fullname}</td>
+                                                            <td style={{fontSize:"10px"}}>{check?.check_sell?.references}</td>
+                                                            <td style={{fontSize:"10px"}}>{check?.check_sell?.number_check}</td>
+                                                            <td style={{fontSize:"10px"}}>{check?.check_sell?.id_bank_bank?.name_bank}</td>
+                                                            <td style={{fontSize:"10px"}}>{check?.check_sell?.type}</td>
+                                                            <td style={{fontSize:"10px"}}>$ {(parseFloat(check?.check_sell?.total)).toFixed(2)}</td>
                                                         </tr>
                                                     ))
                                                 }

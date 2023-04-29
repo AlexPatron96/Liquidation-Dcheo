@@ -225,10 +225,10 @@ const LiquidationInfoVeh = () => {
                                                         <i className={`fa-solid ${(((dataView.settlement_code || `001`) === liq.settlement_code) && clickView === false) ? "fa-eye-slash" : "fa-eye"} bx-fw`}></i>
                                                     </Button>
                                                 </div>
-                                                <div>
+                                                {/* <div>
                                                     <button onClick={handleDownload}>Download PDF</button>
 
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </td>
                                     </tr>
@@ -281,8 +281,9 @@ const LiquidationInfoVeh = () => {
                                                     <th>Cliente</th>
                                                     <th># Documento</th>
                                                     <th>Total</th>
-                                                    <th>Saldo</th>
+                                                    <th>Saldo Anterior</th>
                                                     <th>Abono</th>
+                                                    <th>Saldo Nuevo</th>
                                                 </tr>
                                             </thead>
                                             <tbody style={{ fontSize: "12px" }}>
@@ -296,8 +297,9 @@ const LiquidationInfoVeh = () => {
                                                             <td>{inv?.client?.fullname || inv?.id_bills_bill?.client?.fullname}</td>
                                                             <td>{inv?.num_bill || inv?.id_bills_bill?.num_bill}</td>
                                                             <td>$ {((inv?.total_bill) || inv?.id_bills_bill?.total_bill)}</td>
-                                                            <td>$ {parseFloat(inv?.saldo).toFixed(2)}</td>
-                                                            <td style={{ borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pass)) || 0}</td>
+                                                            <td style={{ textAlign: "center" }}>$ {parseFloat(inv?.saldo).toFixed(2)}</td>
+                                                            <td style={{ textAlign: "center", borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pass)) || 0}</td>
+                                                            <td style={{ textAlign: "center", borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pass)) || 0}</td>
                                                         </tr>
                                                     ))
                                                 }
@@ -391,11 +393,11 @@ const LiquidationInfoVeh = () => {
 
                                     <div style={{ display: "flex", flexDirection: "row", gap: "1.75rem" }}>
 
-                                        <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                                            <h4>Dinero</h4>
+                                        <div style={{ width: "250px", height: "250px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                            <h4 style={{ fontSize: "20px" }}>Dinero</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-barcode bx-fw"></i>
                                                     Cod:
                                                 </div>
@@ -405,62 +407,62 @@ const LiquidationInfoVeh = () => {
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-coins bx-fw"></i>
                                                     Monedas:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.cash_veh?.coin).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-regular fa-money-bill-1 bx-fw"></i>
                                                     Billetes:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.cash_veh?.money).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-receipt bx-fw"></i>
                                                     Depositos:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.cash_veh?.deposits_money).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-money-check bx-fw"></i>
                                                     Cheques:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.cash_veh?.check_money).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                                     Total:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.cash_veh?.total).toFixed(2))}
                                                 </div>
                                             </div>
 
                                         </div>
 
-                                        <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                                            <h4>Gastos</h4>
+                                        <div style={{ width: "250px", height: "250px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                            <h4 style={{ fontSize: "20px" }}>Gastos</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-barcode bx-fw"></i>
                                                     Cod:
                                                 </div>
@@ -470,41 +472,41 @@ const LiquidationInfoVeh = () => {
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-utensils bx-fw"></i>
                                                     Alimentos:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.expense_veh?.feeding).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-car  bx-fw"></i>
                                                     Viaticos:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.expense_veh?.perdiem).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-gas-pump bx-fw"></i>
                                                     Combustible:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.expense_veh?.fuel).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                                     Total:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.expense_veh?.total).toFixed(2))}
                                                 </div>
                                             </div>
@@ -519,11 +521,11 @@ const LiquidationInfoVeh = () => {
 
                                         </div>
 
-                                        <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                                            <h4>Descuentos</h4>
+                                        <div style={{ width: "250px", height: "250px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                            <h4 style={{ fontSize: "20px" }}>Descuentos</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-barcode bx-fw"></i>
                                                     Cod:
                                                 </div>
@@ -533,31 +535,31 @@ const LiquidationInfoVeh = () => {
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-tags bx-fw"></i>
                                                     Descuentos:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.discounts_veh?.total_discount).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-retweet bx-fw"></i>
                                                     Retenciones:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.discounts_veh?.retention).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-brands fa-stack-overflow bx-fw"></i>
                                                     Total:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.discounts_veh?.total_other).toFixed(2))}
                                                 </div>
                                             </div>
@@ -572,11 +574,11 @@ const LiquidationInfoVeh = () => {
 
                                         </div>
 
-                                        <div style={{ width: "250px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                                            <h4>Productos</h4>
+                                        <div style={{ width: "250px", height: "250px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                            <h4 style={{ fontSize: "20px" }}>Productos</h4>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-barcode bx-fw"></i>
                                                     Cod:
                                                 </div>
@@ -586,31 +588,31 @@ const LiquidationInfoVeh = () => {
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-house-crack bx-fw"></i>
                                                     Dañados:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.products_returned?.disrepair).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-business-time bx-fw"></i>
                                                     Caducados:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.products_returned?.expired).toFixed(2))}
                                                 </div>
                                             </div>
 
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     <i className="fa-solid fa-arrow-right-arrow-left bx-fw"></i>
                                                     Retornados:
                                                 </div>
-                                                <div>
+                                                <div style={{ fontSize: "12px" }}>
                                                     $ {(parseFloat(dataView?.products_returned?.rejected).toFixed(2))}
                                                 </div>
                                             </div>

@@ -25,6 +25,8 @@ const CreateSeller = (props) => {
 
 
     const onSubmit = (data) => {
+        data.name = (data.name).toUpperCase();
+        data.code = (data.code).toUpperCase();
 
         Swal.fire({
             title: '¿Está seguro?',

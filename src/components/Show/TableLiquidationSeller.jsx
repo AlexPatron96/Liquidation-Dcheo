@@ -8,13 +8,16 @@ import { useParams } from "react-router-dom";
 
 
 
-const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransaccionPay , data }) => {
+const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransaccionPay, data }) => {
 
 
     const dispatch = useDispatch();
     const { id: sellerByLiqui } = useParams();
     const invoice = useSelector(state => state.invoice);
-   
+    const vehicles = useSelector(state => state.vehicles);
+    const vehActive = vehicles.filter(veh => veh?.isActive === true);
+
+
     return (
         <div className="tables-view">
             <Table striped bordered hover responsive style={{ width: "1400px", fontSize: "12px", textAlign: "center" }}>
@@ -32,8 +35,9 @@ const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransa
                         <th style={{ width: "100px" }}>Saldo</th>
                         <th style={{ width: "100px" }}>Detalle</th>
                         <th style={{ width: "150px" }}>Vendedor</th>
-                        <th style={{ width: "125px", background: "#D3E0FF" }}>Pago o Abono</th>
+                        <th style={{ width: "125px", background: "#D3E0FF" }}>Pago</th>
                         <th style={{ width: "125px", background: "#D3E0FF" }}>Accion</th>
+                        <th style={{ width: "125px", background: "#D3E0FF" }}>Cobro Vehiculo</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -103,6 +107,15 @@ const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransa
                                 </button>
                             </td>
 
+                            <td>
+                                <select style={{width:"90px"}} name="" id="">
+                                    {
+                                        vehActive?.map((veh, index) => (
+                                            <option key={index} value={veh?.id} >{(veh?.driver)?.substring(0, 20)}</option>
+                                        ))
+                                    }
+                                </select>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

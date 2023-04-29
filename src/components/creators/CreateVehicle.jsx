@@ -24,7 +24,8 @@ const CreateVehicle = (props) => {
 
 
     const onSubmit = (data) => {
-
+        data.enrollment = (data.enrollment).toUpperCase();
+        data.driver = (data.driver).toUpperCase();
         Swal.fire({
             title: '¿Está seguro?',
             text: "Vas a crear un nuevo Vehiculo de Entrega",

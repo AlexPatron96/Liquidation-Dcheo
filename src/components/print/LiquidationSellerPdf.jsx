@@ -36,20 +36,20 @@ const LiquidationSellerPdf = () => {
         window.print();
     }, [])
 
-    const generatePDF = () => {
-        const input = document.getElementById('component-to-pdf');
-        html2canvas(input)
-            .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF({
-                    orientation: 'l',
-                    unit: 'cm',
-                    format: 'a4'
-                });
-                pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.width, pdf.internal.pageSize.height);
-                pdf.save('component.pdf');
-            });
-    };
+    // const generatePDF = () => {
+    //     const input = document.getElementById('component-to-pdf');
+    //     html2canvas(input)
+    //         .then((canvas) => {
+    //             const imgData = canvas.toDataURL('image/png');
+    //             const pdf = new jsPDF({
+    //                 orientation: 'l',
+    //                 unit: 'cm',
+    //                 format: 'a4'
+    //             });
+    //             pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.width, pdf.internal.pageSize.height);
+    //             pdf.save('component.pdf');
+    //         });
+    // };
 
     const sectionRef = useRef(null);
 

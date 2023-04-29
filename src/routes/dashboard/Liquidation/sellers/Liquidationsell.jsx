@@ -16,6 +16,7 @@ import { postSellerLiquidationthunk } from '../../../../store/slices/liquidation
 import { getSellerThunk } from '../../../../store/slices/seller.slice';
 import date from "../../../../utils/date"
 import genCod from '../../../../utils/genCod';
+import { getVehiclesThunk } from '../../../../store/slices/vehicles.slice';
 
 const Liquidationsell = () => {
 
@@ -25,12 +26,15 @@ const Liquidationsell = () => {
 
     useEffect(() => {
         seller[0] ? null : dispatch(getSellerThunk());
+        vehicles[0] ? null : dispatch(getVehiclesThunk());
         invoice[0] ? null : dispatch(getInvoiceThunk());
     }, [])
+
 
     const userLiquidador = useSelector(state => state.userLoged)
     const seller = useSelector(state => state.seller)
     const invoice = useSelector(state => state.invoice)
+    const vehicles = useSelector(state => state.vehicles)
     const invoiceDia = useSelector(state => state.liquidation);
     const sellerLiqui = seller.filter((sell) => (sell.id === parseInt(sellerByLiqui)));
     //console.log(sellerLiqui);

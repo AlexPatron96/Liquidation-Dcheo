@@ -82,17 +82,21 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
     };
 
     const handleItemCustomerClick = (item) => {
-        const { id, fullname } = item;
+        console.log(item);
+        const { id, fullname, seller } = item;
+        const { id: idSeller } = seller;
         if (editMode === true) {
             setEditedData(prevState => ({
                 ...prevState,
-                id_client: id
+                id_client: id,
+                id_seller: idSeller
             }));
             setSearchCustomerEdit(`${id} - ${fullname}`);
         } else {
             setFormData(prevState => ({
                 ...prevState,
-                id_client: id
+                id_client: id,
+                id_seller: idSeller
             }));
             setSearchCustomer(`${id} - ${fullname}`);
         }
@@ -274,7 +278,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
     return (
 
         <div className='tables-view'>
-            <Table striped bordered hover responsive style={{ width: "1280px" }}>
+            <Table striped bordered hover size="sm" responsive style={{ width: "1280px" }}>
                 <thead >
                     <tr>
                         <th style={{ width: "15px" }}>#</th>
@@ -466,9 +470,10 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
 
 
                     {data?.map((item, index) => (
-                        <tr key={index} style={{ height: "50px" }}>
+                        <tr key={index} style={{ height: "40px" }}>
 
                             <td style={{ width: "15px", fontSize: "10px" }}>{index + 1}</td>
+
                             {editingIndex === index ?
                                 (<td style={{ textAlign: "center" }}>
                                     <input
@@ -487,7 +492,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                             }
 
                             {editingIndex === index ?
-                                (<div>
+                                (
                                     <td>
                                         <input name="id_client" className="form-control form-control-sm" ref={inputRef}
                                             style={{ fontSize: "13px", minWidth: "210px" }}
@@ -503,7 +508,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                                         </ListGroup>
 
                                     </td>
-                                </div>)
+                                )
                                 :
                                 (<td style={{ width: "250px", fontSize: "13px", cursor: "pointer" }}>
                                     <span onClick={() => { setModalDetail(true); setDetailItemSelect(item); }}>

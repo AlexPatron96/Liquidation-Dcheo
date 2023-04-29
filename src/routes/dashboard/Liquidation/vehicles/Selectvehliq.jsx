@@ -22,6 +22,7 @@ const Selectliqveh = () => {
 
     const vehicles = useSelector(state => state.vehicles);
     const invoice = useSelector(state => state.invoice);
+    const vehActive = vehicles.filter(veh => veh?.isActive === true);
 
     const identificarDia = date.CurrendateDay();
 
@@ -55,7 +56,7 @@ const Selectliqveh = () => {
                     <Row>
 
                         {
-                            vehicles?.map((veh, index) => (
+                            vehActive?.map((veh, index) => (
                                 <Col key={index} >
 
                                     {/* to={"/dashboard/do-vehicleliquidation"} to={`/dashboard/liquidation/vehicles/${veh.id}`}  */}
