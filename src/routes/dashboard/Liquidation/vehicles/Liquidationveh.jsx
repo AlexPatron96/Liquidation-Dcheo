@@ -470,9 +470,9 @@ const Liquidationveh = () => {
 
     return (
         <div>
-            <div id="contenido-a-imprimir" style={{margin:"1.5rem 0" }}>
+            <div id="contenido-a-imprimir" style={{ margin: "1.5rem 0" }}>
 
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0 2rem" }}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0 2rem", flexWrap: "wrap" }}>
                     <div>
                         <h4>Liquidacion de Vehiculos de Entrega</h4>
                         <h5>Usuario: <span style={{ color: "#02B875" }}> {userLiquidador.username} </span> </h5>
@@ -512,10 +512,10 @@ const Liquidationveh = () => {
                     </div>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "row", width: "1000px", margin: "0 auto", justifyContent: "space-between" }}>
+                <div className='cont-totales'>
 
                     <div>
-                        <h5>Total Descuentos: $   {(discount?.total_other) ? (discount?.total_other) : (0).toFixed(2)}</h5>
+                        <h5 style={{width:"300px"}}>Total Descuentos: $   {(discount?.total_other) ? (discount?.total_other) : (0).toFixed(2)}</h5>
                         <h5>Total Productos: $   {(productReturn?.total) ? (productReturn?.total) : (0).toFixed(2)}</h5>
                         <h5>Total Gastos: $   {(expenses?.total) ? (expenses?.total) : (0).toFixed(2)}</h5>
                         <h5>Total Dinero: $       {(cash?.total) ? (cash?.total) : (0).toFixed(2)}</h5>
@@ -540,7 +540,7 @@ const Liquidationveh = () => {
 
                     <div>
                         <div style={{ display: "flex" }}>
-                            <h3>Total Cobrado: $</h3>
+                            <h3 style={{width:"300px"}}>Total Cobrado: $</h3>
                             <h3>{(sumTotalCobrado).toFixed(2)}</h3>
                         </div>
 
@@ -598,13 +598,13 @@ const Liquidationveh = () => {
 
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", width: "1400px", margin: "0 auto", justifyContent: "center", padding: "2rem" }}>
+                <div className='cont-detail'>
                     <span style={{ whiteSpace: "pre-wrap" }}>
                         {
                             detailGeneral
                         }
                     </span>
-                    <div style={{ display: "flex", flexDirection: "row", width: "1400px", margin: "0 auto", justifyContent: "center", padding: "2rem" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", padding: "2rem" }}>
                         Anadir a Detalle General
                         <input className="form-control form-control-sm"
                             style={{ fontSize: "15px", width: "90%" }}
@@ -616,7 +616,7 @@ const Liquidationveh = () => {
                     </div>
                 </div>
 
-                <div style={{ display: "flex", marginBottom: "5rem", gap: "2rem", justifyContent: "center" }}>
+                <div className='cont-cards'>
 
                     <DeliverCred
                         codLiq={codLiq}
@@ -672,6 +672,8 @@ const Liquidationveh = () => {
                         Liquidar e Imprimir
                     </Button>
                 </div>
+
+
                 {/* //TODO: Revisar codigo sobre el error en transactionfun*/}
 
                 <ModalTransaccion

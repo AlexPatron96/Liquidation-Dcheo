@@ -122,6 +122,10 @@ const Invoice = () => {
         dispatch(getCustomerThunk());
     };
 
+    const selecionSearch = (e) => {
+        const { name, value } = e.target;
+        console.log(value);
+    };
     const searchDB = [
         { "id": 1, "detail": "LOCAL" },
         { "id": 2, "detail": "BASE DATOS" },
@@ -131,6 +135,7 @@ const Invoice = () => {
             <>
                 <Formselectatom title={"Selecionar lugar de busqueda"}
                     iterador={searchDB}
+                    dataSelect={selecionSearch}
                     firstdata={"detail"}
                     secunddata={"dia"}
                     disabledAction={false} />

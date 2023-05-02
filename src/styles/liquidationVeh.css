@@ -27,7 +27,6 @@ input[type="checkbox"] {
 .table-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     overflow-x: auto;
 }
 
@@ -60,14 +59,76 @@ input[type="checkbox"] {
 }
 
 
-.btn-liquidation{
+.btn-liquidation {
     display: flex;
     flex-direction: row;
     background: whitesmoke;
     position: fixed;
     /* top: 95vh; */
-    left: 33%;
+    left: 33vh;
     width: 500px;
     bottom: 0px;
     justify-content: space-between;
+}
+
+/* style={{ display: "flex", margin:"1rem", marginBottom: "3rem", gap: "2rem", overflowX: "scroll"}} */
+/* style={{ display: "flex", flexDirection: "column", width: "1400px", margin: "0 auto", justifyContent: "center", padding: "2rem" }} */
+/* style={{ display: "flex", flexDirection: "row", width: "1000px", margin: "0 auto", justifyContent: "space-between" }} */
+
+.cont-totales {
+    display: flex;
+
+    margin: 1rem;
+    margin-bottom: 3rem;
+    gap: 2rem;
+    overflow-x: scroll;
+    position: relative;
+}
+
+.cont-detail {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    margin: 1rem 1rem;
+    overflow-x: scroll;
+}
+
+
+.cont-cards {
+    display: flex;
+    margin: 1rem;
+    margin-bottom: 3rem;
+    gap: 2rem;
+    overflow-x: scroll;
+}
+
+.table-container {}
+
+@media only screen and (min-width: 800px) {
+    .cont-cards {
+        justify-content: center;
+    }
+
+    .cont-detail {
+
+        width: 90%;
+        justify-content: center;
+        margin: 1rem 5rem;
+        overflow-x: hidden;
+    }
+
+    .btn-liquidation {
+        left: 33%;
+    }
+
+    .cont-totales {
+        justify-content: center;
+
+        overflow-x: hidden;
+    }
+
+    .table-container {
+        align-items: center;
+    }
 }
