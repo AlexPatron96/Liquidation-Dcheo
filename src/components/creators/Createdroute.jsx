@@ -45,7 +45,7 @@ const Createdroute = (props) => {
     const [id, setId] = useState(0);
 
     const handleEdit = (index, obj) => {
-        console.log(obj);
+        //console.log(obj);
         setEditingIndex(index);
         setEditedData(obj);
         setId(obj.id);
@@ -54,7 +54,7 @@ const Createdroute = (props) => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setEditedData({ ...editedData, [name]: value });
-        console.log(editedData);
+        //console.log(editedData);
     };
 
 

@@ -25,9 +25,10 @@ const CreateVehiclesClouster = (props) => {
                 driver: fila[1],
                 dni: fila[2],
                 isActive: fila[3],
-                id_route: fila[4]
+                id_route: fila[4],
+                cod_mv: fila[5]
             }));
-            console.log(libro);
+            //console.log(libro);
             setVehicles(vehiclesJson);
         };
         lector.readAsBinaryString(archivo);
@@ -70,6 +71,7 @@ const CreateVehiclesClouster = (props) => {
                                         <th>#</th>
                                         <th>Placa</th>
                                         <th>Conductor</th>
+                                        <th>Cod Mv</th>
                                         <th>Identificacion</th>
                                         <th>Activo</th>
                                         <th>Route</th>
@@ -87,6 +89,9 @@ const CreateVehiclesClouster = (props) => {
                                                 </td>
                                                 <td>
                                                     {vehicles.driver}
+                                                </td>
+                                                <td>
+                                                    {vehicles.cod_mv}
                                                 </td>
                                                 <td>
                                                     {vehicles.dni}

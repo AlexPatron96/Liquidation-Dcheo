@@ -22,10 +22,10 @@ export const getCustomerThunk = () => (dispatch) => {
     axios.get(`${URL_BASE}/api/v1/customer/all`, getConfig())
         .then(res => {
             dispatch(setCustomer(res.data.result));
-            console.log('Recibe informacion');
+            // console.log('Recibe informacion');
         })
         .catch(err => {
-            console.log("error en Customer get slice");
+            // console.log("error en Customer get slice");
             dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)))

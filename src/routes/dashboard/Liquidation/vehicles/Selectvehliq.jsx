@@ -17,7 +17,7 @@ const Selectliqveh = () => {
     const navigate = useNavigate();
     useEffect(() => {
         vehicles[0] ? null : dispatch(getVehiclesThunk());
-        invoice[0] ? null : dispatch(getInvoiceThunk());
+        dispatch(getInvoiceThunk());
     }, [])
 
     const vehicles = useSelector(state => state.vehicles);
@@ -29,7 +29,7 @@ const Selectliqveh = () => {
     const selectVeh = (data) => {
         Swal.fire({
             title: '¿Está seguro?',
-            text: `Vas a realizar la liquidacion de el vehiculo ${data.driver} del dia ${(identificarDia).toUpperCase()}`,
+            text: `Vas a realizar la liquidacion de el vehiculo ${data?.driver} del dia ${(identificarDia).toUpperCase()}`,
             icon: 'warning',
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -37,12 +37,12 @@ const Selectliqveh = () => {
             showCancelButton: true
         }).then((result) => {
             if (result.isConfirmed) {
-                const filterInvoiceDia = invoice.filter((veh) => {
-                    return ((veh?.client?.route_day?.day?.day === currentdate.CurrendateDay("ayer")) &&
-                        (veh.balance !== 0))
-                });
+                // const invoiceFilter = invoice.filter(inv => inv.balance !== 0);
+                // const filterInvoiceDia = invoiceFilter.filter((veh) => {
+                //     return (parseInt(veh?.vehicle_liq) === parseInt(data?.id))
+                // }); 
                 // dispatch(setLiquidationSlice(filterInvoiceDia));
-                sessionStorage.setItem(`invoLiq${data?.dni}-${data?.id}`, JSON.stringify(filterInvoiceDia))
+                // localStorage.setItem(`invoLiq${data?.dni}-${data?.id}`, JSON.stringify(filterInvoiceDia))
                 navigate(`/dashboard/liquidation/vehicles/${data?.id}`);
             }
         });
@@ -61,8 +61,9 @@ const Selectliqveh = () => {
 
                                     {/* to={"/dashboard/do-vehicleliquidation"} to={`/dashboard/liquidation/vehicles/${veh.id}`}  */}
                                     <Link className='linkStyle' onClick={() => selectVeh(veh)}>
-                                        <h5>{index + 1}</h5>
-                                        <CardBtn title={veh.driver} img={imgVehC} />
+                                        <h5>{veh?.enrollment} - {veh?.id}</h5>
+                                        <CardBtn title={veh?.driver} img={imgVehC} />
+                                        <span>Balance: $ {veh?.balance_veh?.total} </span>
                                     </Link>
                                 </Col>
                             ))

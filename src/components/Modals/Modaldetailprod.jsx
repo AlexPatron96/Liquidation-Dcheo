@@ -9,13 +9,14 @@ import Swal from 'sweetalert2';
 import ModalInvoiceTransac from './ModalInvoiceTransac';
 
 const Modaldetailprod = ({ onHide, show, data }) => {
-    console.log(data);
+    // console.log(data);
     const itemSelect = data;
     const transaccion = itemSelect?.transactions;
     const item = data;
     const newPay = { active: true, item }
     const [modalTransaccionPay, setModalTransaccionPay] = useState(false);
     const [transacItem, setTransacItem] = useState({});
+    console.log(itemSelect);
     return (
         <div>
             <Modal show={show} onHide={onHide} centered size="xl"
@@ -110,6 +111,12 @@ const Modaldetailprod = ({ onHide, show, data }) => {
                                 <span>Detalle de Documento:</span>
                                 <h6>{itemSelect?.detail}</h6>
                             </div>
+                            <div style={{ margin: "0 1rem" }}>
+                                <span>Para cobro de Veh:</span>
+                                <h6>
+                                    {itemSelect?.vehicle_liq ? "Si  - Veh id" + itemSelect?.vehicle_liq  : "No" }
+                                </h6>
+                            </div>
                         </div>
                     </div>
 
@@ -121,7 +128,7 @@ const Modaldetailprod = ({ onHide, show, data }) => {
 
                             {
                                 transaccion?.map((trans, index) => (
-                                    <div key={index} style={{ border: "2px solid var(--color2)", borderRadius: "8px", padding: "0.5rem" }}>
+                                    <div key={index} style={{ border: "1px solid var(--color2)", borderRadius: "8px", padding: "0.5rem" }}>
                                         <span>#{index + 1}</span>
                                         <div style={{ display: "flex", width: "320px", flexFlow: "row wrap", justifyContent: "space-between" }} >
                                             <div>

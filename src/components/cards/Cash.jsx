@@ -36,9 +36,9 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
     });
     // const valuesActual = getValues();
     // //console.log(valuesActual);
-    const cashLocalStorage = JSON.parse(sessionStorage.getItem(codeCashLocalStorage));
-    const checkStorage = JSON.parse(sessionStorage.getItem(codeCheckLocalStorage));
-    const checkStorageView = JSON.parse(sessionStorage.getItem(codeCheckLocalStorage + "view"));
+    const cashLocalStorage = JSON.parse(localStorage.getItem(codeCashLocalStorage));
+    const checkStorage = JSON.parse(localStorage.getItem(codeCheckLocalStorage));
+    const checkStorageView = JSON.parse(localStorage.getItem(codeCheckLocalStorage + "view"));
     const seller = useSelector(state => state.seller);
     const vehicle = useSelector(state => state.vehicles);
 
@@ -116,9 +116,9 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
     const onSubmit = (data) => {
         setValue("settlement_code", codLiq)
         receptedCash(data, checkData, checkView);
-        sessionStorage.setItem(codeCashLocalStorage, JSON.stringify(data));
-        sessionStorage.setItem(codeCheckLocalStorage, JSON.stringify(checkData));
-        sessionStorage.setItem(codeCheckLocalStorage + "view", JSON.stringify(checkView));
+        localStorage.setItem(codeCashLocalStorage, JSON.stringify(data));
+        localStorage.setItem(codeCheckLocalStorage, JSON.stringify(checkData));
+        localStorage.setItem(codeCheckLocalStorage + "view", JSON.stringify(checkView));
         handleClose();
     }
 
@@ -129,9 +129,9 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
         setCheckData([]);
         setTotal(0);
         setFormData(new FormData());
-        sessionStorage.removeItem(codeCashLocalStorage);
-        sessionStorage.removeItem(codeCheckLocalStorage);
-        sessionStorage.removeItem(codeCheckLocalStorage + "view");
+        localStorage.removeItem(codeCashLocalStorage);
+        localStorage.removeItem(codeCheckLocalStorage);
+        localStorage.removeItem(codeCheckLocalStorage + "view");
     };
 
 
@@ -633,33 +633,6 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
                                 </Table>
                             </div>
 
-                            <Modal show={showNewBank} onHide={handleBankClose} centered >
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Rigistro de Banco</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <div style={{ display: "flex", flexDirection: "row", gap: "2rem", justifyContent: "center" }}>
-                                        <span> Nombre del Banco:
-                                        </span>
-                                        <input
-                                            style={{ fontSize: "13px", width: "175px" }}
-                                            className="form-control form-control-sm"
-                                            type="text"
-                                            name="name_bank"
-                                            onChange={handleChangeBank}
-                                        />
-                                    </div>
-
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleBankClose}>
-                                        Cerrar
-                                    </Button>
-                                    <Button variant="primary" onClick={() => { newBank(dataBank) }}>
-                                        Crear
-                                    </Button>
-                                </Modal.Footer>
-                            </Modal>
 
                         </div>
                     </div>
@@ -679,6 +652,34 @@ const Cash = ({ codLiq, receptedCash, codeCashLocalStorage, typeLiquidation, cod
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <Modal show={showNewBank} onHide={handleBankClose} centered >
+                <Modal.Header closeButton>
+                    <Modal.Title>Registro de Banco</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div style={{ display: "flex", flexDirection: "row", gap: "2rem", justifyContent: "center" }}>
+                        <span> Nombre del Banco:
+                        </span>
+                        <input
+                            style={{ fontSize: "13px", width: "175px" }}
+                            className="form-control form-control-sm"
+                            type="text"
+                            name="name_bank"
+                            onChange={handleChangeBank}
+                        />
+                    </div>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleBankClose}>
+                        Cerrar
+                    </Button>
+                    <Button variant="primary" onClick={() => { newBank(dataBank) }}>
+                        Crear
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </div >
     );
 };

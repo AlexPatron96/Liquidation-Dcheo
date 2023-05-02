@@ -22,10 +22,10 @@ const LiquidationInfoVeh = () => {
 
     const LiquidionVehView = useSelector(state => state.liquidationVehicle);
     const seller = useSelector(state => state.seller);
-    console.log(LiquidionVehView);
+    // console.log(LiquidionVehView);
 
 
-    console.log(LiquidionVehView);
+    // console.log(LiquidionVehView);
 
 
     const [clickView, setClickView] = useState(true);
@@ -34,11 +34,11 @@ const LiquidationInfoVeh = () => {
     const clickViewAction = (itemSelect) => {
         clickView ? setClickView(false) : setClickView(true);
         dataView ? setDataView(itemSelect) : setDataView({});
-        console.log(itemSelect);
+        // console.log(itemSelect);
     };
 
     const printAction = (dataProcess) => {
-        console.log(dataProcess);
+        // console.log(dataProcess);
         let direccion = `/dashboard/liquidation/vehicle/print/${dataProcess?.settlement_code}`;
         let principal = {};
         principal.id_user = dataProcess?.user.id;

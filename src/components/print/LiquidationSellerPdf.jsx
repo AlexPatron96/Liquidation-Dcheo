@@ -1,13 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Table from 'react-bootstrap/Table';
-// import Pdfliqveh from '../../../../components/atom/Pdfliqveh';
 
-// import { PDFViewer, PDFDownloadLink, BlobProvider, Document, Page, Text } from '@react-pdf/renderer';
-// import { saveAs } from "file-saver";
-// import ReactPDF from '@react-pdf/renderer';
-import jsPDF from 'jspdf';
-import html2canvas from "html2canvas";
-import axios from "axios";
 
 
 const LiquidationSellerPdf = () => {
@@ -27,8 +20,8 @@ const LiquidationSellerPdf = () => {
     const seller = data?.[9];
     const principal = data?.[10];
 
-    console.log(checkMoney);
-    console.log(data);
+    // console.log(checkMoney);
+    // console.log(data);
 
     // const balanceGenCal = (parseFloat(principal?.balance_gen_sell) + parseFloat(principal?.balance));
 
@@ -36,27 +29,12 @@ const LiquidationSellerPdf = () => {
         window.print();
     }, [])
 
-    // const generatePDF = () => {
-    //     const input = document.getElementById('component-to-pdf');
-    //     html2canvas(input)
-    //         .then((canvas) => {
-    //             const imgData = canvas.toDataURL('image/png');
-    //             const pdf = new jsPDF({
-    //                 orientation: 'l',
-    //                 unit: 'cm',
-    //                 format: 'a4'
-    //             });
-    //             pdf.addImage(imgData, 'PNG', 0, 0, pdf.internal.pageSize.width, pdf.internal.pageSize.height);
-    //             pdf.save('component.pdf');
-    //         });
-    // };
 
-    const sectionRef = useRef(null);
 
     return (
         <div>
-            <button onClick={generatePDF}>pdf</button>
-            <div id="component-to-pdf" ref={sectionRef} >
+            {/* <button onClick={generatePDF}>pdf</button> */}
+            <div id="component-to-pdf" >
 
                 {/* style={{ width: "8.5in", height: "11in", position: "relative" }} */}
 

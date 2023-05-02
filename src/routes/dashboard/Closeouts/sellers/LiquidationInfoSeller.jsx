@@ -15,7 +15,7 @@ const LiquidationInfoSeller = () => {
     }, [])
 
     const LiquidionSellView = useSelector(state => state.liquidation);
-    console.log(LiquidionSellView);
+    //console.log(LiquidionSellView);
 
     const [clickView, setClickView] = useState(true);
     const [dataView, setDataView] = useState({});
@@ -23,11 +23,11 @@ const LiquidationInfoSeller = () => {
     const clickViewAction = (itemSelect) => {
         clickView ? setClickView(false) : setClickView(true);
         dataView ? setDataView(itemSelect) : setDataView({});
-        console.log(itemSelect);
+        //console.log(itemSelect);
     };
 
     const printAction = (dataProcess) => {
-        console.log(dataProcess);
+        //console.log(dataProcess);
         let direccion = `/dashboard/liquidation/sellers/print/${dataProcess?.settlement_code}`;
         let principal = {};
         principal.id_user = dataProcess?.user.id;
@@ -56,7 +56,7 @@ const LiquidationInfoSeller = () => {
         arraySendLiq.push(`${dataProcess?.seller.code} - ${dataProcess?.seller.name}`)
         arraySendLiq.push(principal);
         arraySendLiq.push(dataProcess?.cash_sell?.[0]?.check_cash_sell);
-        console.log(dataProcess?.cash_sell?.[0].check_cash_sell);
+        //console.log(dataProcess?.cash_sell?.[0].check_cash_sell);
 
 
         Swal.fire({
@@ -91,7 +91,6 @@ const LiquidationInfoSeller = () => {
         const result = (parseFloat(encontrado[0]?.pay || 0)).toFixed(2);
         return result;
     };
-    console.log(LiquidionSellView);
     return (
         <div>
             <h3 style={{ textAlign: "center" }}>
@@ -215,7 +214,7 @@ const LiquidationInfoSeller = () => {
                                                             </td> */}
                                                             <td style={{ borderRight: `4px solid ${inv?.pass ? "#02B875" : "#FFCCE5"} ` }}>
                                                                 $ {
-                                                                    (inv?.pass === null ? "0.00" : parseFloat(inv?.saldo) - parseFloat(inv?.pass))
+                                                                    (inv?.pass === null ? "0.00" : (parseFloat(inv?.saldo) - parseFloat(inv?.pass)).toFixed(2))
                                                                 }
                                                             </td>
                                                         </tr>

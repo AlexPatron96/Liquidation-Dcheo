@@ -19,7 +19,7 @@ const CreateVehicle = (props) => {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-    const listDB = ["enrollment", "driver", "dni", "isActive", "id_route"];
+    const listDB = ["enrollment", "driver", "dni", "isActive", "id_route", "cod_mv"];
     const route = useSelector(state => state.temporary);
 
 
@@ -85,6 +85,12 @@ const CreateVehicle = (props) => {
                             <Form.Label>Conductor</Form.Label>
                             <Form.Control  {...register(`${listDB[1]}`, { required: true })} />
                             <p className={`error-message ${errors[listDB[1]] ? 'showError' : ''}`}>Coloque el nombre del conductor, por favor.</p>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Codigo MV</Form.Label>
+                            <Form.Control  {...register(`${listDB[5]}`, { required: true })} />
+                            <p className={`error-message ${errors[listDB[5]] ? 'showError' : ''}`}>Codigo de Movilvendor</p>
                         </Form.Group>
 
                         <Form.Group className="mb-3">

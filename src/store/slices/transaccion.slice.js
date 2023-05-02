@@ -29,7 +29,7 @@ export const getTransactionThunk = () => (dispatch) => {
     return axios.get(`${URL_BASE}/api/v1/payments/all`, getConfig())
         .then(res => {
             dispatch(setTransaccion(res.data.result));
-            console.log("Recibe peticion transaction");
+            //console.log("Recibe peticion transaction");
         })
         .catch(err => {
             dispatch(setErrorReceived(err.response?.data));
@@ -40,7 +40,7 @@ export const getTransactionThunk = () => (dispatch) => {
 
 export const postTransactionthunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
-    console.log(data);
+    //console.log(data);
     return axios.post(`${URL_BASE}/api/v1/payments/new`, data, getConfig())
         .then(() => {
             dispatch(getTransactionThunk());

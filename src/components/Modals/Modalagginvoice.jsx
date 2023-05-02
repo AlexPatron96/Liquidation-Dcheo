@@ -12,25 +12,30 @@ import { getInvoiceThunk, setInvoice } from '../../store/slices/invoice.slice';
 import { useParams } from 'react-router-dom';
 import { setDataTemp } from '../../store/slices/dataTemp.slice';
 
-const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }) => {
+const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice, type }) => {
 
     const { id: sellerByLiqui } = useParams();
     const dispatch = useDispatch();
     const invoiceSaldo = data.filter((inv) => { return (inv.balance > 0) });
-    const invSeller = invoiceSaldo.filter((inv) => parseInt(inv?.seller?.id) === parseInt(sellerByLiqui));
+    const invSeller = type === "seller" ? (invoiceSaldo.filter((inv) => parseInt(inv?.seller?.id) === parseInt(sellerByLiqui))) :
+        invoiceSaldo;
 
 
-    useEffect(() => {
-        // setPagination(invSeller);
-        // dispatch(getInvoiceThunk());
-    }, [])
+    // useEffect(() => {
+    //     // setPagination(invSeller);
+    //     // dispatch(getInvoiceThunk());
+    // }, [])
 
-    const [pagination, setPagination] = useState(data);
+    const [pagination, setPagination] = useState(invoiceSaldo);
     const loading = useSelector(state => state.isLoading);
+    const seller = useSelector(state => state.seller);
 
     const setRefresh = () => {
+        dispatch(getInvoiceThunk());
+    };
+
+    const allInv = () => {
         setPagination(invSeller);
-        data[0] ? null : dispatch(getInvoiceThunk());
     };
 
     const btnReset = () => {
@@ -39,26 +44,35 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
                 <Buttonatom created={(() => setRefresh())}
                     title={"Actualizar"}
                     color={"info"} ico={"fa-sync bx-spin-hover"} />
-                <Buttonatom created={(() => setRefresh())}
+                <Buttonatom created={(() => allInv())}
                     title={"Todos"}
                     color={"info"} ico={"fa-circle-check fa-beat"} />
             </>
         )
     };
     const handleInv = (e) => {
-        const { value } = e.target;
-        console.log(value);
-        dayinvoSelect(value);
+        const { name, value } = e.target;
+        //console.log(value);
+        if (name === "id_day") {
+            dayinvoSelect(value);
+        } else {
+            sellInvoSelect(value);
+        }
     };
+
     const dayinvoSelect = async (day) => {
         const invDay = invSeller.filter((inv) => (inv?.client?.route_day?.day?.day).toLowerCase() === day.toLowerCase());
         return setPagination(invDay);
+    };
+    const sellInvoSelect = async (sellID) => {
+        const invSell = invoiceSaldo.filter((inv) => parseInt(inv?.seller?.id) === parseInt(sellID));
+        return setPagination(invSell);
     };
 
     const listDay = () => {
         return (
             <>
-                <select name="id_seller"
+                <select name="id_day"
                     className="form-select h-25"
                     style={{
                         padding: "1px", paddingRight: "18px", width: "110px",
@@ -74,6 +88,24 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
                     <option value={"domingo"}  >DOMINGO</option>
 
                 </select>
+
+                {
+                    type === "seller" ? null :
+                        <select name="id_seller"
+                            className="form-select h-25"
+                            style={{
+                                padding: "1px", paddingRight: "18px", width: "110px",
+                                backgroundPosition: "right 0.1rem center", fontSize: "13px"
+                            }}
+                            onChange={(e) => handleInv(e)}>
+                            {
+                                seller.map((sell, index) => (
+                                    <option key={index} value={sell?.id} >{sell?.name}</option>
+                                ))
+                            }
+                        </select>
+                }
+
             </>
         )
     };
@@ -88,7 +120,7 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
             (item?.deliver_date).includes(data) || (item?.seller?.name)?.toLowerCase().includes(data?.toLowerCase())
         ));
         dispatch(setPagination(filteredList));
-        //console.log(filteredList);
+        ////console.log(filteredList);
     }
     const handleClose = () => setShowAggInvoice(false);
     // const handleShow = () => setShowAggInvoice(true);
@@ -104,8 +136,8 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
 
     const handleAddInvoice = (e, item) => {
         const { checked, value, name } = e.target;
-        console.log(selectedInvoices);
-        console.log(checkSelectedID);
+        //console.log(selectedInvoices);
+        //console.log(checkSelectedID);
 
         if (value === "todos") {
             const ids = item.map(obj => (obj.id).toString());
@@ -136,7 +168,7 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
 
     return (
         <div>
-            <Modal show={showAggInvoice} onHide={handleClose} centered size="lg"
+            <Modal show={showAggInvoice} onHide={handleClose} centered size="xl"
                 aria-labelledby="contained-modal-title-vcenter">
                 <Modal.Header closeButton>
                     <Modal.Title>Anadir Facturas para liquidar</Modal.Title>
@@ -150,7 +182,7 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
                         />
                     </div>
                     <div className="table-container" style={{ height: "350px" }} >
-                        <Table striped bordered hover style={{ width: "740px", fontSize: "12px", textAlign: "center" }}>
+                        <Table striped bordered hover style={{ width: "1024px", fontSize: "12px", textAlign: "center" }}>
                             <thead>
                                 <tr>
                                     <th style={{ width: "30px" }}>
@@ -164,7 +196,7 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
                                     <th style={{ width: "40px" }}>ID</th>
                                     <th style={{ width: "170px" }}>Cliente</th>
                                     <th style={{ width: "170px" }}>Dia</th>
-                                    <th style={{ width: "110px" }}># Factura</th>
+                                    <th style={{ width: "210px" }}># Factura</th>
                                     <th style={{ width: "50px" }}>Estatus</th>
                                     <th style={{ width: "70px" }}>Total</th>
                                     <th style={{ width: "70px" }}>Saldo</th>
@@ -187,7 +219,8 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice }
                                             <td>{item.client?.fullname}</td>
                                             <td>{(item.client?.route_day?.day?.day)?.toUpperCase()}</td>
                                             <td>{item.num_bill}</td>
-                                            <td>{item.id_status}</td>
+                                            {/* <td>{item.id_status}</td> */}
+                                            <td>{item?.id_status === 1 ? "Pendiente" : item?.id_status === 2 ? "Abonada" : "Pagada"}</td>
                                             <td><h5 style={{ fontSize: "11px" }}>$ {item.total_bill}</h5></td>
                                             <td style={{ fontSize: "11px" }}>$ {item.balance}</td>
                                             <td>{item.seller?.name}</td>

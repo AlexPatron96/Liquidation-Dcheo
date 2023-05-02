@@ -16,7 +16,7 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
     const dispatch = useDispatch();
 
     const itemSelect = data;
-    console.log(itemSelect);
+    //console.log(itemSelect);
 
 
 
@@ -121,12 +121,7 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
                                         <span>BALANCE:</span>
                                         <h6 style={{ fontSize: "25px", borderRadius: "8px", padding: "0.25rem" }} className={parseFloat(itemSelect?.balance_veh?.total) > 0 ? "dateYellow" : (parseFloat(itemSelect?.balance_veh?.total) < 0 ? "dateRed" : "dateGreen")} >
                                             $ {parseFloat(itemSelect?.balance_veh?.total).toFixed(2)}
-
-                                            {
-                                                console.log(itemSelect?.balance_veh?.total)
-                                            }
                                         </h6>
-                                        {/* <h6 style={{ fontSize: "25px" }}></h6> */}
                                     </div>
                                 </div>
                             ) : (

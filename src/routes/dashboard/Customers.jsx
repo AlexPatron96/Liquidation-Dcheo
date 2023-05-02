@@ -52,11 +52,11 @@ const Customers = () => {
     const [modalShow, setModalShow] = useState(false);
 
     const [showCreateByClouster, setShowCreateByClouster] = useState(false);
-    console.log(pagination);;
+    // console.log(pagination);;
     const createByClouster = () => {
         if (!showCreateByClouster) {
             setShowCreateByClouster(true)
-            console.log("mostrar model created showCreateByClouster");
+            // console.log("mostrar model created showCreateByClouster");
         } else {
             setShowCreateByClouster(false)
         }
@@ -97,32 +97,34 @@ const Customers = () => {
     const refresh = () => {
         dispatch(getCustomerThunk());
     };
-
+    const searchDB = [
+        { "id": 1, "detail": "LOCAL" },
+        { "id": 2, "detail": "BASE DATOS" },
+    ]
 
     const listAvailable = () => {
         return (
             <>
-                <Formselectatom title={"Ver Vehiculos Disponibles"}
-                    iterador={vehicle}
-                    firstdata={"chofer"}
-                    secunddata={"placa"}
-                    disabledAction={true} />
-
                 <Formselectatom title={"Ver Ruta Disponibles"}
+                    iterador={searchDB}
+                    firstdata={"detail"}
+                    secunddata={"dia"}
+                    disabledAction={false} />
+
+                {/* <Formselectatom title={"Ver Ruta Disponibles"}
                     iterador={route}
                     firstdata={"id"}
-                    secunddata={"dia"}
-                    disabledAction={true} />
+                    secunddata={"day"}
+                    disabledAction={false} />
 
                 <Formselectatom title={"Ver Vendedores Disponibles"}
                     iterador={seller}
-                    firstdata={"nombre"}
+                    firstdata={"name"}
                     secunddata={" "}
-                    disabledAction={true} />
-
+                    disabledAction={false} /> */}
             </>
         )
-    }
+    };
 
     const search = (data) => {
         const filteredList = customer.filter((item) =>
@@ -132,7 +134,7 @@ const Customers = () => {
             (item.seller.name)?.toLowerCase().includes(data.toLowerCase()) || (item.address)?.toLowerCase().includes(data.toLowerCase()) ||
             (item.seller.code)?.toLowerCase().includes(data.toLowerCase())
         ));
-        console.log(filteredList);
+        // console.log(filteredList);
         dispatch(setPagination(filteredList));
     }
 
@@ -145,7 +147,7 @@ const Customers = () => {
                 </h2>
                 <Functionalitiesbtn
                     buttons={btnCreated}
-                    // listAvailable={listAvailable}
+                    listAvailable={listAvailable}
                     search={search} />
             </div>
             <div>

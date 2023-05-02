@@ -75,7 +75,7 @@ const Createrouteday = () => {
     const [id, setId] = useState(0);
 
     const handleEdit = (index, obj) => {
-        console.log(obj);
+        //console.log(obj);
         setEditingIndex(index);
         setEditedData(obj);
         setId(obj.id);
@@ -84,7 +84,7 @@ const Createrouteday = () => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setEditedData({ ...editedData, [name]: value });
-        console.log(editedData);
+        //console.log(editedData);
     };
 
     const handleSave = (index) => {

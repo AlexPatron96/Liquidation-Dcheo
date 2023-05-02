@@ -90,7 +90,7 @@ const TableCustomer = ({ data, updateData, deleteData }) => {
                         <th style={{ width: "135px" }}>Identificacion</th>
                         <th style={{ width: "100px" }}>Cod MV</th>
                         <th style={{ width: "120px" }}>Vendedor</th>
-                        <th style={{ width: "145px" }}>Dia Atencion</th>
+                        <th style={{ width: "130px" }}>Dia Atencion</th>
                         <th style={{ width: "40px" }}>Accion</th>
                     </tr>
                 </thead>
@@ -178,7 +178,7 @@ const TableCustomer = ({ data, updateData, deleteData }) => {
                                     />
                                 </td>)
                                 :
-                                (<td style={{ width: "115px" , fontSize: "13px" }}>
+                                (<td style={{ width: "115px" , fontSize: "11px" }}>
                                     {item?.code_external}
                                 </td>)
                             }

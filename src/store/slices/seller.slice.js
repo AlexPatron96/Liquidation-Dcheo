@@ -25,11 +25,11 @@ export const getSellerThunk = () => (dispatch) => {
     return axios.get(`${URL_BASE}/api/v1/seller/all`, getConfig())
         .then(res => {
             dispatch(setSeller(res.data.result));
-            console.log("Recibe peticion Get");
+            //console.log("Recibe peticion Get");
         })
         .catch(err => {
             dispatch(setErrorReceived(err.response?.data));
-            console.log("Error en Slice");
+            //console.log("Error en Slice");
             alert("No se pudo actualizar la lista de clientes");
         })
         .finally(() => dispatch(setIsLoading(false)))
@@ -37,13 +37,13 @@ export const getSellerThunk = () => (dispatch) => {
 
 export const postSellerthunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
-    console.log(data);
+    //console.log(data);
     return axios.post(`${URL_BASE}/api/v1/seller/new`, data, getConfig())
         .then(() => {
             dispatch(getSellerThunk());
         })
         .catch(err => {
-            console.log("Error en Slice");
+            //console.log("Error en Slice");
             alert("No se pudo actualizar el Vendedor");
             dispatch(setErrorReceived(err.response.data));
         })
@@ -76,13 +76,13 @@ export const postSellCuadrethunk = (data) => (dispatch) => {
 
 export const postSellerClousterthunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
-    console.log(data);
+    //console.log(data);
     return axios.post(`${URL_BASE}/api/v1/seller/newClouster`, data, getConfig())
         .then(() => {
             dispatch(getSellerThunk());
         })
         .catch(err => {
-            console.log("Error en Slice");
+            //console.log("Error en Slice");
             alert("No se pudo actualizar el Vendedor");
             dispatch(setErrorReceived(err.response.data));
         })
@@ -90,7 +90,7 @@ export const postSellerClousterthunk = (data) => (dispatch) => {
 };
 
 export const updateSellerThunk = (id, data) => (dispatch) => {
-    console.log(data);
+    //console.log(data);
     dispatch(setIsLoading(true));
     return axios.put(`${URL_BASE}/api/v1/seller/${id}/update`, data, getConfig())
         .then(() => {

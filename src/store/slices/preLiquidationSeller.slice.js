@@ -35,7 +35,7 @@ export const postPreLiquiThunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true))
     axios.post(`${URL_BASE}/api/v1/pre-liquidation/seller/new`, data, getConfig())
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             dispatch(getPreLiquiThunk());
         })
         .catch(err => {

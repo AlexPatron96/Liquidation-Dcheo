@@ -23,9 +23,9 @@ const ProductReturn = ({ codLiq, codinvo, receptedproduct, codeproductLocalStora
     const [typeIsSelected, setTypeIsSelected] = useState('');
     /************** */
 
-    const productLocalStorage = JSON.parse(sessionStorage.getItem(codeproductLocalStorage));
-    const invoReturnLocalStorage = JSON.parse(sessionStorage.getItem(codinvo));
-    const invoReturnViewLocalStorage = JSON.parse(sessionStorage.getItem(codinvo + "view"));
+    const productLocalStorage = JSON.parse(localStorage.getItem(codeproductLocalStorage));
+    const invoReturnLocalStorage = JSON.parse(localStorage.getItem(codinvo));
+    const invoReturnViewLocalStorage = JSON.parse(localStorage.getItem(codinvo + "view"));
 
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm({
         defaultValues: initialValueTransaccion
@@ -72,16 +72,20 @@ const ProductReturn = ({ codLiq, codinvo, receptedproduct, codeproductLocalStora
     const onSubmit = (data) => {
         setValue("settlement_code", codLiq)
         receptedproduct(data, listInoviceNew);
-        sessionStorage.setItem(codeproductLocalStorage, JSON.stringify(data));
-        sessionStorage.setItem(codinvo, JSON.stringify(listInoviceNew));
-        sessionStorage.setItem(codinvo + "view", JSON.stringify(listInoviceNewView));
+        localStorage.setItem(codeproductLocalStorage, JSON.stringify(data));
+        localStorage.setItem(codinvo, JSON.stringify(listInoviceNew));
+        localStorage.setItem(codinvo + "view", JSON.stringify(listInoviceNewView));
         handleClose();
     }
 
     const resetAction = () => {
         reset();
         setFormData(new FormData());
-        sessionStorage.removeItem(codeproductLocalStorage);
+        setListInvoiceNew([]);
+        setListInvoiceNewView([]);
+        localStorage.removeItem(codeproductLocalStorage);
+        localStorage.removeItem(codinvo);
+        localStorage.removeItem(codinvo + "view");
     }
     /* * ************* Agregar Facturas de PRoductos  ********************* */
     const [listInoviceNew, setListInvoiceNew] = useState([]);
@@ -98,7 +102,7 @@ const ProductReturn = ({ codLiq, codinvo, receptedproduct, codeproductLocalStora
         const codeGEn = genCod(`NV-VEH${vehid}-`);
         const idGen = (listInoviceNew?.[listInoviceNew.length - 1]?.id || 0) + 1
 
-        console.log(listInoviceNew);
+        //console.log(listInoviceNew);
 
         const DataFormat = {
             id: idGen,
@@ -137,7 +141,7 @@ const ProductReturn = ({ codLiq, codinvo, receptedproduct, codeproductLocalStora
 
         const invoiceFilterDelete = listInoviceNew.filter(inv => inv.id !== item);
         const invoiceFilterDeleteView = listInoviceNewView.filter(inv => inv.id !== item);
-        console.log(invoiceFilterDelete);
+        //console.log(invoiceFilterDelete);
 
         setListInvoiceNew(invoiceFilterDelete);
         setListInvoiceNewView(invoiceFilterDeleteView);

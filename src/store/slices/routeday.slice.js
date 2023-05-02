@@ -25,7 +25,7 @@ export const getRouteDayThunk = () => (dispatch) => {
     return axios.get(`${URL_BASE}/api/v1/route-day/all`, getConfig())
         .then((res) => {
             dispatch(setRouteDay(res.data.result));
-            // console.log(res.data.result);
+            // //console.log(res.data.result);
         })
         .catch(err => {
             dispatch(setErrorReceived(err.response.data));
@@ -38,7 +38,7 @@ export const newRouteDayThunk = (data) => (dispatch) => {
     return axios.post(`${URL_BASE}/api/v1/route-day/new`, data, getConfig())
         .then((res) => {
             dispatch(getRouteDayThunk());
-            console.log(res.data.result);
+            //console.log(res.data.result);
         })
         .catch(err => {
             dispatch(setErrorReceived(err.response.data));
@@ -51,7 +51,7 @@ export const upRouteDayThunk = (id, data) => (dispatch) => {
     return axios.put(`${URL_BASE}/api/v1/route-day/${id}/update`, data, getConfig())
         .then((res) => {
             dispatch(getRouteDayThunk());
-            console.log(res.data.result);
+            //console.log(res.data.result);
         })
         .catch(err => {
             dispatch(setErrorReceived(err.response.data));
@@ -64,7 +64,7 @@ export const delRouteDayThunk = (id) => (dispatch) => {
     return axios.delete(`${URL_BASE}/api/v1/route-day/${id}/del`, getConfig())
         .then((res) => {
             dispatch(getRouteDayThunk());
-            console.log(res.data.result);
+            //console.log(res.data.result);
         })
         .catch(err => {
             dispatch(setErrorReceived(err.response.data));

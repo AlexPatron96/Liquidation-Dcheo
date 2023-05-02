@@ -88,11 +88,11 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 
             <Modalcuadrebalan show={modalBalance} onHide={() => { setModalBalance(false) }} data={itemSelected} tipo={'ven'} />
 
-            <Table striped bordered hover responsive style={{ width: "980px" }}>
+            <Table striped bordered hover size='sm' responsive style={{ width: "980px" }}>
                 <thead >
                     <tr>
                         <th style={{ width: "40px" }}>Id</th>
-                        <th style={{ width: "75px" }}>Codigo MV</th>
+                        <th style={{ width: "75px" }}>Cod MV</th>
                         <th style={{ width: "200px" }}>Nombre</th>
                         <th style={{ width: "100px" }}>Activo</th>
                         <th style={{ width: "130px" }}>Ruta</th>

@@ -16,7 +16,7 @@ const ModalInvoiceTransac = ({ onhide, show, itemSelect }) => {
     const userLiquidador = useSelector(state => state.userLoged)
     const invoice = useSelector(state => state.invoice)
     const invoiceNew = useSelector(state => state.transaction)
-    console.log(itemSelect);
+    // console.log(itemSelect);
     const initialValueTransaccion = {
         id_bill: 'id',
         num_bill: 'num_bill',

@@ -17,7 +17,7 @@ const Cash = ({ codLiq, receptedDiscount, codeDiscountLocalStorage, typeLiquidat
     const [typeIsSelected, setTypeIsSelected] = useState('');
     /************** */
 
-    const discountLocalStorage = JSON.parse(sessionStorage.getItem(codeDiscountLocalStorage));
+    const discountLocalStorage = JSON.parse(localStorage.getItem(codeDiscountLocalStorage));
 
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm({
         defaultValues: initialValueTransaccion
@@ -63,14 +63,14 @@ const Cash = ({ codLiq, receptedDiscount, codeDiscountLocalStorage, typeLiquidat
         // console.log(data);
         setValue("settlement_code", codLiq)
         receptedDiscount(data);
-        sessionStorage.setItem(codeDiscountLocalStorage, JSON.stringify(data));
+        localStorage.setItem(codeDiscountLocalStorage, JSON.stringify(data));
         handleClose();
     };
 
     const resetAction = () => {
         reset();
         setFormData(new FormData());
-        sessionStorage.removeItem(codeDiscountLocalStorage);
+        localStorage.removeItem(codeDiscountLocalStorage);
     };
 
     const [showDiscount, setShowDiscount] = useState(false);

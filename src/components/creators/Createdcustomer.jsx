@@ -66,7 +66,7 @@ const Createdcustomer = (props) => {
 
     const [selectSeller, setSelectSeller] = useState('');
     const sellerCode = (sellerRecept) => {
-        console.log(sellers);
+        //console.log(sellers);
         const result = sellers.filter(sell => sell.id === parseInt(sellerRecept));
         const datos = routeDay?.filter(rouD => (rouD?.id_route_route?.external_code)?.toString() === (result[0]?.code)?.toString());
         // return result[0]?.code
@@ -74,7 +74,7 @@ const Createdcustomer = (props) => {
     };
     const onchangeSeller = (e) => {
         setSelectSeller(e.target.value);
-        console.log(e.target.value);
+        //console.log(e.target.value);
     };
     return (
         <div>

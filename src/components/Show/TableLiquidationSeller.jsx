@@ -8,10 +8,11 @@ import { useParams } from "react-router-dom";
 
 
 
-const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransaccionPay, data }) => {
+const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransaccionPay, data, type }) => {
 
 
     const dispatch = useDispatch();
+    const typeLiquidation = type;
     const { id: sellerByLiqui } = useParams();
     const invoice = useSelector(state => state.invoice);
     const vehicles = useSelector(state => state.vehicles);
@@ -37,7 +38,11 @@ const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransa
                         <th style={{ width: "150px" }}>Vendedor</th>
                         <th style={{ width: "125px", background: "#D3E0FF" }}>Pago</th>
                         <th style={{ width: "125px", background: "#D3E0FF" }}>Accion</th>
-                        <th style={{ width: "125px", background: "#D3E0FF" }}>Cobro Vehiculo</th>
+                        {
+                            typeLiquidation === "seller" ?
+                                <th style={{ width: "125px", background: "#D3E0FF" }}>Cobro Vehiculo</th>
+                                : null
+                        }
                     </tr>
                 </thead>
                 <tbody >
@@ -107,15 +112,22 @@ const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransa
                                 </button>
                             </td>
 
-                            <td>
-                                <select style={{width:"90px"}} name="" id="">
-                                    {
-                                        vehActive?.map((veh, index) => (
-                                            <option key={index} value={veh?.id} >{(veh?.driver)?.substring(0, 20)}</option>
-                                        ))
-                                    }
-                                </select>
-                            </td>
+
+                            {
+                                typeLiquidation === "seller" ?
+                                    <td>
+                                        <select style={{ width: "90px" }} name="vehicle_liq" id="" onChange={(e) => handleAddInvoice(e, item)}>
+                                            <option >{item?.vehicle_liq  ? vehActive.filter(veh=> (veh?.id === parseInt(item?.vehicle_liq)))[0]?.driver : "Seleccione" }</option>
+                                            {
+                                                vehActive?.map((veh, index) => (
+                                                    <option key={index} value={veh?.id} >{(veh?.driver)?.substring(0, 20)}</option>
+                                                ))
+                                            }
+                                            <option value={0} >Ninguno</option>
+                                        </select>
+                                    </td>
+                                    : null
+                            }
                         </tr>
                     ))}
                 </tbody>

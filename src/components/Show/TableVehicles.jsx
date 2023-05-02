@@ -95,16 +95,17 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
     return (
         <div className='tables-view'>
             <Modalcuadrebalan show={modalBalance} onHide={() => { setModalBalance(false) }} data={itemSelected} tipo={'veh'} />
-            <Table striped bordered hover responsive style={{ width: "980px" }}>
+            <Table striped bordered hover responsive style={{ width: "1048px" }}>
                 <thead >
                     <tr>
                         {/* <th style={{ width: "15px" }}>#</th> */}
                         <th style={{ width: "40px" }}>Id</th>
-                        <th style={{ width: "90px" }}>Placa</th>
-                        <th style={{ width: "175px" }}>Conductor</th>
+                        <th style={{ width: "100px" }}>Placa</th>
+                        <th style={{ width: "275px" }}>Conductor</th>
+                        <th style={{ width: "95px" }}>COD MV</th>
                         <th style={{ width: "130px" }}>Identificacion</th>
                         <th style={{ width: "70px" }}>Activo</th>
-                        <th style={{ width: "110px" }}>Ruta</th>
+                        <th style={{ width: "140px" }}>Ruta</th>
                         <th style={{ width: "200px" }}>Balance</th>
                         <th style={{ width: "40px" }}>Accion</th>
                     </tr>
@@ -161,6 +162,22 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
                                 :
                                 (<td>
                                     {item?.driver}
+                                </td>)
+                            }
+
+                            {editingIndex === index ?
+                                (<td>
+                                    <input
+                                        style={{ width: "150px" }}
+                                        className="form-control form-control-sm"
+                                        name='driver'
+                                        onChange={handleInputChange}
+                                        value={editedData.cod_mv}
+                                    />
+                                </td>)
+                                :
+                                (<td>
+                                    {item?.cod_mv}
                                 </td>)
                             }
 

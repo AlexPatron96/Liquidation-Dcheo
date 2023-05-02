@@ -15,7 +15,7 @@ const Dashboard = () => {
     const errorReceived = useSelector(state => state.errorReceived);
     errorReceived.length === 0 ? null : Swal.fire({
         title: "Error",
-        text: `Existe un error en esta operacion : ${errorReceived.error} `,
+        text: `Existe un error en esta operacion : ${errorReceived.error || errorReceived.message} `,
         icon: 'error',
         confirmButtonColor: '#d33',
         confirmButtonText: 'OK'

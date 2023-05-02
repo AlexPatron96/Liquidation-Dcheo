@@ -21,7 +21,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
     const [typeIsSelected, setTypeIsSelected] = useState('');
     /************** */
     const seller = useSelector(state => state.seller)
-    const deliveryCredLocalStorage = JSON.parse(sessionStorage.getItem(codeDeliveCrdStorage));
+    const deliveryCredLocalStorage = JSON.parse(localStorage.getItem(codeDeliveCrdStorage));
 
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm({
         defaultValues: initialValueTransaccion
@@ -49,7 +49,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
     const resetAction = () => {
         reset();
         setCredData([]);
-        sessionStorage.removeItem(codeDeliveCrdStorage);
+        localStorage.removeItem(codeDeliveCrdStorage);
     };
 
     const onSubmit = (data) => {
@@ -80,7 +80,7 @@ const DeliverCred = ({ codLiq, recepteddeliver, codeDeliveCrdStorage, typeLiquid
             })
         } else {
             recepteddeliver(credData);
-            sessionStorage.setItem(codeDeliveCrdStorage, JSON.stringify(credData));
+            localStorage.setItem(codeDeliveCrdStorage, JSON.stringify(credData));
             handleClose();
         }
     };

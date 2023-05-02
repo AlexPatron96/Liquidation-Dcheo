@@ -21,11 +21,6 @@ const Functionalitiesbtn = ({ aditional, buttons, listAvailable, search, filterL
             </div>
             <div className='d-flex flex gap-3 align-items-lg-stretch'>
                 {
-                    listAvailable ? listAvailable() : null
-                }
-            </div>
-            <div className='d-flex flex gap-3 align-items-lg-stretch'>
-                {
                     filterList ? filterList() : null
                 }
             </div>
@@ -35,9 +30,15 @@ const Functionalitiesbtn = ({ aditional, buttons, listAvailable, search, filterL
                 }
             </div>
 
-            <h6>{inputSearch}</h6>
+            <div className='d-flex flex gap-3 align-items-lg-stretch'>
+                {
+                    listAvailable ? listAvailable() : null
+                }
+            </div>
+
             {
                 search ? <div className="input-group inputFunc" >
+
                     <input type="text"
                         className="form-control"
                         placeholder="Ingresa lo que deseas buscar"

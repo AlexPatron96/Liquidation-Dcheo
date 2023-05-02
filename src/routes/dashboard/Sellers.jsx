@@ -57,14 +57,14 @@ const Sellers = () => {
         dispatch(updateSellerThunk(id, data))
     }
     const deleteData = (id) => {
-        console.log(id);
+       // console.log(id);
         dispatch(deleteSellerThunk(id));
     }
 
     const createdSeller = () => {
         if (!modalShow) {
             setModalShow(true)
-            console.log("mostrar model Vendedor");
+           // console.log("mostrar model Vendedor");
         } else {
             setModalShow(false)
         }
@@ -74,7 +74,7 @@ const Sellers = () => {
     const createByClouster = () => {
         if (!showCreateByClouster) {
             setShowCreateByClouster(true)
-            console.log("mostrar model created showCreateByClouster");
+           // console.log("mostrar model created showCreateByClouster");
         } else {
             setShowCreateByClouster(false)
         }

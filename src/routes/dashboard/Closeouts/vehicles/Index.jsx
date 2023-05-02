@@ -27,7 +27,7 @@ const Index = () => {
             </div>
             <div className='card-btn' style={{ margin: "2em" }}>
                 <Row>
-                    <Col>
+                    {/* <Col>
                         <OverlayTrigger overlay={
                             <Tooltip id="tooltip-disabled">
                                 Grupo de <strong>Facturas </strong> entregadas al Vehiculo, constancia de haber entregado facturas para su posterior Balance.
@@ -39,7 +39,7 @@ const Index = () => {
                                 <img src={preLiqui} alt="" style={{ width: "50px" }} />
                             </Link>
                         </OverlayTrigger>
-                    </Col>
+                    </Col> */}
 
                     <Col>
                         <OverlayTrigger overlay={

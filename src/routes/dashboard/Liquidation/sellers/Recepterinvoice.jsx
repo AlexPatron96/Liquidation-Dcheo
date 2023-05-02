@@ -18,7 +18,7 @@ const Recepterinvoice = () => {
     const navigate = useNavigate();
     useEffect(() => {
         seller[0] ? null : dispatch(getSellerThunk());
-        invoice[0] ? null : dispatch(getInvoiceThunk());
+        dispatch(getInvoiceThunk());
     }, [])
     const { id: sellerByLiqui } = useParams();
     const userLiquidador = useSelector(state => state.userLoged);
@@ -179,7 +179,7 @@ const Recepterinvoice = () => {
         principal.user = userLiquidador.username;
         principal.date = `${date.CurrendateDay()} - ${date.Currendate()}`;
         principal.seller = `${sellerLiqui[0]?.code} - ${sellerLiqui[0]?.name}`;
-       
+
 
 
         let arrayPrint = []
@@ -333,6 +333,7 @@ const Recepterinvoice = () => {
                     <h5>Total a Entregar: $ {(parseFloat(totalEntregado)).toFixed(2)}</h5>
                 </div>
                 <Modalagginvoice data={invoice}
+                    type={"seller"}
                     showAggInvoice={showAggInvoice}
                     setShowAggInvoice={setShowAggInvoice}
                     aggInvoice={aggInvoice} />

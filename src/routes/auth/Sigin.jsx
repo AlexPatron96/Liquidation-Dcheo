@@ -31,14 +31,14 @@ const Sigin = () => {
         alert('Registro con exito')
         axios.post(`${URL_BASE}/api/v1/auth/register`, data)
             .then((res) => {
-                console.log(res);
+               // console.log(res);
                 navigate("/dashboard");
                 dispatch(setUserLoged(res.data?.data));
                 localStorage.setItem('userLiquidation', JSON.stringify(res.data.data))
                 localStorage.setItem('token', res.data.data.token)
             })
             .catch(err => {
-                console.log(err);
+               // console.log(err);
                 if (err.response?.status === 404 || err.response?.status === 400) {
                     dispatch(setErrorReceived(err.response?.data))
                 }

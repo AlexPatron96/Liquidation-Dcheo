@@ -82,7 +82,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
     };
 
     const handleItemCustomerClick = (item) => {
-        console.log(item);
+        //        console.log(item);
         const { id, fullname, seller } = item;
         const { id: idSeller } = seller;
         if (editMode === true) {
@@ -146,7 +146,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                 ...prevState,
                 [name]: value
             }));
-            console.log("ignreso el else ultimo");
+            //        console.log("ignreso el else ultimo");
         }
     };
 
@@ -238,7 +238,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
         setEditedData(obj);
         setActiveListSearchCustomer(false);
         setSearchCustomerEdit(`${obj.client.id} - ${obj.client.fullname}`)
-        console.log(obj);
+        //        console.log(obj);
     };
 
     const handleInputChange = (event) => {

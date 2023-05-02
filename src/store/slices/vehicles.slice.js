@@ -23,11 +23,11 @@ export const getVehiclesThunk = () => (dispatch) => {
     axios.get(`${URL_BASE}/api/v1/vehicles/all`, getConfig())
         .then(res => {
             dispatch(setVehicle(res.data.result));
-            console.log("Recibe Peticion Get");
+            //console.log("Recibe Peticion Get");
         })
         .catch(err => {
             dispatch(setErrorReceived(err.response?.data));
-            console.log("Error en Slice");
+            //console.log("Error en Slice");
         })
         .finally(() => dispatch(setIsLoading(false)))
 };
@@ -37,11 +37,11 @@ export const postVehiclethunk = (data) => (dispatch) => {
     return axios.post(`${URL_BASE}/api/v1/vehicles/new`, data, getConfig())
         .then((res) => {
             dispatch(getVehiclesThunk());
-            console.log("Se a creado un nuevo vehiculo");
+            //console.log("Se a creado un nuevo vehiculo");
         })
         .catch(err => {
             alert("Error al crear el vehiculo")
-            console.log("Error en Slice");
+            //console.log("Error en Slice");
             dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
@@ -75,11 +75,11 @@ export const postVehicleClousterthunk = (data) => (dispatch) => {
     return axios.post(`${URL_BASE}/api/v1/vehicles/new-clouster`, data, getConfig())
         .then((res) => {
             dispatch(getVehiclesThunk());
-            console.log("Se han cargado un grupo items nuevos");
+            //console.log("Se han cargado un grupo items nuevos");
         })
         .catch(err => {
             alert("Error al crear el vehiculo por lotes")
-            console.log("Error en Slice");
+            //console.log("Error en Slice");
             dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
@@ -90,11 +90,11 @@ export const updateVehThunk = (id, data) => (dispatch) => {
     return axios.put(`${URL_BASE}/api/v1/vehicles/${id}/update`, data, getConfig())
         .then((res) => {
             dispatch(getVehiclesThunk());
-            console.log(res.data.result);
+            //console.log(res.data.result);
         })
         .catch(err => {
             alert("No se pudo actualizar el vehiculo "+data.placa)
-            console.log("error en veh slice");
+            //console.log("error en veh slice");
             dispatch(setErrorReceived(err.response?.data));
         })
         .finally(() => dispatch(setIsLoading(false)));
@@ -106,10 +106,10 @@ export const deleteVehThunk = (id) => (dispatch) => {
     return axios.delete(`${URL_BASE}/api/v1/vehicles/${id}/del`, getConfig())
         .then((res) => {
             dispatch(getVehiclesThunk());
-            console.log(res.data.result);
+            //console.log(res.data.result);
         })
         .catch(err => {
-            console.log("error en veh slice");
+            //console.log("error en veh slice");
             alert(`No Se pudo elimino el vehiculo`)
             dispatch(setErrorReceived(err.response.data));
         })

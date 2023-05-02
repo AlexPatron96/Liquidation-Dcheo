@@ -16,6 +16,7 @@ import ModalTransaccion from '../../components/Modals/ModalTransaccion';
 import ModalInvoiceTransac from '../../components/Modals/ModalInvoiceTransac';
 import { getSellerThunk } from '../../store/slices/seller.slice';
 import { getCustomerThunk } from '../../store/slices/customer.slice';
+import Formselectatom from '../../components/atom/Formselectatom';
 
 const Invoice = () => {
 
@@ -43,8 +44,8 @@ const Invoice = () => {
     const invoice = useSelector(state => state.invoice);
     const loading = useSelector(state => state.isLoading);
     const pagination = useSelector(state => state.pagination);
-    
-    console.log(invoice);
+
+    // console.log(invoice);
     const [modalShow, setModalShow] = useState(false);
 
     const createdCustomer = () => {
@@ -103,7 +104,7 @@ const Invoice = () => {
             (item?.seller.name).toLowerCase().includes(data)
         ));
         dispatch(setPagination(filteredList));
-        console.log(filteredList);
+        // console.log(filteredList);
     };
 
     const [modalTransaccionPay, setModalTransaccionPay] = useState(false);
@@ -121,12 +122,27 @@ const Invoice = () => {
         dispatch(getCustomerThunk());
     };
 
+    const searchDB = [
+        { "id": 1, "detail": "LOCAL" },
+        { "id": 2, "detail": "BASE DATOS" },
+    ];
+    const listAvailable = () => {
+        return (
+            <>
+                <Formselectatom title={"Selecionar lugar de busqueda"}
+                    iterador={searchDB}
+                    firstdata={"detail"}
+                    secunddata={"dia"}
+                    disabledAction={false} />
+            </>
+        )
+    };
     return (
         <div className='pages'>
             <h2>Facturas</h2>
             <Functionalitiesbtn
                 buttons={btnCreated}
-                // listAvailable={listAvailable}
+                listAvailable={listAvailable}
                 search={search} />
 
             <TableInvoice

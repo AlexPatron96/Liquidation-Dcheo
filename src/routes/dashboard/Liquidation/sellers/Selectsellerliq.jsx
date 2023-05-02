@@ -37,14 +37,14 @@ const Selectsellerliq = () => {
             showCancelButton: true
         }).then((result) => {
             if (result.isConfirmed) {
-                const filterInvoiceDia = invoice?.filter((sell) => {
-                    return ((sell?.seller?.id === parseInt(data?.id)) &&
-                        (sell?.client?.route_day?.day?.day === currentdate.CurrendateDay(" ")) &&
-                        (sell?.balance !== 0))
-                });
+                // const filterInvoiceDia = invoice?.filter((sell) => {
+                //     return ((sell?.seller?.id === parseInt(data?.id)) &&
+                //         (sell?.client?.route_day?.day?.day === currentdate.CurrendateDay(" ")) &&
+                //         (sell?.balance !== 0))
+                // });
                 // dispatch(setLiquidationSlice(filterInvoiceDia));
-                sessionStorage.setItem(`invoLiq${data?.code}-${data?.id}`, JSON.stringify(filterInvoiceDia))
-                navigate(`/dashboard/liquidation/sellers/${data.id}`);
+                // sessionStorage.setItem(`invoLiq${data?.code}-${data?.id}`, JSON.stringify(filterInvoiceDia))
+                navigate(`/dashboard/liquidation/sellers/${data?.id}`);
             }
         })
     };
@@ -60,9 +60,10 @@ const Selectsellerliq = () => {
                                 <Col key={index} >
                                     {/* to={"/dashboard/do-vehicleliquidation"} to={`/dashboard/liquidation/vehicles/${veh.id}`}  */}
                                     <Link className='linkStyle' style={{margin:"0.5rem 3rem"}} onClick={() => selectSeller(sell)}>
-                                        <h5>{index + 1}</h5>
-                                        <CardBtn title={(sell.name).substring(0, 18)} img={imgSeller} />
+                                        <h5>{sell?.code}</h5>
+                                        <CardBtn title={(sell?.name).substring(0, 18)} img={imgSeller} />
                                         {/* <h6></h6> */}
+                                        <span>Balance: ${sell?.balance_sell?.total}</span>
                                     </Link>
                                 </Col>
                             ))

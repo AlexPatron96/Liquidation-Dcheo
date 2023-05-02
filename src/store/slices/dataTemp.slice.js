@@ -31,11 +31,11 @@ export const newRoutethunk = (data) => (dispatch) => {
     dispatch(setIsLoading(true));
     return axios.post(`${URL_BASE}/api/v1/route/new`, data, getConfig())
         .then((res) => {
-            console.log(res.data.message);
+            // console.log(res.data.message);
             dispatch(getRoutethunk());
         })
         .catch(err => {
-            console.log("error en temp slice");
+            // console.log("error en temp slice");
             dispatch(setErrorReceived(err.response));
         })
         .finally(() => dispatch(setIsLoading(false)));

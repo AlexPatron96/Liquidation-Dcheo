@@ -62,7 +62,7 @@ const Vehicles = () => {
     const createdRoute = () => {
         if (!modalShow) {
             setModalShowRoute(true)
-            console.log("mostrar model created Routed");
+            //console.log("mostrar model created Routed");
         } else {
             setModalShowRoute(false)
         }
@@ -74,7 +74,7 @@ const Vehicles = () => {
     const createByClouster = () => {
         if (!showCreateByClouster) {
             setShowCreateByClouster(true)
-            console.log("mostrar model created showCreateByClouster");
+            //console.log("mostrar model created showCreateByClouster");
         } else {
             setShowCreateByClouster(false)
         }

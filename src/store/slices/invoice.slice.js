@@ -25,11 +25,11 @@ export const getInvoiceThunk = () => (dispatch) => {
   axios.get(`${URL_BASE}/api/v1/invoice/all`, getConfig())
     .then(res => {
       dispatch(setInvoice(res.data.result));
-      console.log("Recibe Peticion Get invoice");
+      // console.log("Recibe Peticion Get invoice");
     })
     .catch(err => {
       dispatch(setErrorReceived(err.response?.data));
-      console.log("Error en Slice invoice");
+      // console.log("Error en Slice invoice");
     })
     .finally(() => dispatch(setIsLoading(false)))
 };

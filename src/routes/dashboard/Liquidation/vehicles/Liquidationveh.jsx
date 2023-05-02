@@ -38,15 +38,14 @@ const Liquidationveh = () => {
     const vehicle = useSelector(state => state.vehicles);
     const invoice = useSelector(state => state.invoice);
     const invoiceFilter = invoice.filter(inv => inv.balance !== 0);
-    //console.log(invoiceFilter);
+    console.log(invoice);
 
     const invoiceDia = useSelector(state => state.liquidation);
     const vehicleLiqui = vehicle?.filter((veh) => (veh.id === parseInt(idVehicleByLiqui)));
     const [codLiq, setCodLiq] = useState("");
 
-    const filterInvoiceDia = invoice.filter((veh) => {
-        return ((veh?.client?.route_day?.day?.day === date.CurrendateDay("ayer")) &&
-            (veh?.balance !== 0))
+    const filterInvoiceDia = invoiceFilter.filter((veh) => {
+        return (parseInt(veh?.vehicle_liq) === parseInt(idVehicleByLiqui))
     });
 
     const [invoiceLiquidation, setInvoiceLiquidation] = useState(filterInvoiceDia);
@@ -66,25 +65,25 @@ const Liquidationveh = () => {
 
     const loadInvoice = () => {
 
-        const sesionLocal = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
-        const sesionLocalTrans = JSON.parse(sessionStorage.getItem(codeTransacLocalStorage));
-        const expensesSesionStorage = JSON.parse(sessionStorage.getItem(codeExpeLocalStorage));
-        const discountSesionStorage = JSON.parse(sessionStorage.getItem(codeDiscountLocalStorage));
-        const cashSesionStorage = JSON.parse(sessionStorage.getItem(codeCashLocalStorage));
-        const checkSesionStorage = JSON.parse(sessionStorage.getItem(codeCheckLocalStorage));
-        const boxSmallSesionStorage = JSON.parse(sessionStorage.getItem(codeBoxSmalStorage));
-        const prinDetailSesionStorage = JSON.parse(sessionStorage.getItem(codePrinDetailStorage));
-        const productSesionStorage = JSON.parse(sessionStorage.getItem(codeProductLocalStorage));
+        const sesionLocal = JSON.parse(localStorage.getItem(codeInvoLocalStorage));
+        const sesionLocalTrans = JSON.parse(localStorage.getItem(codeTransacLocalStorage));
+        const expensesSesionStorage = JSON.parse(localStorage.getItem(codeExpeLocalStorage));
+        const discountSesionStorage = JSON.parse(localStorage.getItem(codeDiscountLocalStorage));
+        const cashSesionStorage = JSON.parse(localStorage.getItem(codeCashLocalStorage));
+        const checkSesionStorage = JSON.parse(localStorage.getItem(codeCheckLocalStorage));
+        const boxSmallSesionStorage = JSON.parse(localStorage.getItem(codeBoxSmalStorage));
+        const prinDetailSesionStorage = JSON.parse(localStorage.getItem(codePrinDetailStorage));
+        const productSesionStorage = JSON.parse(localStorage.getItem(codeProductLocalStorage));
 
         sesionLocal?.[0] ? setInvoiceLiquidation(sesionLocal) : setInvoiceLiquidation(filterInvoiceDia);
-        
+
         checkSesionStorage?.[0] ? setCheckMoney(checkSesionStorage) : setCheckMoney([]);
         const filteredTransac = sesionLocalTrans?.filter(trans => {
             return (sesionLocal?.[0] ? sesionLocal?.some(factura => factura?.num_bill === trans?.num_bill) :
-            filterInvoiceDia?.some(factura => factura?.num_bill === trans?.num_bill));
+                filterInvoiceDia?.some(factura => factura?.num_bill === trans?.num_bill));
         });
         sesionLocalTrans?.[0] ? setTransaction(filteredTransac) : setTransaction([]);
-        sesionLocal?.[0] ? null : sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(filterInvoiceDia));
+        sesionLocal?.[0] ? null : localStorage.setItem(codeInvoLocalStorage, JSON.stringify(filterInvoiceDia));
 
         setCodLiq(genCod(`LIQ-VEH${vehicleLiqui?.[0]?.id}-`));
         cashSesionStorage ? setCash(cashSesionStorage) : setCash({});
@@ -93,13 +92,13 @@ const Liquidationveh = () => {
         productSesionStorage ? setProductReturn(productSesionStorage) : setProductReturn({});
         boxSmallSesionStorage ? setBoxSmall(boxSmallSesionStorage) : null;
         prinDetailSesionStorage ? setPrincipalDetail(prinDetailSesionStorage) : null;
-        sessionStorage.removeItem('printVehicle');
+        localStorage.removeItem('printVehicle');
 
     };
 
     const filterTrans = () => {
-        const sesionLocal = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
-        const sesionLocalTrans = JSON.parse(sessionStorage.getItem(codeTransacLocalStorage));
+        const sesionLocal = JSON.parse(localStorage.getItem(codeInvoLocalStorage));
+        const sesionLocalTrans = JSON.parse(localStorage.getItem(codeTransacLocalStorage));
 
         const filteredTransac = sesionLocalTrans?.filter(trans => {
             return (sesionLocal?.[0] ? sesionLocal?.some(factura => factura?.num_bill === trans?.num_bill) :
@@ -118,7 +117,7 @@ const Liquidationveh = () => {
             return !(idsAdd).includes((item.id))
         });
         const concatData = invoiceLiquidation.concat(Verficador);
-        sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(concatData));
+        localStorage.setItem(codeInvoLocalStorage, JSON.stringify(concatData));
         // dispatch(setLiquidationSlice(concatData));
         setInvoiceLiquidation(concatData);
         setSelectedInvoices([]);
@@ -140,7 +139,7 @@ const Liquidationveh = () => {
                 const eliminador = invoiceLiquidation.filter(item => {
                     return !(checkSelectedID).includes((item.id.toString()))
                 });
-                sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(eliminador));
+                localStorage.setItem(codeInvoLocalStorage, JSON.stringify(eliminador));
                 setInvoiceLiquidation(eliminador);
                 setSelectedInvoices([]);
                 setCheckSelectedID([]);
@@ -193,19 +192,19 @@ const Liquidationveh = () => {
                         pago: item.pay
                     };
                     setInvoiceLiquidation(prevState => prevState.map(prevInv => prevInv.num_bill === item.num_bill ? newInv : prevInv));
-                    // Guardar en sessionStorage
-                    const sessionInvoiceLiquidation = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
+                    // Guardar en localStorage
+                    const sessionInvoiceLiquidation = JSON.parse(localStorage.getItem(codeInvoLocalStorage));
                     // const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
                     const newSessionInvoiceLiquidation = (sessionInvoiceLiquidation?.[0] ?
                         sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv) :
                         invoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv));
-                    sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
+                    localStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
                 }
             });
             setTransaction(eliminador);
-            sessionStorage.setItem(codeTransacLocalStorage, JSON.stringify(eliminador));
+            localStorage.setItem(codeTransacLocalStorage, JSON.stringify(eliminador));
             setTransaction(prevState => [...prevState, item]);
-            sessionStorage.setItem(codeTransacLocalStorage, JSON.stringify([...eliminador, item]));
+            localStorage.setItem(codeTransacLocalStorage, JSON.stringify([...eliminador, item]));
         } else {
 
             const validadorLiquidation = invoiceLiquidation.forEach(inv => {
@@ -217,18 +216,18 @@ const Liquidationveh = () => {
                     };
                     setInvoiceLiquidation(prevState => prevState.map(prevInv => prevInv.num_bill === item.num_bill ? newInv : prevInv));
 
-                    // Guardar en sessionStorage
-                    const sessionInvoiceLiquidation = JSON.parse(sessionStorage.getItem(codeInvoLocalStorage));
+                    // Guardar en localStorage
+                    const sessionInvoiceLiquidation = JSON.parse(localStorage.getItem(codeInvoLocalStorage));
                     // const newSessionInvoiceLiquidation = sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv);
                     const newSessionInvoiceLiquidation = (sessionInvoiceLiquidation?.[0] ?
                         sessionInvoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv) :
                         invoiceLiquidation.map(sessionInv => sessionInv.num_bill === item.num_bill ? newInv : sessionInv));
-                    sessionStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
+                    localStorage.setItem(codeInvoLocalStorage, JSON.stringify(newSessionInvoiceLiquidation));
                 }
             });
             //console.log(invoiceLiquidation);
             setTransaction(prevState => [...prevState, item]);
-            sessionStorage.setItem(codeTransacLocalStorage, JSON.stringify([...transaction, item]));
+            localStorage.setItem(codeTransacLocalStorage, JSON.stringify([...transaction, item]));
         }
     };
 
@@ -261,6 +260,7 @@ const Liquidationveh = () => {
     const totalAdmin = ((sumTotalCobrado || 0) + (totalSellerSales || 0) + (parseFloat(boxSmall) || 0));
 
     const cuadre = (totalVehicle - totalAdmin).toFixed(2);
+    const balanceVeh = parseFloat(vehicleLiqui?.[0]?.balance_veh?.total) + parseFloat(cuadre);
 
     const detailGeneral = `
     DETALLE GENERAL: ${principalDetail} 
@@ -356,19 +356,19 @@ const Liquidationveh = () => {
         setInvoiceLiquidation([]);
         setTransaction([]);
 
-        sessionStorage.removeItem(codeCheckLocalStorage);
-        sessionStorage.removeItem(codeCheckLocalStorage + "view");
-        sessionStorage.removeItem(codeDiscountLocalStorage);
-        sessionStorage.removeItem(codeCashLocalStorage);
-        sessionStorage.removeItem(codeExpeLocalStorage);
-        sessionStorage.removeItem(codeInvoLocalStorage);
-        sessionStorage.removeItem(codeBoxSmalStorage);
-        sessionStorage.removeItem(codeProductInvoLocalStorage);
-        sessionStorage.removeItem(codeProductInvoLocalStorage + "view");
-        sessionStorage.removeItem(codeDeliveCrdStorage);
-        sessionStorage.removeItem(codeProductLocalStorage);
-        sessionStorage.removeItem(codeTransacLocalStorage);
-        sessionStorage.removeItem(codePrinDetailStorage);
+        localStorage.removeItem(codeCheckLocalStorage);
+        localStorage.removeItem(codeCheckLocalStorage + "view");
+        localStorage.removeItem(codeDiscountLocalStorage);
+        localStorage.removeItem(codeCashLocalStorage);
+        localStorage.removeItem(codeExpeLocalStorage);
+        localStorage.removeItem(codeInvoLocalStorage);
+        localStorage.removeItem(codeBoxSmalStorage);
+        localStorage.removeItem(codeProductInvoLocalStorage);
+        localStorage.removeItem(codeProductInvoLocalStorage + "view");
+        localStorage.removeItem(codeDeliveCrdStorage);
+        localStorage.removeItem(codeProductLocalStorage);
+        localStorage.removeItem(codeTransacLocalStorage);
+        localStorage.removeItem(codePrinDetailStorage);
     };
     /************************************************************************/
     const liquidar = () => {
@@ -444,7 +444,7 @@ const Liquidationveh = () => {
                 confirmButtonText: 'OK',
             })
         } else {
-            sessionStorage.setItem("printVehicle" + vehicleLiqui[0]?.id, JSON.stringify(arraySendLiq));
+            sesionLocal.setItem("printVehicle" + vehicleLiqui[0]?.id, JSON.stringify(arraySendLiq));
             window.open(direccion, "", "height=600,width=1200,center");
 
         }
@@ -470,26 +470,43 @@ const Liquidationveh = () => {
 
     return (
         <div>
-            <div id="contenido-a-imprimir">
+            <div id="contenido-a-imprimir" style={{margin:"1.5rem 0" }}>
 
-                <h4>Liquidacion de Vehiculos de Entrega</h4>
-                <h5>Usuario: <span style={{ color: "#02B875" }}> {userLiquidador.username} </span> </h5>
-                <h5>Fecha de liquidacion: <span style={{ color: "#02B875" }}>{(date.CurrendateDay()).toUpperCase()} {date.Currendate()} </span> </h5>
-                <h5>Se esta liquidando al Vehiculo:
-                    <span style={{ color: "#02B875" }}> {vehicleLiqui?.[0]?.id} - {vehicleLiqui?.[0]?.driver}</span>
-                </h5>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0 2rem" }}>
+                    <div>
+                        <h4>Liquidacion de Vehiculos de Entrega</h4>
+                        <h5>Usuario: <span style={{ color: "#02B875" }}> {userLiquidador.username} </span> </h5>
+                        <h5>Fecha de liquidacion: <span style={{ color: "#02B875" }}>{(date.CurrendateDay()).toUpperCase()} {date.Currendate()} </span> </h5>
+                        <h5>Se esta liquidando al Vehiculo:
+                            <span style={{ color: "#02B875" }}> {vehicleLiqui?.[0]?.id} - {vehicleLiqui?.[0]?.driver}</span>
+                        </h5>
+                    </div>
+                    <div style={{ border: "2px solid var(--first-color)", padding: "0.5rem", textAlign: "center" }}>
+                        <h5>Balance General:</h5>
+                        <h4 style={{
+                            fontSize: "39px",
+                            color: `${balanceVeh > 0 ?
+                                "#FFAC42" : balanceVeh < 0 ? "#C20114" : "#02B875"}`
+                        }}>
+                            ${parseFloat(balanceVeh).toFixed(2)}
+                        </h4>
+                        <span style={{ fontSize: "10px" }}>Anterior: $ {parseFloat(vehicleLiqui?.[0]?.balance_veh?.total).toFixed(2)}</span>
+                    </div>
+                </div>
+
+
                 <div style={{ margin: "2rem 1rem" }}>
                     <h5>Lista de Clientes a liquidar</h5>
                     <Functionalitiesbtn
                         buttons={btnCreated}
                         listAvailable={""}
-                        aditional={() => { return <h5>Liquidacion:  {codLiq}</h5> }}
+                        aditional={() => { return <h5> Cod Liquidacion:  {codLiq}</h5> }}
                     />
                     <div>
                         <TableLiquidationSeller
                             data={invoiceLiquidation}
                             modaltransaccionPay={modaltransaccionPay}
-                            seller={"1"}
+                            type={"vehicle"}
                             handleAddInvoice={handleAddInvoice}
                             checkSelectedID={checkSelectedID} />
                     </div>
@@ -537,7 +554,7 @@ const Liquidationveh = () => {
                                     onChange={(e) => {
                                         if (!isNaN(e.target.value)) {
                                             setBoxSmall(e.target.value);
-                                            sessionStorage.setItem(codeBoxSmalStorage, JSON.stringify(e.target.value));
+                                            localStorage.setItem(codeBoxSmalStorage, JSON.stringify(e.target.value));
                                         }
                                     }} />
                             </div>
@@ -594,7 +611,7 @@ const Liquidationveh = () => {
                             type="text" value={principalDetail}
                             onChange={(e) => {
                                 setPrincipalDetail(e.target.value);
-                                sessionStorage.setItem(codePrinDetailStorage, JSON.stringify(e.target.value));
+                                localStorage.setItem(codePrinDetailStorage, JSON.stringify(e.target.value));
                             }} />
                     </div>
                 </div>
@@ -668,6 +685,7 @@ const Liquidationveh = () => {
                 />
 
                 <Modalagginvoice data={invoice}
+                    type={"vehicle"}
                     showAggInvoice={showAggInvoice}
                     setShowAggInvoice={setShowAggInvoice}
                     aggInvoice={aggInvoice} />

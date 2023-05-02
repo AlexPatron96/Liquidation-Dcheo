@@ -138,9 +138,9 @@ const Modalcash = ({ obejet, listdbCash, setCash }) => {
     /*******************************************/
 
     const onSubmit = (data) => {
-        console.log(data);
+        //console.log(data);
         data.total = parseFloat(data.cheque) + parseFloat(data.depositos) + parseFloat(data.efectivo) + parseFloat(data.monedas);
-        console.log(data);
+        // console.log(data);
         /***************Aqui toca enviar informacion*************/
         setCash(data)
 

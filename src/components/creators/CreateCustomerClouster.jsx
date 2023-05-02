@@ -30,7 +30,7 @@ const CreateCustomerClouster = (props) => {
                 id_seller: fila[4],
                 id_route_day: fila[5],
             }));
-            console.log(libro);
+           // console.log(libro);
 
             setCustomer(customerJson);
         };
@@ -67,58 +67,59 @@ const CreateCustomerClouster = (props) => {
                             <div style={{ margin: "2rem 0" }}>
                                 <input type="file" onChange={CargaArchivo} />
                             </div>
-
-                            <Table striped bordered hover style={{ maxWidth: "700px", height: "10px", overflow: "auto" }}>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nombre</th>
-                                        <th>Cod MV</th>
-                                        <th>Direccion</th>
-                                        <th>identificacion</th>
-                                        <th>Vendedor</th>
-                                        <th>Dia atencion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        customer.map((customer, index) => (
-                                            <tr key={index}>
-                                                <td>
-                                                    {index + 1}
-                                                </td>
-                                                <td>
-                                                    {customer.fullname}
-                                                </td>
-                                                <td>
-                                                    {customer.code_external}
-                                                </td>
-                                                <td>
-                                                    {customer.address}
-                                                </td>
-                                                <td>
-                                                    {customer.dni}
-                                                </td>
-                                                <td>
-                                                    {customer.id_seller}
-                                                </td>
-                                                <td>
-                                                    {customer.id_route_day}
-                                                </td>
-                                            </tr>
-                                        ))
-                                    }
-                                    <tr>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
+                            <div style={{padding: "1rem" , overflowY: "scroll", height: "500px" }}>
+                                <Table striped bordered hover style={{ fontSize:"11px" }}>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Cod MV</th>
+                                            <th>Direccion</th>
+                                            <th>identificacion</th>
+                                            <th>Vendedor</th>
+                                            <th>Dia atencion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            customer.map((customer, index) => (
+                                                <tr key={index}>
+                                                    <td>
+                                                        {index + 1}
+                                                    </td>
+                                                    <td>
+                                                        {customer.fullname}
+                                                    </td>
+                                                    <td>
+                                                        {customer.code_external}
+                                                    </td>
+                                                    <td>
+                                                        {customer.address}
+                                                    </td>
+                                                    <td>
+                                                        {customer.dni}
+                                                    </td>
+                                                    <td>
+                                                        {customer.id_seller}
+                                                    </td>
+                                                    <td>
+                                                        {customer.id_route_day}
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                        <tr>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </div>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

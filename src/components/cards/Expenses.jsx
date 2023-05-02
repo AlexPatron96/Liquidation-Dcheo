@@ -23,7 +23,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
     const [typeIsSelected, setTypeIsSelected] = useState('');
     /************** */
 
-    const expensesLocalStorage = JSON.parse(sessionStorage.getItem(codeExpeLocalStorage));
+    const expensesLocalStorage = JSON.parse(localStorage.getItem(codeExpeLocalStorage));
 
     const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm({
         defaultValues: initialValueTransaccion
@@ -42,7 +42,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
         expensesLocalStorage ? setValue("total", expensesLocalStorage.total) : "0";
         expensesLocalStorage ? setTotal(expensesLocalStorage.total) : "0";
         expensesLocalStorage ? setValue("detail", expensesLocalStorage.detail) : "";
-        console.log("cuantas veces ingresa");
+        // console.log("cuantas veces ingresa");
 
     }, [codLiq])
 
@@ -58,12 +58,12 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
         let boat_expenses = parseFloat(formData.get('boat_expenses') || 0);
 
         const newTotal = feeding + fuel + vehicle_expenses + motorcycle_expenses + perdiem + boat_expenses;
-        console.log(newTotal);
+        // console.log(newTotal);
         setTotal(newTotal.toFixed(2));
         setValue("total", newTotal.toFixed(2))
     };
 
-    const onChange =  (event) => {
+    const onChange = (event) => {
         setValue("settlement_code", codLiq)
         const { name, value } = event.target;
         formData.set(name, value);
@@ -75,7 +75,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
     const onSubmit = (data) => {
         setValue("settlement_code", codLiq)
         receptedExpenses(data);
-        sessionStorage.setItem(codeExpeLocalStorage, JSON.stringify(data));
+        localStorage.setItem(codeExpeLocalStorage, JSON.stringify(data));
         handleClose();
     };
 
@@ -83,7 +83,7 @@ const Expenses = ({ codLiq, receptedExpenses, codeExpeLocalStorage, typeLiquidat
         reset();
         setTotal(0);
         setFormData(new FormData());
-        sessionStorage.removeItem(codeExpeLocalStorage);
+        localStorage.removeItem(codeExpeLocalStorage);
     };
 
     const [showExpense, setShowExpense] = useState(false);

@@ -20,7 +20,7 @@ const PreLiquidationSeller = () => {
     const clickViewAction = (itemSelect) => {
         clickView ? setClickView(false) : setClickView(true);
         dataView ? setDataView(itemSelect) : setDataView({});
-        console.log(itemSelect);
+        //console.log(itemSelect);
     };
 
     const printAction = (dataProcess) => {
@@ -49,8 +49,8 @@ const PreLiquidationSeller = () => {
         arrayPrint.push(principal);
         arrayPrint.push(invoicePre);
         arrayPrint.push(dataProcess?.total);
-        console.log(dataProcess);
-        console.log(arrayPrint);
+        //console.log(dataProcess);
+        //console.log(arrayPrint);
         Swal.fire({
             title: '¿Está seguro?',
             text: `Desea imprimir el siguiente Registro ${principal.seller}.`,

@@ -36,18 +36,18 @@ const Login = () => {
     }
 
 
-    // console.log(userLoged);
+    //// console.log(userLoged);
 
     const validationPassword = () => {
         const text = userLoged.toString().toLowerCase();
-        console.log(text);
+       // console.log(text);
         if (text === "password is not correct") {
             setErrPassword(true);
-            console.log("la contrasena mala ");
+           // console.log("la contrasena mala ");
         }
         if (text === "user does not exist") {
             setErrUSer(true);
-            console.log("el correo es malo ");
+           // console.log("el correo es malo ");
 
         }
     }
