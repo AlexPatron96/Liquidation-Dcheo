@@ -176,9 +176,9 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                 detail: "",
                 id_seller: ""
             });
-            setTimeout(() => {
-                itemPast(formData);
-            }, [1500]);
+            // setTimeout(() => {
+            //     itemPast(formData);
+            // }, [1500]);
         } else {
 
             Swal.fire({

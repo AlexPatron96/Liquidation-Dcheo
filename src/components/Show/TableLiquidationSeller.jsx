@@ -31,13 +31,13 @@ const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransa
                         <th style={{ width: "150px" }}># Factura</th>
                         <th style={{ width: "80px" }}>N. Venta</th>
                         <th style={{ width: "90px" }}>Estatus</th>
-                        <th style={{ width: "150px" }}>Fecha Entrega</th>
+                        <th style={{ width: "200px" }}>Fecha Entrega</th>
                         <th style={{ width: "100px" }}>Total</th>
                         <th style={{ width: "100px" }}>Saldo</th>
                         <th style={{ width: "100px" }}>Detalle</th>
                         <th style={{ width: "150px" }}>Vendedor</th>
                         <th style={{ width: "125px", background: "#D3E0FF" }}>Pago</th>
-                        <th style={{ width: "125px", background: "#D3E0FF" }}>Accion</th>
+                        <th style={{ width: "100px", background: "#D3E0FF" }}>Accion</th>
                         {
                             typeLiquidation === "seller" ?
                                 <th style={{ width: "125px", background: "#D3E0FF" }}>Cobro Vehiculo</th>
@@ -101,9 +101,9 @@ const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransa
                             <td style={{ width: "120px", fontSize: "14px" }}>
                                 {item.seller?.code} -  {(item.seller?.name)?.split(" ")[0]}
                             </td>
-
-                            <td style={{ width: "120px", fontSize: "14px" }}>
-                                $ {item?.pago ? (parseFloat(item?.pago)).toFixed(2) : 0}
+                            {/* item?.pago < item.balance ? "#FF9797" :  */}
+                            <td style={{fontWeight: "800", width: "120px", fontSize: "15px", backgroundColor: item?.pago === item.balance ? "#A6E9B5" : item?.pago === 0 ? "#FF9797" : "#E0F3FF" }}>
+                                $ {item?.pago ? (parseFloat(item?.pago)).toFixed(2) : item?.pago === 0 ? "No Pago" : 0}
                             </td>
 
                             <td className='tdBtn' style={{ maxWidth: "145px" }}>
@@ -117,7 +117,7 @@ const TableLiquidationSeller = ({ handleAddInvoice, checkSelectedID, modaltransa
                                 typeLiquidation === "seller" ?
                                     <td>
                                         <select style={{ width: "90px" }} name="vehicle_liq" id="" onChange={(e) => handleAddInvoice(e, item)}>
-                                            <option >{item?.vehicle_liq  ? vehActive.filter(veh=> (veh?.id === parseInt(item?.vehicle_liq)))[0]?.driver : "Seleccione" }</option>
+                                            <option >{item?.vehicle_liq ? vehActive.filter(veh => (veh?.id === parseInt(item?.vehicle_liq)))[0]?.driver : "Seleccione"}</option>
                                             {
                                                 vehActive?.map((veh, index) => (
                                                     <option key={index} value={veh?.id} >{(veh?.driver)?.substring(0, 20)}</option>

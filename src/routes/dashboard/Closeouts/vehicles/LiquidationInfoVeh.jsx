@@ -287,9 +287,7 @@ const LiquidationInfoVeh = () => {
                                                 </tr>
                                             </thead>
                                             <tbody style={{ fontSize: "12px" }}>
-                                                {
-                                                    console.log(dataView)
-                                                }
+                                                
                                                 {
                                                     dataView?.bills_liquidation_vehs?.map((inv, index) => (
                                                         <tr key={index}>

@@ -20,7 +20,7 @@ const Selectsellerliq = () => {
     }, [])
 
     const seller = useSelector(state => state.seller);
-    console.log(seller);
+    //console.log(seller);
     const sellerActive = seller.filter(sell => sell?.isActive === true);
     const invoice = useSelector(state => state.invoice);
     const identificarDia = date.CurrendateDay();

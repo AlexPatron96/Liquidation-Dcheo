@@ -25,6 +25,21 @@ export const getInvoiceThunk = () => (dispatch) => {
   axios.get(`${URL_BASE}/api/v1/invoice/all`, getConfig())
     .then(res => {
       dispatch(setInvoice(res.data.result));
+      // console.log(res.data.result);
+    })
+    .catch(err => {
+      dispatch(setErrorReceived(err.response?.data));
+      console.log(err.response);
+    })
+    .finally(() => dispatch(setIsLoading(false)))
+};
+
+export const getInvoiceSearchFilterThunk = (data) => (dispatch) => {
+  const { id_client, id_seller, num_bill, date_init, date_end , balance} = data;
+  dispatch(setIsLoading(true))
+  axios.get(`${URL_BASE}/api/v1/invoice/search?client=${id_client}&numBill=${num_bill}&dateInit=${date_init}&dateEnd=${date_end}&seller=${id_seller}&balance=${balance}`, getConfig())
+    .then(res => {
+      dispatch(setInvoice(res.data.result));
       // console.log("Recibe Peticion Get invoice");
     })
     .catch(err => {

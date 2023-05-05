@@ -38,7 +38,7 @@ const Liquidationveh = () => {
     const vehicle = useSelector(state => state.vehicles);
     const invoice = useSelector(state => state.invoice);
     const invoiceFilter = invoice.filter(inv => inv.balance !== 0);
-    console.log(invoice);
+   // console.log(invoice);
 
     const invoiceDia = useSelector(state => state.liquidation);
     const vehicleLiqui = vehicle?.filter((veh) => (veh.id === parseInt(idVehicleByLiqui)));

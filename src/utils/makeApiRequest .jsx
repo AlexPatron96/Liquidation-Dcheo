@@ -11,7 +11,7 @@ const makeApiRequest = async (url, method, data) => {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${localStorage.getItem("token")}`
     };
-    console.log(headers);
+    //console.log(headers);
     try {
         const response = await axios({
             method: method,

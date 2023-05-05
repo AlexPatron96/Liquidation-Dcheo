@@ -17,6 +17,8 @@ import ModalInvoiceTransac from '../../components/Modals/ModalInvoiceTransac';
 import { getSellerThunk } from '../../store/slices/seller.slice';
 import { getCustomerThunk } from '../../store/slices/customer.slice';
 import Formselectatom from '../../components/atom/Formselectatom';
+import Filterinvoice from '../../components/Modals/Filterinvoice';
+
 
 const Invoice = () => {
 
@@ -68,6 +70,9 @@ const Invoice = () => {
                 <Buttonatom created={refresh}
                     title={""}
                     color={"info"} ico={"fa-arrow-rotate-right bx-spin-hover"} />
+                <Buttonatom created={() => setModalFilter(true)}
+                    title={""}
+                    color={"primary"} ico={"fa-filter"} />
             </>
         )
     }
@@ -142,12 +147,19 @@ const Invoice = () => {
             </>
         )
     };
+
+
+    const [modalFilter, setModalFilter] = useState(false);
+    const onHideFilter = () => {
+        setModalFilter(false);
+    };
+
     return (
         <div className='pages'>
             <h2>Facturas</h2>
             <Functionalitiesbtn
                 buttons={btnCreated}
-                listAvailable={listAvailable}
+                // listAvailable={listAvailable}
                 search={search} />
 
             <TableInvoice
@@ -169,6 +181,9 @@ const Invoice = () => {
             />
             {/* <ModalInvoiceTransac onHide={() => { setModalTransaccionPay(false) }} show={modalTransaccionPay} /> */}
             <ModalInvoiceTransac itemSelect={itemSelect} onhide={() => setModalTransaccionPay(false)} show={modalTransaccionPay} />
+
+            <Filterinvoice itemSelect={itemSelect} onhide={() => setModalFilter(false)} show={modalFilter} />
+
         </div>
     );
 };

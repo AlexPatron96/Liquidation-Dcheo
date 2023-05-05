@@ -75,7 +75,7 @@ const Liquidationsell = () => {
         const checkSesionStorage = JSON.parse(localStorage.getItem(codeCheckLocalStorage));
 
         sesionLocal?.[0] ? setInvoiceLiquidation(sesionLocal) : setInvoiceLiquidation(invoiceLiquidation);
-        sesionLocal?.[0] ? console.log('Sesion storage') : console.log("Backend");
+        //sesionLocal?.[0] ? console.log('Sesion storage') : console.log("Backend");
         // console.log(sesionLocal);
         // console.log(invoiceLiquidation);
         // console.log(sesionLocalTrans);
@@ -154,7 +154,7 @@ const Liquidationsell = () => {
         }
 
     };
-console.log(invoiceLiquidation);
+    //console.log(invoiceLiquidation);
     const deleteInvoice = () => {
         Swal.fire({
             title: '¿Está seguro?',
@@ -459,7 +459,7 @@ console.log(invoiceLiquidation);
             <div id="contenido-a-imprimir">
 
                 <h4>Liquidacion de Vendedores</h4>
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0 2rem", flexWrap:"wrap" }}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", margin: "0 2rem", flexWrap: "wrap" }}>
                     <div>
                         <h5>Usuario: <span style={{ color: "#02B875" }}> {userLiquidador?.username} </span> </h5>
                         <h5>Fecha de liquidacion: <span style={{ color: "#02B875" }}>{date.CurrendateDay()} {date.Currendate()} </span> </h5>
