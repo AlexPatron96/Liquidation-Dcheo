@@ -251,7 +251,7 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
                 </Modal.Body>
                 <Modal.Footer>
                     
-                    <Button variant="success" type="submit" onClick={() => { newCuadreBalance(); onHide(); }}>
+                    <Button variant="success" type="submit" onClick={() => { newCuadreBalance();}}>
                         <i className="fa-solid fa-dollar-sign bx-fw"></i>
                         Cuadre
                     </Button>

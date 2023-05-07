@@ -53,15 +53,13 @@ const Cash = ({ codLiq, receptedDiscount, codeDiscountLocalStorage, typeLiquidat
         setValue("settlement_code", codLiq)
         const { name, value } = event.target;
         formData.set(name, value);
-        // console.log(formData);
         setFormData(formData);
         calculateTotal();
     };
 
 
     const onSubmit = (data) => {
-        // console.log(data);
-        setValue("settlement_code", codLiq)
+        setValue("settlement_code", codLiq);
         receptedDiscount(data);
         localStorage.setItem(codeDiscountLocalStorage, JSON.stringify(data));
         handleClose();
@@ -168,7 +166,7 @@ const Cash = ({ codLiq, receptedDiscount, codeDiscountLocalStorage, typeLiquidat
                     <Button variant="outline-danger" onClick={() => { resetAction(); }}>
                         Limpiar
                     </Button>
-                    <Button style={{ borderTopLeftRadius: "0", borderTopRightRadius: "0" }} variant="outline-success" type="submit" onClick={handleSubmit(onSubmit)}>
+                    <Button variant="outline-success" type="submit" onClick={handleSubmit(onSubmit)}>
                         Grabar
                     </Button>
 
