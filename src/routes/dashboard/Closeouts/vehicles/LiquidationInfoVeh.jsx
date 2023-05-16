@@ -114,49 +114,6 @@ const LiquidationInfoVeh = () => {
 
     const sectionRef = useRef(null);
 
-    // const captureSection = (sectionRef) => {
-    //     html2canvas(sectionRef.current).then(canvas => {
-    //         const imgData = canvas.toDataURL();
-    //         const link = document.createElement('a');
-    //         link.download = 'captura.png';
-    //         link.href = imgData;
-    //         link.click();
-    //     });
-    // }
-
-    // const saveImageToServerAsPDF = (sectionRef, serverUrl) => {
-    //     if (!sectionRef.current) {
-    //         console.error('Elemento no válido');
-    //         return;
-    //     }
-    //     const scale = 3; // Factor de escala para aumentar la resolución de la imagen
-    //     const canvas = document.createElement('canvas');
-    //     canvas.width = sectionRef.current.offsetWidth * scale;
-    //     canvas.height = sectionRef.current.offsetHeight * scale;
-    //     canvas.style.width = `${sectionRef.current.offsetWidth}px`;
-    //     canvas.style.height = `${sectionRef.current.offsetHeight}px`;
-    //     const ctx = canvas.getContext('2d');
-    //     ctx.scale(scale, scale);
-    //     html2canvas(sectionRef.current, { canvas: canvas }).then(canvas => {
-    //         const imgData = canvas.toDataURL('image/jpeg', 1.0);
-    //         const pdf = new jsPDF({
-    //             orientation: 'landscape',
-    //             unit: 'px',
-    //             format: [canvas.width / scale, canvas.height / scale]
-    //         });
-    //         pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width / scale, canvas.height / scale);
-    //         pdf.save('captura.pdf');
-    //         const formData = new FormData();
-    //         formData.append('pdf', pdf.output('blob'), 'captura.pdf');
-    //         axios.post(serverUrl, formData)
-    //             .then(response => {
-    //                 console.log(response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error(error);
-    //             });
-    //     });
-    // }
 
 
     const handleDownload = () => {
@@ -267,7 +224,7 @@ const LiquidationInfoVeh = () => {
                                                     'OK'}
                                         </h5>
                                         <h5>
-                                            $ {dataView?.balance_gen_veh}
+                                            $ {parseFloat(dataView?.balance_gen_veh).toFixed(2)}
                                         </h5>
                                     </div>
                                 </div>
@@ -287,7 +244,7 @@ const LiquidationInfoVeh = () => {
                                                 </tr>
                                             </thead>
                                             <tbody style={{ fontSize: "12px" }}>
-                                                
+
                                                 {
                                                     dataView?.bills_liquidation_vehs?.map((inv, index) => (
                                                         <tr key={index}>
@@ -352,10 +309,12 @@ const LiquidationInfoVeh = () => {
                                                     <span>Caja Chica</span>
                                                     <span>$ {dataView?.box_small}</span>
                                                 </div>
+
                                                 <div>
                                                     <div style={{ border: "1px solid var(--first-color) ", borderRadius: "5px" }}>
                                                         Ventas
                                                         {
+
                                                             dataView?.delivered_credits?.map((sell, index) => (
                                                                 <div key={index} style={{ display: "flex", justifyContent: "space-between" }}>
                                                                     <span>{(seller.filter(seller => seller.id === parseInt(sell?.seller?.id))[0]?.code)} :</span>
@@ -385,6 +344,7 @@ const LiquidationInfoVeh = () => {
                                                             `La liquidacion de el Vehiculo de entrega conducido por ${dataView?.vehicle?.driver} es Correcta`}
                                                 </span>
                                             </div>
+
                                         </div>
                                     </div>
 

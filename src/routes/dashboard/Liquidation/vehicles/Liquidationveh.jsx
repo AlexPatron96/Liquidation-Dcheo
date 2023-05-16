@@ -20,6 +20,7 @@ import { getVehiclesThunk } from '../../../../store/slices/vehicles.slice';
 import ProductReturn from '../../../../components/cards/ProductReturn';
 import DeliverCred from '../../../../components/cards/DeliverCred';
 import { postVehicleLiquidationthunk } from '../../../../store/slices/liquidationVehicle.slice';
+import axios from 'axios';
 
 const Liquidationveh = () => {
 
@@ -38,7 +39,7 @@ const Liquidationveh = () => {
     const vehicle = useSelector(state => state.vehicles);
     const invoice = useSelector(state => state.invoice);
     const invoiceFilter = invoice.filter(inv => inv.balance !== 0);
-   // console.log(invoice);
+    // console.log(invoice);
 
     const invoiceDia = useSelector(state => state.liquidation);
     const vehicleLiqui = vehicle?.filter((veh) => (veh.id === parseInt(idVehicleByLiqui)));
@@ -299,7 +300,7 @@ const Liquidationveh = () => {
         principal.id_user = userLiquidador.id;
         principal.settlement_date = date.Currendate();
         principal.id_vehicle = vehicleLiqui[0]?.id;
-        principal.balance_gen_veh = vehicleLiqui[0]?.balance_veh?.total;
+        principal.balance_gen_veh = balanceVeh;
         principal.settlement_code = codLiq;
         principal.box_small = boxSmall;
         principal.total_delivery_bills = (totalSellerSales);
@@ -327,7 +328,7 @@ const Liquidationveh = () => {
         arraySendLiq.push(productReturn);
         arraySendLiq.push(productReturnInvoice);
         arraySendLiq.push(transaction);
-        arraySendLiq.push(invoiceLiquidation)
+        arraySendLiq.push(invoiceLiquidation);
         arraySendLiq.push(checkMoneyView);
         arraySendLiq.push(sellerDeliverCred);
 
@@ -371,58 +372,97 @@ const Liquidationveh = () => {
         localStorage.removeItem(codePrinDetailStorage);
     };
     /************************************************************************/
+    // const [message, setMessage] = useState({});
+
+    const peticionVerification = async () => {
+        const arraySendLiq = loaderData();
+
+        return axios.post("http://localhost:8000/api/v1/invoice/search-group", arraySendLiq[7])
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                console.log(err.response);
+                return false; // o cualquier otro valor que desee devolver en caso de error
+            });
+    };
+
     const liquidar = () => {
         let direccion = `/dashboard/liquidation/vehicle/print/${vehicleLiqui[0]?.id}`;
         const arraySendLiq = loaderData();
-        //console.log(arraySendLiq);
-        Swal.fire({
-            title: '¿Está seguro?',
-            text: `Se realizara la liquidacion del Vehiculo de entrega conducido por  ${vehicleLiqui[0]?.driver}, no se podra revertir los cambios despues de confirmar la liquidacion .`,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#029C63',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, Liquidar!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (!(codLiq) || Object.keys(expenses).length === 0 || Object.keys(discount).length === 0 ||
-                    Object.keys(cash).length === 0 || Object.keys(productReturn).length === 0 ||
-                    Object.keys(sellerDeliverCred).length === 0) {
+
+        const idSeller = arraySendLiq[10].id_seller;
+        peticionVerification()
+            .then((result) => {
+                console.log(result)
+                if (result.isExistError !== true) {
+
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Alert!',
-                        text: 'Debes de Generar el Codigo de liquidacion y completar los campos Necesarios. En Caso que no tengas datos completa los campos con Cero ( 0 ).',
-                        showConfirmButton: true,
-                    });
+                        title: '¿Está seguro?',
+                        text: `Se realizara la liquidacion del Vehiculo de entrega conducido por  ${vehicleLiqui[0]?.driver}, no se podra revertir los cambios despues de confirmar la liquidacion .`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#029C63',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Si, Liquidar!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            if (!(codLiq) || Object.keys(expenses).length === 0 || Object.keys(discount).length === 0 ||
+                                Object.keys(cash).length === 0 || Object.keys(productReturn).length === 0 ||
+                                Object.keys(sellerDeliverCred).length === 0) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Alert!',
+                                    text: 'Debes de Generar el Codigo de liquidacion y completar los campos Necesarios. En Caso que no tengas datos completa los campos con Cero ( 0 ).',
+                                    showConfirmButton: true,
+                                });
+                            } else {
+
+                                sessionStorage.setItem("printVehicle" + vehicleLiqui[0]?.id, JSON.stringify(arraySendLiq));
+
+                                deleteData();
+
+                                dispatch(postVehicleLiquidationthunk(arraySendLiq));
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Guardado!',
+                                    text: `Se a generadado la liquidacion con exito`,
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                                setTimeout(() => {
+                                    window.open(direccion, "", "height=600,width=1200,center");
+                                }, [1000]);
+                                navigate(`/dashboard/liquidation/vehicles`)
+
+
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Cancelado!',
+                                text: 'Se a cancelado el registro, puede realizar los cambios necesarios',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        }
+                    })
+
                 } else {
-                    sessionStorage.setItem("printVehicle" + vehicleLiqui[0]?.id, JSON.stringify(arraySendLiq));
-
-                    deleteData();
-
-                    dispatch(postVehicleLiquidationthunk(arraySendLiq));
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Guardado!',
-                        text: `Se a generadado la liquidacion con exito`,
-                        showConfirmButton: false,
-                        timer: 1000
-                    });
-                    setTimeout(() => {
-                        window.open(direccion, "", "height=600,width=1200,center");
-                    }, [1000]);
-                    navigate(`/dashboard/liquidation/vehicles`)
+                        title: 'Error',
+                        text: `Error no puedes liquidar una factura Eliminada de la base de datos, Mensaje:  ${result.info}`,
+                        icon: 'error',
+                    })
                 }
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Cancelado!',
-                    text: 'Se a cancelado el registro, puede realizar los cambios necesarios',
-                    showConfirmButton: false,
-                    timer: 1000
-                })
-            }
-        })
+                // Hacer algo con el resultado aquí
+            })
+            .catch((err) => {
+                console.log(err);
+                // Manejar errores aquí
+            });
+
     };
 
     const cancelLiquidation = () => {
@@ -515,7 +555,7 @@ const Liquidationveh = () => {
                 <div className='cont-totales'>
 
                     <div>
-                        <h5 style={{width:"300px"}}>Total Descuentos: $   {(discount?.total_other) ? (discount?.total_other) : (0).toFixed(2)}</h5>
+                        <h5 style={{ width: "300px" }}>Total Descuentos: $   {(discount?.total_other) ? (discount?.total_other) : (0).toFixed(2)}</h5>
                         <h5>Total Productos: $   {(productReturn?.total) ? (productReturn?.total) : (0).toFixed(2)}</h5>
                         <h5>Total Gastos: $   {(expenses?.total) ? (expenses?.total) : (0).toFixed(2)}</h5>
                         <h5>Total Dinero: $       {(cash?.total) ? (cash?.total) : (0).toFixed(2)}</h5>
@@ -540,7 +580,7 @@ const Liquidationveh = () => {
 
                     <div>
                         <div style={{ display: "flex" }}>
-                            <h3 style={{width:"300px"}}>Total Cobrado: $</h3>
+                            <h3 style={{ width: "300px" }}>Total Cobrado: $</h3>
                             <h3>{(sumTotalCobrado).toFixed(2)}</h3>
                         </div>
 

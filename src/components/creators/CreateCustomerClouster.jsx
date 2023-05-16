@@ -61,7 +61,7 @@ const CreateCustomerClouster = (props) => {
 
                             <div>
                                 Podra cargar documentos de formatos (.xlsx ) con la siguiente estructura.
-                                <a href="/src/document/exel/seller.xlsx" download={"formado-pdf-Seller.xlsx"}>Descargar</a>
+                                <a href="/src/document/exel/clients.xlsx" download={"formado-pdf-clients.xlsx"}>Descargar</a>
                             </div>
 
                             <div style={{ margin: "2rem 0" }}>

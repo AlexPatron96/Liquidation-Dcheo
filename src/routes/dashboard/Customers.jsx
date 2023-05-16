@@ -147,7 +147,7 @@ const Customers = () => {
                 </h2>
                 <Functionalitiesbtn
                     buttons={btnCreated}
-                    listAvailable={listAvailable}
+                    // listAvailable={listAvailable}
                     search={search} />
             </div>
             <div>

@@ -32,6 +32,7 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice, 
 
     const setRefresh = () => {
         dispatch(getInvoiceThunk());
+        setPagination(invSeller);
     };
 
     const allInv = () => {
@@ -79,6 +80,7 @@ const Modalagginvoice = ({ data, showAggInvoice, setShowAggInvoice, aggInvoice, 
                         backgroundPosition: "right 0.1rem center", fontSize: "13px"
                     }}
                     onChange={(e) => handleInv(e)}>
+                    <option  >Selecione</option>
                     <option value={"lunes"} >LUNES</option>
                     <option value={"martes"} >MARTES</option>
                     <option value={"miercoles"} >MIERCOLES</option>

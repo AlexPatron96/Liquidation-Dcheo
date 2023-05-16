@@ -57,7 +57,7 @@ const LiquidationSellerPdf = () => {
                                     'EN CONTRA' :
                                     'OK'}
                         </h5>
-                        <h5>${principal?.balance_gen_sell}</h5>
+                        <h5>${parseFloat(principal?.balance_gen_sell).toFixed(2)}</h5>
                     </div>
                 </div>
 
@@ -75,16 +75,16 @@ const LiquidationSellerPdf = () => {
                                     <th>Abono</th>
                                 </tr>
                             </thead>
-                            <tbody style={{ fontSize: "12px" }}>
+                            <tbody >
                                 {
                                     invoice?.map((inv, index) => (
                                         <tr key={index}>
-                                            <td>{index + 1}</td>
-                                            <td>{inv?.client?.fullname || inv?.id_bills_bill.client?.fullname}</td>
-                                            <td>{inv?.num_bill || inv?.id_bills_bill.num_bill}</td>
-                                            <td>$ {(((inv?.total_bill)) || inv?.id_bills_bill.total_bill)}</td>
-                                            <td>$ {((parseFloat(inv?.balance))) || inv?.id_bills_bill.balance}</td>
-                                            <td style={{ borderRight: `4px solid ${(inv?.pass || parseFloat(inv?.pago)) ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pass)) || (parseFloat(inv?.pago)) || 0}</td>
+                                            <td style={{ fontSize: "12px" }}>{index + 1}</td>
+                                            <td style={{ fontSize: "16px" }}>{inv?.client?.fullname || inv?.id_bills_bill.client?.fullname}</td>
+                                            <td style={{ fontSize: "12px" }}>{inv?.num_bill || inv?.id_bills_bill.num_bill}</td>
+                                            <td style={{ fontSize: "12px" }}>$ {(((inv?.total_bill)) || inv?.id_bills_bill.total_bill)}</td>
+                                            <td style={{ fontSize: "12px" }}>$ {((parseFloat(inv?.balance))) || inv?.id_bills_bill.balance}</td>
+                                            <td style={{ fontSize: "12px", borderRight: `4px solid ${(inv?.pass || parseFloat(inv?.pago)) ? "#02B875" : "#FFCCE5"} ` }}>$ {(parseFloat(inv?.pass)) || (parseFloat(inv?.pago)) || 0}</td>
                                         </tr>
                                     ))
                                 }

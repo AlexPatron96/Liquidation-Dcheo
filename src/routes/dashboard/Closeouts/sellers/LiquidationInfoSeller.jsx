@@ -175,7 +175,7 @@ const LiquidationInfoSeller = () => {
                                                     'OK'}
                                         </h5>
                                         <h5>
-                                            $ {dataView?.balance_gen_sell}
+                                            $ {parseFloat(dataView?.balance_gen_sell).toFixed(2)}
                                         </h5>
                                     </div>
                                 </div>

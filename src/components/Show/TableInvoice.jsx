@@ -352,7 +352,7 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                             <td>
                                 <select name="isWhite"
                                     className="form-select h-25"
-                                    style={{ padding: "3px", width: "70px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
+                                    style={{ padding: "5px", width: "90px", backgroundPosition: "right 0.1rem center", fontSize: "13px" }}
                                     value={formData.isWhite}
                                     onChange={handleChange}>
                                     <option value={"false"}>Factura</option>
@@ -688,11 +688,12 @@ const TableInvoice = ({ data, updateInvo, delInvo, createInvo, transaccionPay, o
                                     </>
                                 ) : (
                                     <>
-                                        <button type="button" className="btn btn-primary  btn-actions" onClick={() => handleEdit(index, item)}>
+
+                                        <button disabled={item.balance !== item.total_bill ? true : false} type="button" className="btn btn-primary  btn-actions" onClick={() => handleEdit(index, item)}>
                                             <i className="fa-solid fa-pen-to-square bx-fw"></i>
                                         </button>
 
-                                        <button type="button" className="btn btn-danger btn-actions" style={{ alignItems: 'center' }} onClick={() => handleDelete(item.id)}>
+                                        <button  disabled={item.balance !== item.total_bill ? true : false} type="button" className="btn btn-danger btn-actions" style={{ alignItems: 'center' }} onClick={() => handleDelete(item.id)}>
                                             <i className="fa-solid fa-trash-can bx-fw"></i>
                                         </button>
                                     </>

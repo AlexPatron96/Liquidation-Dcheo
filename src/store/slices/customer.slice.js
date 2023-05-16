@@ -38,8 +38,12 @@ export const postCustomerthunk = (data) => (dispatch) => {
             dispatch(getCustomerThunk());
         })
         .catch(err => {
-            alert("Error al crear el Cliente")
-            dispatch(setErrorReceived(err?.response.data));
+            console.log(err?.response.data)
+            if ((err?.response.data.error) === ("llave duplicada viola restricción de unicidad «clients_dni_key»")) {
+                dispatch(setErrorReceived({ error: "Este Cliente ya existe en la BASE DE DATOS revisa la lista de clientes." }));
+            } else {
+                dispatch(setErrorReceived(err?.response.data));
+            }
         })
         .finally(() => dispatch(setIsLoading(false)));
 }
@@ -51,7 +55,6 @@ export const postCustomerClousterthunk = (data) => (dispatch) => {
             dispatch(getCustomerThunk());
         })
         .catch(err => {
-            alert("Error al crear al crear los clientes Cliente")
             dispatch(setErrorReceived(err?.response.data));
         })
         .finally(() => dispatch(setIsLoading(false)));

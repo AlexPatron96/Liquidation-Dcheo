@@ -53,7 +53,7 @@ const LiquidationVehiclePdf = () => {
                                 'OK'}
                     </h5>
                     <h5>
-                        $ {principal?.balance_gen_veh}
+                        $ {parseFloat(principal?.balance_gen_veh).toFixed(2)}
                     </h5>
                 </div>
             </div>

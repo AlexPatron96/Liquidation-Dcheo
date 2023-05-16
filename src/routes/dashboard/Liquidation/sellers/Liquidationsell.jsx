@@ -17,6 +17,7 @@ import { getSellerThunk } from '../../../../store/slices/seller.slice';
 import date from "../../../../utils/date"
 import genCod from '../../../../utils/genCod';
 import { getVehiclesThunk } from '../../../../store/slices/vehicles.slice';
+import axios from 'axios';
 
 const Liquidationsell = () => {
 
@@ -352,57 +353,95 @@ const Liquidationsell = () => {
         localStorage.removeItem(codePrinDetailStorage);
     };
 
-
-    const liquidar = () => {
-        let direccion = `/dashboard/liquidation/sellers/print/${codLiq}`;
-
+    const peticionVerification = async () => {
         const arraySendLiq = loaderData();
 
-        Swal.fire({
-            title: '¿Está seguro?',
-            text: `Se realizara la liquidacion del vendedor ${sellerLiqui[0]?.name}, no se podra revertir los cambios despues de confirmar la liquidacion .`,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#029C63',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, Liquidar!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (!(codLiq) || Object.keys(expenses).length === 0 || Object.keys(discount).length === 0 || Object.keys(cash).length === 0) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Alert!',
-                        text: 'Debes de Generar el Codigo de liquidacion y completar los campos Necesarios. En Caso que no tengas datos completa los campos con Cero ( 0 ).',
-                        showConfirmButton: true,
-                    });
-                } else {
+        return axios.post("http://localhost:8000/api/v1/invoice/search-group", arraySendLiq[5])
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                console.log(err.response);
+                return false; // o cualquier otro valor que desee devolver en caso de error
+            });
+    };
 
-                    sessionStorage.setItem("printSeller", JSON.stringify(arraySendLiq));
-                    dispatch(postSellerLiquidationthunk(arraySendLiq));
+    const liquidar = async () => {
+        let direccion = `/dashboard/liquidation/sellers/print/${codLiq}`;
+        const arraySendLiq = loaderData();
+        const idSeller = arraySendLiq[10].id_seller;
+
+        peticionVerification()
+            .then((result) => {
+                console.log(result);
+                if (result.isExistError !== true) {
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Guardado!',
-                        text: `Se a generadado la liquidacion con exito`,
-                        showConfirmButton: false,
-                        timer: 1000
+                        title: '¿Está seguro?',
+                        text: `Se realizara la liquidacion del vendedor ${sellerLiqui[0]?.name}, no se podra revertir los cambios despues de confirmar la liquidacion .`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#029C63',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Si, Liquidar!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            if (!(codLiq) || Object.keys(expenses).length === 0 || Object.keys(discount).length === 0 || Object.keys(cash).length === 0) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Alert!',
+                                    text: 'Debes de Generar el Codigo de liquidacion y completar los campos Necesarios. En Caso que no tengas datos completa los campos con Cero ( 0 ).',
+                                    showConfirmButton: true,
+                                });
+
+                            } else {
+
+
+                                sessionStorage.setItem("printSeller", JSON.stringify(arraySendLiq));
+                                dispatch(postSellerLiquidationthunk(arraySendLiq));
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Guardado!',
+                                    text: `Se a generadado la liquidacion con exito`,
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                                setTimeout(() => {
+                                    window.open(direccion, "", "height=600,width=1200,center");
+                                }, [1000]);
+                                navigate(`/dashboard/liquidation/sellers/${idSeller}/received-inovices`)
+                                deleteData();
+
+
+
+                            }
+
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Cancelado!',
+                                text: 'Se a cancelado el registro, puede realizar los cambios necesarios',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        }
                     });
-                    setTimeout(() => {
-                        window.open(direccion, "", "height=600,width=1200,center");
-                    }, [1000]);
-                    navigate(`/dashboard/liquidation/sellers/${arraySendLiq[10].id_seller}/received-inovices`)
-                    deleteData();
+
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: `Error no puedes liquidar una factura Eliminada de la base de datos, Mensaje:  ${result.info}`,
+                        icon: 'error',
+                    })
                 }
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Cancelado!',
-                    text: 'Se a cancelado el registro, puede realizar los cambios necesarios',
-                    showConfirmButton: false,
-                    timer: 1000
-                })
-            }
-        })
+            })
+            .catch((err) => {
+                console.log(err);
+                // Manejar errores aquí
+            });
+
+        /**/
     };
 
     const cancelLiquidation = () => {

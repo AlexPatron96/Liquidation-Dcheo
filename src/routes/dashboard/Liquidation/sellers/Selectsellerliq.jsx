@@ -26,8 +26,8 @@ const Selectsellerliq = () => {
     const identificarDia = date.CurrendateDay();
     // const codeInvoLocalStorage = `invoLiq${sellerLiqui[0]?.code}-${sellerLiqui[0]?.id}`;
 
-    const selectSeller = (data) => {
-        Swal.fire({
+    const selectSeller = async (data) => {
+        Swal.fire( {
             title: '¿Está seguro?',
             text: `Vas a realizar la liquidacion de el Vendedor ${data?.name} del dia ${identificarDia}`,
             icon: 'warning',
@@ -37,18 +37,13 @@ const Selectsellerliq = () => {
             showCancelButton: true
         }).then((result) => {
             if (result.isConfirmed) {
-                // const filterInvoiceDia = invoice?.filter((sell) => {
-                //     return ((sell?.seller?.id === parseInt(data?.id)) &&
-                //         (sell?.client?.route_day?.day?.day === currentdate.CurrendateDay(" ")) &&
-                //         (sell?.balance !== 0))
-                // });
-                // dispatch(setLiquidationSlice(filterInvoiceDia));
-                // sessionStorage.setItem(`invoLiq${data?.code}-${data?.id}`, JSON.stringify(filterInvoiceDia))
-                navigate(`/dashboard/liquidation/sellers/${data?.id}`);
+                
+            }else{
+                navigate(`/dashboard/liquidation/sellers`);
             }
         })
     };
-    
+
     return (
         <div className='doSellerLiq pages'>
             <div className='card-select1'>
@@ -59,10 +54,10 @@ const Selectsellerliq = () => {
                             sellerActive?.map((sell, index) => (
                                 <Col key={index} >
                                     {/* to={"/dashboard/do-vehicleliquidation"} to={`/dashboard/liquidation/vehicles/${veh.id}`}  */}
-                                    <Link className='linkStyle' style={{margin:"0.5rem 3rem"}} onClick={() => selectSeller(sell)}>
+                                    <Link className='linkStyle' to={`/dashboard/liquidation/sellers/${sell?.id}`} style={{ margin: "0.5rem 3rem" }} onClick={() => selectSeller(sell)}>
                                         <h5>{sell?.code}</h5>
                                         <CardBtn title={(sell?.name).substring(0, 18)} img={imgSeller} />
-                                        {/* <h6></h6> */}
+
                                         <span>Balance: ${sell?.balance_sell?.total}</span>
                                     </Link>
                                 </Col>

@@ -16,13 +16,16 @@ const Createrouteday = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const [dayList, setDayList] = useState([
-        { id: 1, day: "lunes" },
-        { id: 2, day: "martes" },
-        { id: 3, day: "miercoles" },
+        { id: 1, day: "Lunes" },
+        { id: 2, day: "Martes" },
+        { id: 3, day: "Miercoles" },
         { id: 4, day: "jueves" },
-        { id: 5, day: "viernes" },
-        { id: 6, day: "sabado" },
-        { id: 7, day: "domingo" }
+        { id: 5, day: "Viernes" },
+        { id: 6, day: "Sabado" },
+        { id: 7, day: "Domingo" },
+        { id: 8, day: "Todos" },
+
+        
     ]);
 
     useEffect(() => {
@@ -48,7 +51,13 @@ const Createrouteday = () => {
         "#D4B2D8",
         "#FFFFCC",
         "#B2FFFF",
-        "#FFE5B4"
+        "#FFE5B4",
+        "#F5F5DC",
+        "#B2D8FF",
+        "#F5F5DC",
+        "#F7C6B3",
+        "#C1B1E1",
+        
     ];
 
     const onSubmitRouteDay = (data) => {

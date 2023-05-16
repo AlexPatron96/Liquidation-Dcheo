@@ -112,6 +112,7 @@ const CreateVehiclesClouster = (props) => {
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
+                                        <td>-</td>
                                     </tr>
                                 </tbody>
                             </Table>
