@@ -230,7 +230,7 @@ const TableInvoice = ({
 				  }))
 				: "";
 		}
-		// inputRef.current.focus();
+		inputRef.current.focus();
 	};
 
 	const handleDelete = (id) => {
@@ -1131,74 +1131,88 @@ const TableInvoice = ({
 								</td>
 							)}
 
-							<td
-								className="tdBtn"
-								style={{ maxWidth: "145px" }}
-							>
-								{editingIndex === index ? (
-									<>
-										<button
-											type="button"
-											className="btn btn-success btn-actions"
-											onClick={() =>
-												handleSave(item.id)
-											}
-										>
-											<i className="fa-solid fa-floppy-disk bx-fw"></i>
-										</button>
+							<td style={{ maxWidth: "145px" }}>
+								<div
+									style={{
+										display: "flex",
+										gap: "0.25rem",
+										justifyContent: "center",
+									}}
+								>
+									{editingIndex === index ? (
+										<>
+											<button
+												type="button"
+												className="btn btn-success btn-actions"
+												onClick={() =>
+													handleSave(item.id)
+												}
+											>
+												<i className="fa-solid fa-floppy-disk bx-fw"></i>
+											</button>
 
-										<button
-											type="button"
-											className="btn btn-warning btn-actions"
-											style={{
-												alignItems: "center",
-											}}
-											onClick={() => {
-												setEditingIndex(null);
-												setEditMode(false);
-											}}
-										>
-											<i className="fa-solid fa-xmark bx-fw"></i>
-										</button>
-									</>
-								) : (
-									<>
-										<button
-											disabled={
-												item.balance !==
-												item.total_bill
-													? true
-													: false
-											}
-											type="button"
-											className="btn btn-primary  btn-actions"
-											onClick={() =>
-												handleEdit(index, item)
-											}
-										>
-											<i className="fa-solid fa-pen-to-square bx-fw"></i>
-										</button>
+											<button
+												type="button"
+												className="btn btn-warning btn-actions"
+												style={{
+													alignItems:
+														"center",
+												}}
+												onClick={() => {
+													setEditingIndex(
+														null
+													);
+													setEditMode(false);
+												}}
+											>
+												<i className="fa-solid fa-xmark bx-fw"></i>
+											</button>
+										</>
+									) : (
+										<>
+											<button
+												disabled={
+													item.balance !==
+													item.total_bill
+														? true
+														: false
+												}
+												type="button"
+												className="btn btn-primary  btn-actions"
+												onClick={() =>
+													handleEdit(
+														index,
+														item
+													)
+												}
+											>
+												<i className="fa-solid fa-pen-to-square bx-fw"></i>
+											</button>
 
-										<button
-											disabled={
-												item.balance !==
-												item.total_bill
-													? true
-													: false
-											}
-											type="button"
-											className="btn btn-danger btn-actions"
-											style={{
-												alignItems: "center",
-											}}
-											onClick={() =>
-												handleDelete(item.id)
-											}
-										>
-											<i className="fa-solid fa-trash-can bx-fw"></i>
-										</button>
-									</>
-								)}
+											<button
+												disabled={
+													item.balance !==
+													item.total_bill
+														? true
+														: false
+												}
+												type="button"
+												className="btn btn-danger btn-actions"
+												style={{
+													alignItems:
+														"center",
+												}}
+												onClick={() =>
+													handleDelete(
+														item.id
+													)
+												}
+											>
+												<i className="fa-solid fa-trash-can bx-fw"></i>
+											</button>
+										</>
+									)}
+								</div>
 							</td>
 						</tr>
 					))}

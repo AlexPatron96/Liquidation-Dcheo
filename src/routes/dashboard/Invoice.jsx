@@ -89,7 +89,7 @@ const Invoice = () => {
 				/>
 
 				<Buttonatom
-					created={() => generarArchivoExcel(pagination)}
+					created={() => generarArchivoExcel(invoice)}
 					title={""}
 					color={"warning"}
 					ico={"fa-download"}
@@ -100,13 +100,13 @@ const Invoice = () => {
 	/************************************************************************************** */
 
 	const createInvo = (data) => {
-		Swal.fire({
-			position: "center",
-			icon: "success",
-			title: "Se a creado una Factura nueva",
-			showConfirmButton: false,
-			timer: 1500,
-		});
+		// Swal.fire({
+		// 	position: "center",
+		// 	icon: "success",
+		// 	title: "Se a creado una Factura nueva",
+		// 	showConfirmButton: false,
+		// 	timer: 1500,
+		// });
 		dispatch(postInvoiceTransacthunk(data));
 	};
 
@@ -219,17 +219,17 @@ const Invoice = () => {
 				datum.client.fullname,
 				datum.num_bill,
 				datum.isWhite ? "Nota de Venta" : "Factura",
-				datum.id_status === "1"
+				datum.id_status === 1
 					? "Pendiente"
-					: datum.id_status === "2"
+					: datum.id_status === 2
 					? "Abonada"
 					: "Pagada",
-				`(${date.DatePastPresent(datum.deliver_date)})-${
+				`(${date.DatePastPresent(datum.deliver_date)})  ${
 					datum.deliver_date
 				}`,
 				`${parseFloat(datum.total_bill).toFixed(2)}`,
 				`${parseFloat(datum.balance).toFixed(2)}`,
-				datum.detail,
+				datum.detail ? data.detail : "Sin detalle",
 				datum.seller.name,
 			]);
 		});
@@ -256,7 +256,7 @@ const Invoice = () => {
 			})
 			.finally(dispatch(setIsLoading(false)));
 	};
-
+	console.log(invoice);
 	return (
 		<div className="pages">
 			<h2>Facturas</h2>
