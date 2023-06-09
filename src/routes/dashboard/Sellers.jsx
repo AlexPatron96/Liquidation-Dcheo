@@ -22,36 +22,20 @@ import TableSellers from "../../components/Show/TableSellers";
 import { setErrorReceived } from "../../store/slices/errorReceived.slice";
 import Swal from "sweetalert2";
 import { Form } from "react-bootstrap";
+import { getInvoiceThunk } from "../../store/slices/invoice.slice";
 
 const Sellers = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		sellerRedux[0] ? null : dispatch(getSellerThunk());
+		invoice[0] ? null : dispatch(getInvoiceThunk());
 	}, []);
 
 	const sellerRedux = useSelector((state) => state.seller);
-	// const route = useSelector(state => state.temporary);
+	const invoice = useSelector((state) => state.invoice);
 	const loading = useSelector((state) => state.isLoading);
 	const pagination = useSelector((state) => state.pagination);
-
-	// const listShow = [
-	// 	"#id",
-	// 	"Nombre",
-	// 	"Activo",
-	// 	"Ruta",
-	// 	"Credito Max",
-	// 	"Liquidacion Activa",
-	// ];
-	// const listDB = [
-	// 	"name",
-	// 	"isActive",
-	// 	"id_route",
-	// 	"max_Fact",
-	// 	"liquidation_isactive",
-	// ];
-
-	// console.log(sellerRedux);
 
 	const [modalShow, setModalShow] = useState(false);
 
@@ -59,7 +43,6 @@ const Sellers = () => {
 		dispatch(updateSellerThunk(id, data));
 	};
 	const deleteData = (id) => {
-		// console.log(id);
 		dispatch(deleteSellerThunk(id));
 	};
 
@@ -71,6 +54,7 @@ const Sellers = () => {
 			setModalShow(false);
 		}
 	};
+
 	const [showCreateByClouster, setShowCreateByClouster] = useState(false);
 
 	const createByClouster = () => {
@@ -106,22 +90,59 @@ const Sellers = () => {
 			</>
 		);
 	};
+
 	const orderList = (event) => {
 		const { value } = event.target;
 		const copiaSellerRedux = [...sellerRedux];
 		let result = [];
 
 		if (parseInt(value) === 1) {
+			// Orden Asendente
 			result = copiaSellerRedux.sort((a, b) => a.id - b.id);
 		} else if (parseInt(value) === 2) {
+			//Orden Desendente
 			result = copiaSellerRedux.sort((a, b) => b.id - a.id);
 		} else if (parseInt(value) === 3) {
-			result = copiaSellerRedux.sort((a, b) => b.id - a.id);
-		}
+			// Orden Por Ruta
+			result = copiaSellerRedux.sort((a, b) =>
+				b.code.localeCompare(a.code)
+			);
+		} else if (parseInt(value) === 4) {
+			// Orden Por Deuda Mayor
+			let arrHigherDebt = [];
+			for (let index = 0; index < sellerRedux.length; index++) {
+				const filterInvSeller = invoice.filter(
+					(inv) =>
+						parseInt(inv.seller.id) ===
+						parseInt(sellerRedux[index].id)
+				);
 
+				const sumTotal = Object.values(filterInvSeller).reduce(
+					(acc, cur) => acc + parseFloat(cur?.balance),
+					0
+				);
+				arrHigherDebt.push({
+					sellerID: sellerRedux[index].id,
+					totalDebt: parseFloat(sumTotal).toFixed(2),
+				});
+			}
+			const ordMaxLow = arrHigherDebt.sort(
+				(a, b) => b.totalDebt - a.totalDebt
+			);
+			console.log(ordMaxLow);
+			result = copiaSellerRedux.sort((a, b) => {
+				const indexA = ordMaxLow.findIndex(
+					(item) => item.sellerID === a.id
+				);
+				const indexB = ordMaxLow.findIndex(
+					(item) => item.sellerID === b.id
+				);
+				return indexA - indexB;
+			});
+		}
 		dispatch(setSeller(result));
 	};
-	// console.log(sellerRedux);
+
 	const listAvailable = () => {
 		return (
 			<>
@@ -134,7 +155,8 @@ const Sellers = () => {
 					<option>Ordenar</option>
 					<option value={1}>Ascendente</option>
 					<option value={2}>Descendente</option>
-					<option value={3}>Mayor Deuda</option>
+					<option value={3}>Por Ruta</option>
+					<option value={4}>Mayor Deuda</option>
 				</Form.Select>
 			</>
 		);

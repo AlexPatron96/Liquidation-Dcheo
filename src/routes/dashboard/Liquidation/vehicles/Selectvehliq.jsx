@@ -1,81 +1,146 @@
-import React, { useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import CardBtn from '../../../../components/CardBtn';
-import imgVehC from '../../../../img/conductor.png';
+import React, { useEffect } from "react";
+import { Col, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import CardBtn from "../../../../components/CardBtn";
+import imgVehC from "../../../../img/conductor.png";
 // import { setLiquidationSlice } from '../../../../store/slices/liquidation.slice';
-import { getVehiclesThunk } from '../../../../store/slices/vehicles.slice';
-import date from '../../../../utils/date';
-import Swal from 'sweetalert2';
-import { getInvoiceThunk } from '../../../../store/slices/invoice.slice';
-import currentdate from '../../../../utils/date';
+import { getVehiclesThunk } from "../../../../store/slices/vehicles.slice";
+import date from "../../../../utils/date";
+import Swal from "sweetalert2";
+import { getInvoiceThunk } from "../../../../store/slices/invoice.slice";
+import currentdate from "../../../../utils/date";
 
 const Selectliqveh = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	useEffect(() => {
+		vehicles[0] ? null : dispatch(getVehiclesThunk());
+		dispatch(getInvoiceThunk());
+	}, []);
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    useEffect(() => {
-        vehicles[0] ? null : dispatch(getVehiclesThunk());
-        dispatch(getInvoiceThunk());
-    }, [])
+	const vehicles = useSelector((state) => state.vehicles);
+	const invoice = useSelector((state) => state.invoice);
+	const vehActive = vehicles.filter((veh) => veh?.isActive === true);
 
-    const vehicles = useSelector(state => state.vehicles);
-    const invoice = useSelector(state => state.invoice);
-    const vehActive = vehicles.filter(veh => veh?.isActive === true);
+	const identificarDia = date.CurrendateDay();
 
-    const identificarDia = date.CurrendateDay();
+	const loadData = (dataRecepter) => {
+		localStorage.setItem(
+			`checkLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[0])
+		);
+		localStorage.setItem(
+			`discountLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[1])
+		);
+		localStorage.setItem(
+			`expensesLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[2])
+		);
+		localStorage.setItem(
+			`cashLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[3])
+		);
+		localStorage.setItem(
+			`productRetLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[4])
+		);
+		localStorage.setItem(
+			`proInvRetLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[5])
+		);
+		localStorage.setItem(
+			`trans${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[6])
+		);
+		localStorage.setItem(
+			`invoLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[7])
+		);
+		localStorage.setItem(
+			`checkLiq${dataRecepter?.dni}-${dataRecepter?.id}view`,
+			JSON.stringify(dataRecepter.data_liquidation[8])
+		);
+		localStorage.setItem(
+			`creditDeliver${dataRecepter?.dni}-${dataRecepter?.id}`,
+			JSON.stringify(dataRecepter.data_liquidation[9])
+		);
+		localStorage.setItem(
+			`codGenLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
+			dataRecepter.data_liquidation[10]
+		);
+		localStorage.setItem(
+			`boxSmal${dataRecepter?.dni}-${dataRecepter?.id}`,
+			dataRecepter.data_liquidation[14].box_small
+		);
+	};
+	const selectVeh = (data) => {
+		Swal.fire({
+			title: "¿Está seguro?",
+			text: data?.liquidation_isactive
+				? `Existe una Liquidacion Guardada, Deseas Acceder o Eliminarla.`
+				: `Vas a realizar la liquidacion de el Entregador ${data?.driver}.`,
+			icon: "warning",
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Si, proseguir!",
+			showCancelButton: true,
+		}).then((result) => {
+			if (result.isConfirmed) {
+				data?.liquidation_isactive ? loadData(data) : null;
+				navigate(`/dashboard/liquidation/vehicles/${data?.id}`);
+			} else {
+				navigate(`/dashboard/liquidation/vehicles`);
+			}
+		});
+	};
 
-    const selectVeh = (data) => {
-        Swal.fire({
-            title: '¿Está seguro?',
-            text: `Vas a realizar la liquidacion de el vehiculo ${data?.driver} del dia ${(identificarDia).toUpperCase()}`,
-            icon: 'warning',
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, proseguir!',
-            showCancelButton: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // const invoiceFilter = invoice.filter(inv => inv.balance !== 0);
-                // const filterInvoiceDia = invoiceFilter.filter((veh) => {
-                //     return (parseInt(veh?.vehicle_liq) === parseInt(data?.id))
-                // }); 
-                // dispatch(setLiquidationSlice(filterInvoiceDia));
-                // localStorage.setItem(`invoLiq${data?.dni}-${data?.id}`, JSON.stringify(filterInvoiceDia))
-                navigate(`/dashboard/liquidation/vehicles/${data?.id}`);
-            }
-        });
-    };
-
-    return (
-        <div className='doVehicleLiq pages'>
-            <div className='card-select1'>
-                <h3 className='m-3' style={{fontSize:"40px"}} >Selecciona el vehiculo a liquidar</h3>
-                <div className='card-btn' >
-                    <Row>
-
-                        {
-                            vehActive?.map((veh, index) => (
-                                <Col key={index} >
-
-                                    {/* to={"/dashboard/do-vehicleliquidation"} to={`/dashboard/liquidation/vehicles/${veh.id}`}  */}
-                                    <Link className='linkStyle' onClick={() => selectVeh(veh)}>
-                                        <h5>{veh?.enrollment} - {veh?.id}</h5>
-                                        <CardBtn title={veh?.driver} img={imgVehC} />
-                                        <span>Balance: $ {veh?.balance_veh?.total} </span>
-                                    </Link>
-                                </Col>
-                            ))
-                        }
-                    </Row>
-                </div>
-            </div>
-            <div className='do-vehicle'>
-
-            </div>
-        </div>
-    );
+	return (
+		<div className="pages">
+			<div>
+				<h3 className="m-3 fs-3">Selecciona el vehiculo a liquidar</h3>
+				<div className="card-btn">
+					<Row>
+						{vehActive?.map((veh, index) => (
+							<Col key={index}>
+								<Link
+									className="linkStyle"
+									onClick={() => selectVeh(veh)}
+								>
+									<h5>
+										{veh?.enrollment} - {veh?.id}
+									</h5>
+									<CardBtn
+										title={veh?.driver}
+										img={imgVehC}
+									/>
+									<span>
+										Balance: ${" "}
+										{veh?.balance_veh?.total}{" "}
+									</span>
+									<div>
+										{veh?.liquidation_isactive ? (
+											<div
+												className="bg-success text-bg-info p-1 rounded-3"
+												style={{
+													fontSize: "12px",
+												}}
+											>
+												"Existe una Liquidacion
+												Guardada"
+											</div>
+										) : null}
+									</div>
+								</Link>
+							</Col>
+						))}
+					</Row>
+				</div>
+			</div>
+			<div className="do-vehicle"></div>
+		</div>
+	);
 };
 
 export default Selectliqveh;

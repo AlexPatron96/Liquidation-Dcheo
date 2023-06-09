@@ -79,10 +79,11 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 			}
 		});
 	};
+
 	const createBalance = (item) => {
-		// console.log(data);
 		dispatch(postSellerBalancethunk(item));
 	};
+
 	const [modalBalance, setModalBalance] = useState(false);
 	const [itemSelected, setItemSelected] = useState({});
 

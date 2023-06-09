@@ -1,74 +1,73 @@
 .liquidationVeh-component {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.5fr 0.5fr;
-    grid-template-areas:
-        "fact"
-        "comp";
-    overflow-x: scroll;
-    overflow-y: hidden;
-    justify-items: center;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 0.5fr 0.5fr;
+	grid-template-areas:
+		"fact"
+		"comp";
+	overflow-x: scroll;
+	overflow-y: hidden;
+	justify-items: center;
 }
 
 .liquidationVeh-listfac {
-    grid-area: fact;
+	grid-area: fact;
 }
 
 .liquidationVeh-liscompnent {
-    grid-area: comp;
-    /* display: flex; */
-    flex-direction: row;
+	grid-area: comp;
+	/* display: flex; */
+	flex-direction: row;
 }
 
 input[type="checkbox"] {
-    transform: scale(1);
+	transform: scale(1);
 }
 
 .table-container {
-    display: flex;
-    flex-direction: column;
-    overflow-x: auto;
+	display: flex;
+	flex-direction: column;
+	overflow-x: auto;
 }
 
 .listcomponent-cont {
-    display: flex;
-    gap: 0.25rem;
-    /* // flexWrap: "wrap" */
-    margin: 0.5rem;
-    border: 1px solid var(--color2);
-    border-radius: 10px;
-    padding: 1rem;
-    justify-content: space-around;
-    width: 1024px;
-    flex-direction: row;
-    flex-wrap: wrap;
+	display: flex;
+	gap: 0.25rem;
+	/* // flexWrap: "wrap" */
+	margin: 0.5rem;
+	border: 1px solid var(--color2);
+	border-radius: 10px;
+	padding: 1rem;
+	justify-content: space-around;
+	width: 1024px;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .listcomponent-cont-item {
-    display: flex;
-    gap: 0.25rem;
-    flex-wrap: wrap;
-    margin: 0.1rem;
-    border: 1px solid var(--color2);
-    border-radius: 10px;
-    padding: 1rem;
-    justify-content: center;
-    width: 300px;
-    flex-direction: column;
-    height: 100%;
+	display: flex;
+	gap: 0.25rem;
+	flex-wrap: wrap;
+	margin: 0.1rem;
+	border: 1px solid var(--color2);
+	border-radius: 10px;
+	padding: 1rem;
+	justify-content: center;
+	width: 300px;
+	flex-direction: column;
+	height: 100%;
 }
 
-
 .btn-liquidation {
-    display: flex;
-    flex-direction: row;
-    background: whitesmoke;
-    position: fixed;
-    /* top: 95vh; */
-    left: 33vh;
-    width: 500px;
-    bottom: 0px;
-    justify-content: space-between;
+	display: flex;
+	flex-direction: row;
+	background: whitesmoke;
+	position: fixed;
+	/* top: 95vh; */
+	left: 33vh;
+	width: 625px;
+	bottom: 0px;
+	justify-content: space-between;
 }
 
 /* style={{ display: "flex", margin:"1rem", marginBottom: "3rem", gap: "2rem", overflowX: "scroll"}} */
@@ -76,59 +75,58 @@ input[type="checkbox"] {
 /* style={{ display: "flex", flexDirection: "row", width: "1000px", margin: "0 auto", justifyContent: "space-between" }} */
 
 .cont-totales {
-    display: flex;
+	display: flex;
 
-    margin: 1rem;
-    margin-bottom: 3rem;
-    gap: 2rem;
-    overflow-x: scroll;
-    position: relative;
+	margin: 1rem;
+	margin-bottom: 3rem;
+	gap: 2rem;
+	overflow-x: scroll;
+	position: relative;
 }
 
 .cont-detail {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    margin: 1rem 1rem;
-    overflow-x: scroll;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	justify-content: center;
+	margin: 1rem 1rem;
+	overflow-x: scroll;
 }
-
 
 .cont-cards {
-    display: flex;
-    margin: 1rem;
-    margin-bottom: 3rem;
-    gap: 2rem;
-    overflow-x: scroll;
+	display: flex;
+	margin: 1rem;
+	margin-bottom: 3rem;
+	gap: 2rem;
+	overflow-x: scroll;
 }
 
-.table-container {}
+.table-container {
+}
 
 @media only screen and (min-width: 800px) {
-    .cont-cards {
-        justify-content: center;
-    }
+	.cont-cards {
+		justify-content: center;
+	}
 
-    .cont-detail {
+	.cont-detail {
+		width: 90%;
+		justify-content: center;
+		margin: 1rem 5rem;
+		overflow-x: hidden;
+	}
 
-        width: 90%;
-        justify-content: center;
-        margin: 1rem 5rem;
-        overflow-x: hidden;
-    }
+	.btn-liquidation {
+		left: 33%;
+	}
 
-    .btn-liquidation {
-        left: 33%;
-    }
+	.cont-totales {
+		justify-content: center;
 
-    .cont-totales {
-        justify-content: center;
+		overflow-x: hidden;
+	}
 
-        overflow-x: hidden;
-    }
-
-    .table-container {
-        align-items: center;
-    }
+	.table-container {
+		align-items: center;
+	}
 }

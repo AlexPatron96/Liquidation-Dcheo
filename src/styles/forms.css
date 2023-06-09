@@ -17,6 +17,86 @@
 	padding: 0.5rem !important;
 }
 
+.modalBodySecSuperior {
+	display: flex;
+	flex-direction: column;
+	padding: 0.25rem;
+}
+.modalViewOrder {
+	display: flex;
+	gap: 1rem;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.modalTexTitleGrd {
+	font-size: 20px;
+	border-radius: 8px;
+	padding: 0.25rem;
+}
+
+.modalTextTitle {
+	font-size: 15px;
+}
+.modalTextSubtitle {
+	font-size: 15px;
+	font-weight: bold;
+}
+.modalBalanCardExt {
+	display: flex;
+	flex-direction: column;
+	height: 300px;
+	overflow-y: scroll;
+	margin: 1rem 0;
+	padding: 1rem;
+	border-top: 2px solid var(--color6);
+	width: 100%;
+}
+.modalBalanCardCont {
+	display: flex;
+	gap: 1rem;
+	flex-direction: row;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	align-items: stretch;
+}
+.modalBalanCardBorder {
+	border-radius: 8px;
+	padding: 0.5rem;
+}
+.modalBalanCardInter {
+	display: flex;
+	width: 200px;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	text-align: center;
+}
+
+.modalBalanActSup {
+	display: flex;
+	flex-direction: column;
+	margin: 0.25rem 0;
+	padding: 1rem;
+	border-top: 2px solid var(--color6);
+	width: 100%;
+}
+.modalBalanActBod {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	align-items: stretch;
+}
+
+.modalBalanActBodFormOrd {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .form-input {
 	font-size: 15px !important;
 	width: 100% !important;
