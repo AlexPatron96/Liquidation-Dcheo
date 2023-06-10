@@ -16,12 +16,12 @@
 	font-size: 13px;
 }
 
-.formModal {
+/* .formModal {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1rem;
 	justify-content: center;
-}
+} */
 
 .error-message {
 	display: none;
