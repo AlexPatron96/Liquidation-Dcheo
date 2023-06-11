@@ -37,6 +37,10 @@
 	margin-bottom: 5px;
 	transition: opacity 0.3s ease-in-out;
 }
+.showError.showErrorPermissions {
+	top: 25px;
+	left: 50px;
+}
 
 .error-message.showMessage {
 	opacity: 1;
@@ -132,8 +136,9 @@
 
 .tables-view {
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .box-public h3 {
@@ -287,4 +292,7 @@
 		top: 5px;
 		left: 10px;
 	}
+	/* .tables-view {
+		flex-direction: column;
+	} */
 }

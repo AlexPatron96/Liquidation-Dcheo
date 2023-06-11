@@ -16,6 +16,41 @@
 	margin: 0 auto !important;
 	padding: 0.5rem !important;
 }
+.form-create-route {
+	flex-direction: row;
+}
+/*Form Para crear usuarios nuevos*/
+.view-password-newuser {
+	position: absolute;
+	left: 85%;
+}
+.form-newUser {
+	max-width: 450px;
+	border-top: 2px solid #5555;
+	border-bottom: 2px solid #5555;
+	position: relative;
+	padding: 1rem;
+}
+.form-controlED.form-controlED-checkbox {
+	width: 80% !important;
+}
+.form-labelED.form-labelED-checkbox {
+	width: 100%;
+}
+.form-labelED {
+	font-size: 12px !important;
+	margin: 0 0.5rem !important;
+	width: 50%;
+}
+.font-size12 {
+	font-size: 12px !important;
+}
+.form-controlED {
+	width: 100% !important;
+	font-size: 12px !important;
+	margin: 0 auto !important;
+	padding: 0.5rem !important;
+}
 
 .modalBodySecSuperior {
 	display: flex;
@@ -131,5 +166,8 @@
 	.cont-form {
 		flex-direction: column;
 		gap: 0.5rem;
+	}
+	.form-create-route {
+		flex-direction: column;
 	}
 }

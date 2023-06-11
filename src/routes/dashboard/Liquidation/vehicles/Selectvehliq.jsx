@@ -22,6 +22,7 @@ const Selectliqveh = () => {
 	const vehicles = useSelector((state) => state.vehicles);
 	const invoice = useSelector((state) => state.invoice);
 	const vehActive = vehicles.filter((veh) => veh?.isActive === true);
+	const userLoged = useSelector((state) => state.userLoged);
 
 	const identificarDia = date.CurrendateDay();
 
@@ -88,8 +89,16 @@ const Selectliqveh = () => {
 			showCancelButton: true,
 		}).then((result) => {
 			if (result.isConfirmed) {
-				data?.liquidation_isactive ? loadData(data) : null;
-				navigate(`/dashboard/liquidation/vehicles/${data?.id}`);
+				if (userLoged?.roll.permissions?.edited_seller_maxtotal) {
+					data?.liquidation_isactive ? loadData(data) : null;
+					navigate(`/dashboard/liquidation/vehicles/${data?.id}`);
+				} else {
+					Swal.fire(
+						"Error?",
+						"No Tienes Permisos de accesso.",
+						"error"
+					);
+				}
 			} else {
 				navigate(`/dashboard/liquidation/vehicles`);
 			}

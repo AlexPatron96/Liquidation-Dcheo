@@ -19,6 +19,8 @@ const Selectsellerliq = () => {
 	}, []);
 
 	const seller = useSelector((state) => state.seller);
+	const userLoged = useSelector((state) => state.userLoged);
+
 	console.log(seller);
 	const sellerActive = seller.filter((sell) => sell?.isActive === true);
 	const invoice = useSelector((state) => state.invoice);
@@ -72,12 +74,28 @@ const Selectsellerliq = () => {
 			showDenyButton: true,
 		}).then((result) => {
 			if (result.isConfirmed) {
-				navigate(
-					`/dashboard/liquidation/sellers/${data.id}/received-inovices`
-				);
+				if (userLoged?.roll.permissions?.edited_seller_maxtotal) {
+					navigate(
+						`/dashboard/liquidation/sellers/${data.id}/received-inovices`
+					);
+				} else {
+					Swal.fire(
+						"Error?",
+						"No Tienes Permisos de accesso.",
+						"error"
+					);
+				}
 			} else if (result.isDenied) {
-				data?.liquidation_isactive ? loadData(data) : null;
-				navigate(`/dashboard/liquidation/sellers/${data?.id}`);
+				if (userLoged?.roll.permissions?.edited_seller_maxtotal) {
+					data?.liquidation_isactive ? loadData(data) : null;
+					navigate(`/dashboard/liquidation/sellers/${data?.id}`);
+				} else {
+					Swal.fire(
+						"Error?",
+						"No Tienes Permisos de accesso.",
+						"error"
+					);
+				}
 			} else {
 				navigate(`/dashboard/liquidation/sellers`);
 			}

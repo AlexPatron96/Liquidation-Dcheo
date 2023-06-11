@@ -36,6 +36,7 @@ const Sellers = () => {
 	const invoice = useSelector((state) => state.invoice);
 	const loading = useSelector((state) => state.isLoading);
 	const pagination = useSelector((state) => state.pagination);
+	const userLoged = useSelector((state) => state.userLoged);
 
 	const [modalShow, setModalShow] = useState(false);
 
@@ -70,6 +71,7 @@ const Sellers = () => {
 		return (
 			<>
 				<Buttonatom
+					isTrueOfElse={userLoged?.roll?.permissions?.create_seller}
 					created={createdSeller}
 					title={"Crear Vendedor"}
 					color={"success"}

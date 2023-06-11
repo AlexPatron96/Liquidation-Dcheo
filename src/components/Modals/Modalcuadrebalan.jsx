@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import date from "../../utils/date";
 import Swal from "sweetalert2";
 import ModalInvoiceTransac from "./ModalInvoiceTransac";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postVehicleCuadrethunk } from "../../store/slices/vehicles.slice";
 import { postSellCuadrethunk } from "../../store/slices/seller.slice";
 
@@ -16,6 +16,7 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
 
 	const itemSelect = data;
 	//console.log(itemSelect);
+	const userLoged = useSelector((state) => state.userLoged);
 
 	const cuadres =
 		tipo === "veh"
@@ -425,6 +426,10 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
 				</Modal.Body>
 				<Modal.Footer>
 					<Button
+						disabled={
+							!userLoged?.roll.permissions
+								?.edited_seller_maxtotal
+						}
 						variant="success"
 						type="submit"
 						onClick={() => {

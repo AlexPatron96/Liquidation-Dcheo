@@ -43,3 +43,10 @@
 .styleBtnModal h5 {
 	font-size: 18px;
 }
+
+.config-tabs-center {
+	display: flex;
+	/* justify-content: center; */
+	flex-direction: row;
+	justify-content: space-around;
+}

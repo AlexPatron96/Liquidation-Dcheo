@@ -20,6 +20,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 
 	const route = useSelector((state) => state.temporary);
 	const invoice = useSelector((state) => state.invoice);
+	const userLoged = useSelector((state) => state.userLoged);
 
 	const [editingIndex, setEditingIndex] = useState(null);
 	const [editedData, setEditedData] = useState([]);
@@ -475,6 +476,11 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 									) : (
 										<>
 											<button
+												disabled={
+													userLoged?.roll
+														?.permissions
+														?.create_seller
+												}
 												type="button"
 												className="btn btn-primary  btn-actions"
 												onClick={() =>
@@ -487,6 +493,11 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 												<i className="fa-solid fa-pen-to-square bx-fw"></i>
 											</button>
 											<button
+												disabled={
+													userLoged?.roll
+														?.permissions
+														?.create_seller
+												}
 												type="button"
 												className="btn btn-danger btn-actions"
 												style={{
