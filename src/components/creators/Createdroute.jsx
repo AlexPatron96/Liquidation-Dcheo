@@ -245,23 +245,17 @@ const Createdroute = (props) => {
 									striped
 									bordered
 									hover
+									size="sm"
 									responsive
-									style={{ width: "740px" }}
 								>
 									<thead>
 										<tr>
 											<th>#</th>
 											<th>id</th>
 											<th>Nombre</th>
-											<th className="w-25">
-												Cod MV
-											</th>
-											<th className="w-100">
-												Detalle Ad
-											</th>
-											<th className="w-25">
-												Accion
-											</th>
+											<th>Cod MV</th>
+											<th>Detalle Ad</th>
+											<th>Accion</th>
 										</tr>
 									</thead>
 

@@ -116,7 +116,7 @@ const CreateVehiclesClouster = (props) => {
 					<Modal.Footer>
 						<Button
 							disabled={
-								userLoged?.roll.permissions?.create_vehicle
+								!userLoged?.roll?.permissions?.create_vehicle
 							}
 							variant="success"
 							type="submit"

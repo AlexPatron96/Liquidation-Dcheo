@@ -312,7 +312,7 @@ const Createrouteday = () => {
 										<button
 											disabled={
 												!userLoged?.roll
-													.permissions
+													?.permissions
 													?.create_vehicle
 											}
 											type="button"
@@ -413,7 +413,7 @@ const Createrouteday = () => {
 					</Form.Group>
 				</Form>
 				<Button
-					disabled={!userLoged?.roll.permissions?.create_vehicle}
+					disabled={!userLoged?.roll?.permissions?.create_vehicle}
 					variant="success"
 					type="submit"
 					onClick={handleSubmit(onSubmitRouteDay)}

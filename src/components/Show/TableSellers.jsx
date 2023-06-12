@@ -124,29 +124,29 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 			>
 				<thead>
 					<tr style={{ textAlign: "center" }}>
-						<th style={{ width: "40px" }}>Id</th>
-						<th style={{ width: "70px" }}>Cod MV</th>
-						<th style={{ width: "200px" }}>Nombre</th>
-						<th style={{ width: "60px" }}>Activo</th>
-						<th style={{ width: "100px" }}>Ruta</th>
-						<th style={{ width: "130px" }}>Credito Max</th>
-						<th style={{ width: "200px" }}>Balance</th>
-						<th style={{ width: "40px" }}>Accion</th>
+						<th>Id</th>
+						<th>Cod MV</th>
+						<th>Nombre</th>
+						<th>Activo</th>
+						<th>Ruta</th>
+						<th>Credito Max</th>
+						<th>Balance</th>
+						<th>Accion</th>
 					</tr>
 				</thead>
 				<tbody>
 					{data?.map((item, index) => (
 						<tr
 							key={index}
+							className="text-center"
 							style={{
-								textAlign: "center",
 								verticalAlign: "middle",
 							}}
 						>
 							{/* <td style={{ width: "15px" }}>{index + 1}</td> */}
 
 							{editingIndex === index ? (
-								<td style={{ textAlign: "center" }}>
+								<td className="text-center">
 									<input
 										style={{ width: "40px" }}
 										className="form-control form-control-sm"
@@ -157,14 +157,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 									/>
 								</td>
 							) : (
-								<td
-								// style={{
-								// 	textAlign: "center",
-								// 	height: "10px",
-								// }}
-								>
-									{item.id}
-								</td>
+								<td>{item.id}</td>
 							)}
 
 							{editingIndex === index ? (
@@ -227,7 +220,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 								<td>
 									<select
 										name="id_route"
-										className="form-select h-25"
+										className="form-select h-25 "
 										style={{
 											padding: "5px",
 											width: "130px",
@@ -244,9 +237,8 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 												key={index}
 												value={rout?.id}
 											>
-												{" "}
 												{rout.name} -{" "}
-												{rout?.external_code}{" "}
+												{rout?.external_code}
 											</option>
 										))}
 									</select>
@@ -258,11 +250,12 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 								</td>
 							)}
 
+							{/* Aparece un Error se debe al null al momento de crear un Vendedor*/}
 							{/* CREDITO MAXIMO DEL VENDEDOR */}
 							{editingIndex === index ? (
 								<td>
 									<input
-										style={{ width: "75px" }}
+										style={{ width: "150px" }}
 										className="form-control form-control-sm"
 										name="max_fact"
 										onChange={handleInputChange}
@@ -365,7 +358,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 									)}
 								</td>
 							)}
-
+							{/* <td></td> */}
 							<td>
 								{item?.balance_sell === null ? (
 									<a
@@ -439,12 +432,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 								// className="tdBtn"
 								style={{ maxWidth: "145px" }}
 							>
-								<div
-									style={{
-										display: "flex",
-										gap: "0.25rem",
-									}}
-								>
+								<div className="btn-group">
 									{editingIndex === index ? (
 										<>
 											<button
@@ -477,7 +465,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 										<>
 											<button
 												disabled={
-													userLoged?.roll
+													!userLoged?.roll
 														?.permissions
 														?.create_seller
 												}
@@ -494,7 +482,7 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 											</button>
 											<button
 												disabled={
-													userLoged?.roll
+													!userLoged?.roll
 														?.permissions
 														?.create_seller
 												}
@@ -516,7 +504,6 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 									)}
 								</div>
 							</td>
-							{/* <td></td> */}
 						</tr>
 					))}
 				</tbody>

@@ -74,7 +74,7 @@ const Selectsellerliq = () => {
 			showDenyButton: true,
 		}).then((result) => {
 			if (result.isConfirmed) {
-				if (userLoged?.roll.permissions?.edited_seller_maxtotal) {
+				if (userLoged?.roll?.permissions?.edited_seller_maxtotal) {
 					navigate(
 						`/dashboard/liquidation/sellers/${data.id}/received-inovices`
 					);
@@ -86,7 +86,7 @@ const Selectsellerliq = () => {
 					);
 				}
 			} else if (result.isDenied) {
-				if (userLoged?.roll.permissions?.edited_seller_maxtotal) {
+				if (userLoged?.roll?.permissions?.edited_seller_maxtotal) {
 					data?.liquidation_isactive ? loadData(data) : null;
 					navigate(`/dashboard/liquidation/sellers/${data?.id}`);
 				} else {

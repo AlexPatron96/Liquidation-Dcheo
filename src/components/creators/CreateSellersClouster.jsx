@@ -118,7 +118,7 @@ const CreateSellersClouster = (props) => {
 					<Modal.Footer>
 						<Button
 							disabled={
-								userLoged?.roll?.permissions?.create_seller
+								!userLoged?.roll?.permissions?.create_seller
 							}
 							variant="success"
 							type="submit"

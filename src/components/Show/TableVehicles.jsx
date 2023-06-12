@@ -104,15 +104,15 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 				<thead>
 					<tr>
 						{/* <th style={{ width: "15px" }}>#</th> */}
-						<th style={{ width: "40px" }}>Id</th>
-						<th style={{ width: "100px" }}>Placa</th>
-						<th style={{ width: "275px" }}>Conductor</th>
-						<th style={{ width: "95px" }}>COD MV</th>
-						<th style={{ width: "130px" }}>Identificacion</th>
-						<th style={{ width: "70px" }}>Activo</th>
-						<th style={{ width: "140px" }}>Ruta</th>
-						<th style={{ width: "200px" }}>Balance</th>
-						<th style={{ width: "40px" }}>Accion</th>
+						<th>Id</th>
+						<th>Placa</th>
+						<th>Conductor</th>
+						<th>COD MV</th>
+						<th>Identificacion</th>
+						<th>Activo</th>
+						<th>Ruta</th>
+						<th>Balance</th>
+						<th>Accion</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -222,11 +222,6 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 									<select
 										name="id_route"
 										className="form-select h-25"
-										style={{
-											padding: "3px",
-											paddingRight: "40px",
-											width: "140px",
-										}}
 										value={editedData.id_route}
 										onChange={handleInputChange}
 									>
@@ -322,66 +317,77 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 								className="tdBtn"
 								style={{ maxWidth: "145px" }}
 							>
-								{editingIndex === index ? (
-									<>
-										<button
-											type="button"
-											className="btn btn-success btn-actions"
-											onClick={() =>
-												handleSave(item.id)
-											}
-										>
-											<i className="fa-solid fa-floppy-disk bx-fw"></i>
-										</button>
+								<div className="btn-group">
+									{editingIndex === index ? (
+										<>
+											<button
+												type="button"
+												className="btn btn-success btn-actions"
+												onClick={() =>
+													handleSave(item.id)
+												}
+											>
+												<i className="fa-solid fa-floppy-disk bx-fw"></i>
+											</button>
 
-										<button
-											type="button"
-											className="btn btn-warning btn-actions"
-											style={{
-												alignItems: "center",
-											}}
-											onClick={() =>
-												setEditingIndex(null)
-											}
-										>
-											<i className="fa-solid fa-xmark bx-fw"></i>
-										</button>
-									</>
-								) : (
-									<>
-										<button
-											disabled={
-												!userLoged?.roll
-													.permissions
-													?.create_vehicle
-											}
-											type="button"
-											className="btn btn-primary  btn-actions"
-											onClick={() =>
-												handleEdit(index, item)
-											}
-										>
-											<i className="fa-solid fa-pen-to-square bx-fw"></i>
-										</button>
-										<button
-											disabled={
-												!userLoged?.roll
-													.permissions
-													?.create_vehicle
-											}
-											type="button"
-											className="btn btn-danger btn-actions"
-											style={{
-												alignItems: "center",
-											}}
-											onClick={() =>
-												handleDelete(item.id)
-											}
-										>
-											<i className="fa-solid fa-trash-can bx-fw"></i>
-										</button>
-									</>
-								)}
+											<button
+												type="button"
+												className="btn btn-warning btn-actions"
+												style={{
+													alignItems:
+														"center",
+												}}
+												onClick={() =>
+													setEditingIndex(
+														null
+													)
+												}
+											>
+												<i className="fa-solid fa-xmark bx-fw"></i>
+											</button>
+										</>
+									) : (
+										<>
+											<button
+												disabled={
+													!userLoged?.roll
+														?.permissions
+														?.create_vehicle
+												}
+												type="button"
+												className="btn btn-primary  btn-actions"
+												onClick={() =>
+													handleEdit(
+														index,
+														item
+													)
+												}
+											>
+												<i className="fa-solid fa-pen-to-square bx-fw"></i>
+											</button>
+											<button
+												disabled={
+													!userLoged?.roll
+														?.permissions
+														?.create_vehicle
+												}
+												type="button"
+												className="btn btn-danger btn-actions"
+												style={{
+													alignItems:
+														"center",
+												}}
+												onClick={() =>
+													handleDelete(
+														item.id
+													)
+												}
+											>
+												<i className="fa-solid fa-trash-can bx-fw"></i>
+											</button>
+										</>
+									)}
+								</div>
 							</td>
 						</tr>
 					))}

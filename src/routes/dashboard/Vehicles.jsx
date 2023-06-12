@@ -72,7 +72,6 @@ const Vehicles = () => {
 		return (
 			<>
 				{
-					// userLoged?.roll?.permissions?.create_vehicle ?
 					<Buttonatom
 						isTrueOfElse={
 							!userLoged?.roll?.permissions?.create_vehicle

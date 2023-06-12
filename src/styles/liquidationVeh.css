@@ -59,15 +59,11 @@ input[type="checkbox"] {
 }
 
 .btn-liquidation {
-	display: flex;
-	flex-direction: row;
+	z-index: 1000;
+	position: fixed !important;
+	top: 94%;
+	left: 0;
 	background: whitesmoke;
-	position: fixed;
-	/* top: 95vh; */
-	left: 33vh;
-	width: 625px;
-	bottom: 0px;
-	justify-content: space-between;
 }
 
 /* style={{ display: "flex", margin:"1rem", marginBottom: "3rem", gap: "2rem", overflowX: "scroll"}} */
@@ -101,7 +97,11 @@ input[type="checkbox"] {
 	overflow-x: scroll;
 }
 
-.table-container {
+@media only screen and (min-width: 500px) {
+	.btn-liquidation {
+		top: 95vh;
+		left: 5%;
+	}
 }
 
 @media only screen and (min-width: 800px) {
@@ -126,6 +126,19 @@ input[type="checkbox"] {
 		overflow-x: hidden;
 	}
 
+	/* .table-container {
+		align-items: center;
+	} */
+	.btn-liquidation {
+		top: 95vh;
+		left: 18%;
+	}
+}
+@media only screen and (min-width: 1000px) {
+	.btn-liquidation {
+		top: 95vh;
+		left: 33%;
+	}
 	.table-container {
 		align-items: center;
 	}

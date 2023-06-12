@@ -26,6 +26,7 @@ const TableInvoice = ({
 
 	const verifySeller = useSelector((state) => state.seller);
 	const verifyCustomer = useSelector((state) => state.customer);
+	const userLoged = useSelector((state) => state.userLoged);
 	const inputRef = useRef(null);
 
 	const dispatch = useDispatch();
@@ -687,7 +688,14 @@ const TableInvoice = ({
 							<td>
 								<button
 									onClick={handleAdd}
-									disabled={editMode ? true : false}
+									disabled={
+										!userLoged.roll?.permissions
+											?.edited_seller_maxtotal
+											? true
+											: editMode
+											? true
+											: false
+									}
 									className="btn btn-primary m-1 p-1 d-flex flex-row"
 								>
 									<i
@@ -1172,8 +1180,12 @@ const TableInvoice = ({
 										<>
 											<button
 												disabled={
-													item.balance !==
-													item.total_bill
+													!userLoged.roll
+														?.permissions
+														?.edited_seller_maxtotal
+														? true
+														: item.balance !==
+														  item.total_bill
 														? true
 														: false
 												}
@@ -1191,8 +1203,12 @@ const TableInvoice = ({
 
 											<button
 												disabled={
-													item.balance !==
-													item.total_bill
+													!userLoged.roll
+														?.permissions
+														?.edited_seller_maxtotal
+														? true
+														: item.balance !==
+														  item.total_bill
 														? true
 														: false
 												}

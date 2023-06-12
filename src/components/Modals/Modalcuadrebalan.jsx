@@ -427,7 +427,7 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
 				<Modal.Footer>
 					<Button
 						disabled={
-							!userLoged?.roll.permissions
+							!userLoged?.roll?.permissions
 								?.edited_seller_maxtotal
 						}
 						variant="success"

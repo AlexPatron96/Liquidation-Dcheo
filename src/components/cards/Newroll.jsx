@@ -29,7 +29,7 @@ const Newroll = () => {
 		roll && dispatch(listRollThunk());
 		permissions && dispatch(listPermissionsThunk());
 		console.log(dataUserLoged);
-		if (!dataUserLoged?.create_newroll) {
+		if (!dataUserLoged?.permissions?.create_newroll) {
 			console.log("Ingreso a negative");
 			setIsViewPerm(true);
 			setValue("id", dataUserLoged?.id);
@@ -135,7 +135,7 @@ const Newroll = () => {
 		<>
 			<div>
 				<div>
-					{dataUserLoged?.create_newroll ? (
+					{dataUserLoged?.permissions?.create_newroll ? (
 						<h6>
 							{isEditing
 								? "Editando"
@@ -156,7 +156,7 @@ const Newroll = () => {
 					>
 						{/* Rol User */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<i className="bx bx-rename bx-fw"></i>
@@ -167,11 +167,13 @@ const Newroll = () => {
 								disabled={isViewPerm}
 								placeholder="Ejemplo: Administrador..."
 								className="form-controlED"
-								{...register("rol_user")}
+								{...register("rol_user", { required: true })}
 							/>
 							<p
 								className={`error-message ${
-									errors["rol_user"] ? "showError" : ""
+									errors["rol_user"]
+										? "showError showErrorPermissions"
+										: ""
 								}`}
 							>
 								Campo requerido
@@ -180,7 +182,7 @@ const Newroll = () => {
 
 						{/* isActive */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-toggle-on bx-fw"></i>
@@ -190,7 +192,7 @@ const Newroll = () => {
 							<Form.Select
 								disabled={isViewPerm}
 								className="form-controlED"
-								{...register("isActive")}
+								{...register("isActive", { required: true })}
 							>
 								<option value="">Seleccione</option>
 								<option value={true}>Si</option>
@@ -198,7 +200,9 @@ const Newroll = () => {
 							</Form.Select>
 							<p
 								className={`error-message ${
-									errors["isActive"] ? "showError" : ""
+									errors["isActive"]
+										? "showError showErrorPermissions"
+										: ""
 								}`}
 							>
 								Campo requerido
@@ -207,7 +211,7 @@ const Newroll = () => {
 
 						{/* Permissions */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-person-walking-dashed-line-arrow-right bx-fw"></i>
@@ -217,7 +221,9 @@ const Newroll = () => {
 							<Form.Select
 								disabled={isViewPerm}
 								className="form-controlED"
-								{...register("id_permissions")}
+								{...register("id_permissions", {
+									required: true,
+								})}
 							>
 								<option value="">Seleccione</option>
 								{permissions.map((perm) => (
@@ -229,7 +235,7 @@ const Newroll = () => {
 							<p
 								className={`error-message ${
 									errors["id_permissions"]
-										? "showError"
+										? "showError showErrorPermissions"
 										: ""
 								}`}
 							>
@@ -255,7 +261,8 @@ const Newroll = () => {
 							>
 								<Button
 									disabled={
-										!dataUserLoged?.create_newroll
+										!dataUserLoged?.permissions
+											?.create_newroll
 									}
 									variant="warning"
 									onClick={() => clearForm()}
@@ -277,7 +284,10 @@ const Newroll = () => {
 							>
 								<Button
 									disabled={
-										!dataUserLoged?.create_newroll
+										!dataUserLoged?.permissions
+											?.create_newroll
+											? true
+											: isViewPerm
 									}
 									onClick={handleSubmit(onSubmit)}
 								>
@@ -297,7 +307,10 @@ const Newroll = () => {
 					<ListGroup style={{ width: "300px" }}>
 						{roll?.map((rolling) => (
 							<ListGroup.Item
-								disabled={!dataUserLoged?.create_newroll}
+								disabled={
+									!dataUserLoged?.permissions
+										?.create_newroll
+								}
 								key={rolling.id}
 								className={`font-size12 d-flex justify-content-between ${
 									isEditing &&
@@ -330,7 +343,9 @@ const Newroll = () => {
 										>
 											<Button
 												disabled={
-													!dataUserLoged?.create_newroll
+													!dataUserLoged
+														?.permissions
+														?.create_newroll
 												}
 												size="sm"
 												variant="info"
@@ -367,7 +382,9 @@ const Newroll = () => {
 										>
 											<Button
 												disabled={
-													!dataUserLoged?.create_newroll
+													!dataUserLoged
+														?.permissions
+														?.create_newroll
 												}
 												size="sm"
 												variant="primary"
@@ -396,7 +413,9 @@ const Newroll = () => {
 										>
 											<Button
 												disabled={
-													!dataUserLoged?.create_newroll
+													!dataUserLoged
+														?.permissions
+														?.create_newroll
 												}
 												variant="danger"
 												size="sm"

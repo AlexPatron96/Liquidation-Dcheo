@@ -281,6 +281,14 @@
 	bottom: 0;
 	left: 100px;
 }
+.justify-fullScream {
+	justify-content: center;
+}
+.margin-fullScream {
+	margin-left: 5rem !important;
+	margin-right: 5rem !important;
+	margin-top: 1rem;
+}
 @media only screen and (max-width: 576px) {
 	.img-sigin {
 		width: 150px;
@@ -291,6 +299,13 @@
 		width: 350px;
 		top: 5px;
 		left: 10px;
+	}
+	.justify-fullScream {
+		justify-content: inherit;
+	}
+	.margin-fullScream {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
 	}
 	/* .tables-view {
 		flex-direction: column;

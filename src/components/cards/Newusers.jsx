@@ -55,10 +55,11 @@ const Newusers = () => {
 
 	const onSubmit = (data) => {
 		console.log(data);
-		parseInt(data.id_roll);
+		data.id_roll = parseInt(data.id_roll);
 		const id_users = data.id;
 
 		// dispatch(createUserThunk(data));
+		console.log(data);
 		isEditing ? null : delete data.id;
 
 		isEditing
@@ -72,12 +73,17 @@ const Newusers = () => {
 			showConfirmButton: false,
 			timer: 1500,
 		});
-		// reset();
+		reset();
+		setIsEditing(false);
+		setIsViewPerm(false);
 	};
 
 	const clearForm = () => {
+		setIsEditing(false);
+		setIsViewPerm(false);
 		reset();
 	};
+
 	const [passwordAvailable, setPasswordAvailable] = useState(false);
 	const viewPassword = () => {
 		passwordAvailable
@@ -104,6 +110,7 @@ const Newusers = () => {
 			setValue("mail", data.mail);
 			setValue("id_roll", data.roll?.id);
 		}
+		console.log(isEditing);
 	};
 
 	const viewAvailable = (data) => {
@@ -170,7 +177,7 @@ const Newusers = () => {
 					>
 						{/* fullnmae */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<i className="bx bx-rename bx-fw"></i>
@@ -178,13 +185,16 @@ const Newusers = () => {
 								Nombre Completo:
 							</Form.Label>
 							<Form.Control
+								disabled={isViewuser}
 								placeholder="Ingrese el Nombre Completo..."
 								className="form-controlED"
-								{...register("fullname")}
+								{...register("fullname", { required: true })}
 							/>
 							<p
 								className={`error-message ${
-									errors["fullname"] ? "showError" : ""
+									errors["fullname"]
+										? "showError showErrorPermissions"
+										: ""
 								}`}
 							>
 								Campo requerido
@@ -193,7 +203,7 @@ const Newusers = () => {
 
 						{/* Username */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-user bx-fw"></i>
@@ -201,13 +211,16 @@ const Newusers = () => {
 								Nombre de usuario :
 							</Form.Label>
 							<Form.Control
+								disabled={isViewuser}
 								placeholder="Ejemplo: CheoM2023..."
 								className="form-controlED"
-								{...register("username")}
+								{...register("username", { required: true })}
 							/>
 							<p
 								className={`error-message ${
-									errors["username"] ? "showError" : ""
+									errors["username"]
+										? "showError showErrorPermissions"
+										: ""
 								}`}
 							>
 								Campo requerido
@@ -216,7 +229,7 @@ const Newusers = () => {
 
 						{/* Dni */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-id-card bx-fw"></i>
@@ -224,13 +237,16 @@ const Newusers = () => {
 								# Identificacion:
 							</Form.Label>
 							<Form.Control
+								disabled={isViewuser}
 								placeholder="Ingrese el Nombre Completo..."
 								className="form-controlED"
-								{...register("dni")}
+								{...register("dni", { required: true })}
 							/>
 							<p
 								className={`error-message ${
-									errors["dni"] ? "showError" : ""
+									errors["dni"]
+										? "showError showErrorPermissions"
+										: ""
 								}`}
 							>
 								Campo requerido
@@ -239,7 +255,7 @@ const Newusers = () => {
 
 						{/* Mail */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-envelope bx-fw"></i>
@@ -247,14 +263,17 @@ const Newusers = () => {
 								Correo:
 							</Form.Label>
 							<Form.Control
+								disabled={isViewuser}
 								type="mail"
 								placeholder="Ejemplo: cheo@gmail.com"
 								className="form-controlED"
-								{...register("mail")}
+								{...register("mail", { required: true })}
 							/>
 							<p
 								className={`error-message ${
-									errors["mail"] ? "showError" : ""
+									errors["mail"]
+										? "showError showErrorPermissions"
+										: ""
 								}`}
 							>
 								Campo requerido
@@ -263,7 +282,7 @@ const Newusers = () => {
 
 						{/* Password */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<div
@@ -283,16 +302,21 @@ const Newusers = () => {
 								Contraseña:
 							</Form.Label>
 							<Form.Control
+								disabled={isViewuser}
 								type={
 									passwordAvailable ? "text" : "password"
 								}
 								placeholder="Ejemplo: Cheo2022*"
 								className="form-controlED"
-								{...register("password")}
+								{...register("password", {
+									required: !isEditing,
+								})}
 							/>
 							<p
 								className={`error-message ${
-									errors["password"] ? "showError" : ""
+									errors["password"]
+										? "showError showErrorPermissions"
+										: ""
 								}`}
 							>
 								Campo requerido
@@ -301,7 +325,7 @@ const Newusers = () => {
 
 						{/* Roll */}
 						<Form.Group
-							className="mb-3 d-flex flex-row"
+							className="mb-3 d-flex flex-row position-relative"
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-sitemap bx-fw"></i>
@@ -309,8 +333,9 @@ const Newusers = () => {
 								Roll:
 							</Form.Label>
 							<Form.Select
+								disabled={isViewuser}
 								className="form-controlED"
-								{...register("id_roll")}
+								{...register("id_roll", { required: true })}
 							>
 								<option value="">Seleccione el Rol</option>
 								{roll.map((rolling) => (
@@ -324,7 +349,9 @@ const Newusers = () => {
 							</Form.Select>
 							<p
 								className={`error-message ${
-									errors["id_roll"] ? "showError" : ""
+									errors["id_roll"]
+										? "showError showErrorPermissions"
+										: ""
 								}`}
 							>
 								Campo requerido
@@ -363,8 +390,11 @@ const Newusers = () => {
 									</Tooltip>
 								}
 							>
-								<Button onClick={handleSubmit(onSubmit)}>
-									Crear
+								<Button
+									disabled={isViewuser}
+									onClick={handleSubmit(onSubmit)}
+								>
+									{isEditing ? "Editar" : "Crear"}
 								</Button>
 							</OverlayTrigger>
 						</div>

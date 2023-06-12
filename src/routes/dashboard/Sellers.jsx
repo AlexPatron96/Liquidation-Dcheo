@@ -71,7 +71,7 @@ const Sellers = () => {
 		return (
 			<>
 				<Buttonatom
-					isTrueOfElse={userLoged?.roll?.permissions?.create_seller}
+					isTrueOfElse={!userLoged?.roll?.permissions?.create_seller}
 					created={createdSeller}
 					title={"Crear Vendedor"}
 					color={"success"}
@@ -141,6 +141,8 @@ const Sellers = () => {
 				);
 				return indexA - indexB;
 			});
+		} else {
+			return dispatch(getSellerThunk());
 		}
 		dispatch(setSeller(result));
 	};
@@ -154,7 +156,7 @@ const Sellers = () => {
 					aria-label="Default select example"
 					onChange={orderList}
 				>
-					<option>Ordenar</option>
+					<option value={0}>Ordenar</option>
 					<option value={1}>Ascendente</option>
 					<option value={2}>Descendente</option>
 					<option value={3}>Por Ruta</option>

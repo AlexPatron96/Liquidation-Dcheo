@@ -174,9 +174,21 @@ const Newpermissions = () => {
 							style={{ textAlign: "center" }}
 						>
 							<i className="bx bx-rename bx-fw"></i>
-							<Form.Label className="form-labelED form-labelED-checkbox">
-								Nombre del Permiso:
-							</Form.Label>
+
+							<OverlayTrigger
+								placement="top"
+								overlay={
+									<Tooltip id={`tooltip-top}`}>
+										Aqui expresara como desea que se
+										llame el permiso que va ah
+										asignarle a los usuarios.
+									</Tooltip>
+								}
+							>
+								<Form.Label className="form-labelED form-labelED-checkbox">
+									Nombre del Permiso:
+								</Form.Label>
+							</OverlayTrigger>
 
 							<Form.Control
 								disabled={isViewPerm}
@@ -203,9 +215,22 @@ const Newpermissions = () => {
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-sitemap bx-fw"></i>
-							<Form.Label className="form-labelED form-labelED-checkbox">
-								Permitir Crear Roll:
-							</Form.Label>
+
+							<OverlayTrigger
+								placement="top"
+								overlay={
+									<Tooltip id={`tooltip-top}`}>
+										Le permitira crear, eliminar y
+										editar, Rolles de usuarios, ademas
+										de permitirle editar el roll que se
+										le a asigando.
+									</Tooltip>
+								}
+							>
+								<Form.Label className="form-labelED form-labelED-checkbox">
+									Permisos de Roll:
+								</Form.Label>
+							</OverlayTrigger>
 							<Form.Check
 								disabled={isViewPerm}
 								size="lg"
@@ -232,9 +257,22 @@ const Newpermissions = () => {
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-person-walking-dashed-line-arrow-right bx-fw"></i>
-							<Form.Label className="form-labelED form-labelED-checkbox">
-								Permitir Crear Permisos de acceso:
-							</Form.Label>
+
+							<OverlayTrigger
+								placement="top"
+								overlay={
+									<Tooltip id={`tooltip-top}`}>
+										Le permitira crear, eliminar y
+										editar, Permisos de acceso que
+										tiene los rolles de usuarios.
+									</Tooltip>
+								}
+							>
+								<Form.Label className="form-labelED form-labelED-checkbox">
+									Permisos de acceso:
+								</Form.Label>
+							</OverlayTrigger>
+
 							<Form.Check
 								disabled={isViewPerm}
 								size="lg"
@@ -261,9 +299,21 @@ const Newpermissions = () => {
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-user bx-fw"></i>
-							<Form.Label className="form-labelED form-labelED-checkbox">
-								Permitir Crear Usuarios:
-							</Form.Label>
+
+							<OverlayTrigger
+								placement="top"
+								overlay={
+									<Tooltip id={`tooltip-top}`}>
+										Le permitira crear, eliminar y
+										editar, Los usuarios existentes.
+									</Tooltip>
+								}
+							>
+								<Form.Label className="form-labelED form-labelED-checkbox">
+									Permisos de Usuarios:
+								</Form.Label>
+							</OverlayTrigger>
+
 							<Form.Check
 								disabled={isViewPerm}
 								size="lg"
@@ -290,9 +340,21 @@ const Newpermissions = () => {
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-universal-access bx-fw"></i>
-							<Form.Label className="form-labelED form-labelED-checkbox">
-								Permitir Crear Vendedores:
-							</Form.Label>
+
+							<OverlayTrigger
+								placement="top"
+								overlay={
+									<Tooltip id={`tooltip-top}`}>
+										Le permitira crear, eliminar y
+										editar, Los vendedores existentes.
+									</Tooltip>
+								}
+							>
+								<Form.Label className="form-labelED form-labelED-checkbox">
+									Permisos de Vendedores:
+								</Form.Label>
+							</OverlayTrigger>
+
 							<Form.Check
 								disabled={isViewPerm}
 								size="lg"
@@ -319,9 +381,21 @@ const Newpermissions = () => {
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-truck bx-fw"></i>
-							<Form.Label className="form-labelED form-labelED-checkbox">
-								Permitir Crear Entregadores:
-							</Form.Label>
+
+							<OverlayTrigger
+								placement="top"
+								overlay={
+									<Tooltip id={`tooltip-top}`}>
+										Le permitira crear, eliminar y
+										editar, Los vendedores existentes.
+									</Tooltip>
+								}
+							>
+								<Form.Label className="form-labelED form-labelED-checkbox">
+									Permisos los de Entrega:
+								</Form.Label>
+							</OverlayTrigger>
+
 							<Form.Check
 								disabled={isViewPerm}
 								size="lg"
@@ -348,9 +422,24 @@ const Newpermissions = () => {
 							style={{ textAlign: "center" }}
 						>
 							<i className="fa-solid fa-credit-card bx-fw"></i>
-							<Form.Label className="form-labelED form-labelED-checkbox">
-								Permitir Liquidar:
-							</Form.Label>
+
+							<OverlayTrigger
+								placement="top"
+								overlay={
+									<Tooltip id={`tooltip-top}`}>
+										Le permitira crear liquidaciones,
+										realizar la entrega de facturas de
+										cobro, Realizar abonos de Facturas,
+										crear, eliminar y editar Facturas y
+										crear, eliminar y editar Clientes.
+									</Tooltip>
+								}
+							>
+								<Form.Label className="form-labelED form-labelED-checkbox">
+									Permisos de Liquidaciones:
+								</Form.Label>
+							</OverlayTrigger>
+
 							<Form.Check
 								disabled={isViewPerm}
 								size="lg"
@@ -412,6 +501,8 @@ const Newpermissions = () => {
 								<Button
 									disabled={
 										!dataUserLoged?.create_newpermissions
+											? true
+											: isViewPerm
 									}
 									onClick={handleSubmit(onSubmit)}
 								>

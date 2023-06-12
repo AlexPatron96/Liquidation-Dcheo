@@ -643,15 +643,7 @@ const Liquidationsell = () => {
 
 			<div id="contenido-a-imprimir">
 				<h4>Liquidacion de Vendedores</h4>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "space-between",
-						margin: "0 2rem",
-						flexWrap: "wrap",
-					}}
-				>
+				<div className="d-flex flex-row justify-content-between flex-wrap">
 					<div>
 						<h5>
 							Usuario:{" "}
@@ -706,8 +698,8 @@ const Liquidationsell = () => {
 					</div>
 				</div>
 
-				<div style={{ margin: "2rem 1rem" }}>
-					<h5>Lista de Clientes a liquidar</h5>
+				<div className="mt-4 mb-4 border-top border-bottom">
+					<h5 className="mt-2">Lista de Clientes a liquidar</h5>
 					<Functionalitiesbtn
 						buttons={btnCreated}
 						listAvailable={""}
@@ -715,7 +707,7 @@ const Liquidationsell = () => {
 							return <h5>Liquidacion: {codLiq}</h5>;
 						}}
 					/>
-					<div>
+					<div className="mb-3">
 						<TableLiquidationSeller
 							data={invoiceLiquidation}
 							modaltransaccionPay={modaltransaccionPay}
@@ -725,15 +717,7 @@ const Liquidationsell = () => {
 						/>
 					</div>
 				</div>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						width: "1000px",
-						margin: "0 auto",
-						justifyContent: "space-between",
-					}}
-				>
+				<div className="d-flex flex-row justify-content-between flex-wrap m-3">
 					<div>
 						<h5>
 							Total Descuentos: ${" "}
@@ -753,6 +737,7 @@ const Liquidationsell = () => {
 						</h5>
 						<h5>Total: $ {totalVendedor || "$ 0.00"}</h5>
 					</div>
+					<div className="vr"></div>
 					<div>
 						<h2>Total Cobrado: $ {sumTotalCobrado.toFixed(2)}</h2>
 						<h5
@@ -787,14 +772,8 @@ const Liquidationsell = () => {
 						</span>
 					</div>
 				</div>
-				<div
-					style={{
-						display: "flex",
-						margin: "4rem 0",
-						gap: "2rem",
-						justifyContent: "center",
-					}}
-				>
+
+				<div className="d-flex  gap-5 overflow-auto position-relative border-bottom border-top p-3 justify-fullScream ">
 					<Expenses
 						codLiq={codLiq}
 						typeLiquidation={"seller"}
@@ -819,33 +798,14 @@ const Liquidationsell = () => {
 					/>
 				</div>
 
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						width: "1400px",
-						margin: "0 auto",
-						justifyContent: "center",
-						padding: "2rem",
-					}}
-				>
-					<span style={{ whiteSpace: "pre-wrap" }}>
+				<div className="d-flex flex-column align-items-lg-start border-bottom p-3 mb-5">
+					<span style={{ whiteSpace: "pre-line" }}>
 						{detailGeneral}
 					</span>
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							width: "1400px",
-							margin: "0 auto",
-							justifyContent: "center",
-							padding: "2rem",
-						}}
-					>
-						Anadir a Detalle General
+					<div className="w-100 mt-2">
+						Anadir a Detalle General:
 						<input
 							className="form-control form-control-sm"
-							style={{ fontSize: "15px", width: "90%" }}
 							type="text"
 							value={principalDetail}
 							onChange={(e) => {
@@ -859,7 +819,7 @@ const Liquidationsell = () => {
 					</div>
 				</div>
 
-				<div className="btn-liquidation">
+				<div className="btn-group btn-liquidation ">
 					<Button
 						style={{
 							borderBottomLeftRadius: "0",

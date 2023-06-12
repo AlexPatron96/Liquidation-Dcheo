@@ -238,10 +238,10 @@ const Myperfil = ({ activecomponent }) => {
 							</Form.Label>
 							<Form.Select
 								disabled={
-									userLoged?.roll?.permissions
+									!userLoged?.roll?.permissions
 										?.create_newroll
-										? editAvailable
-										: "false"
+										? true
+										: editAvailable
 								}
 								className="form-controlED"
 								{...register("id_roll")}

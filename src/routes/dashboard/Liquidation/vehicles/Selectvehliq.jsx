@@ -89,7 +89,7 @@ const Selectliqveh = () => {
 			showCancelButton: true,
 		}).then((result) => {
 			if (result.isConfirmed) {
-				if (userLoged?.roll.permissions?.edited_seller_maxtotal) {
+				if (userLoged?.roll?.permissions?.edited_seller_maxtotal) {
 					data?.liquidation_isactive ? loadData(data) : null;
 					navigate(`/dashboard/liquidation/vehicles/${data?.id}`);
 				} else {

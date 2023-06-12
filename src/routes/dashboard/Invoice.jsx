@@ -10,25 +10,22 @@ import {
 	deleteInvoiceThunk,
 	getInvoiceThunk,
 	postInvoiceTransacthunk,
-	postInvoicethunk,
 	updateInvoiceThunk,
 } from "../../store/slices/invoice.slice";
 import { setPagination } from "../../store/slices/pagination.slice";
 import Swal from "sweetalert2";
 import TableInvoice from "../../components/Show/TableInvoice";
 import { getRouteDayThunk } from "../../store/slices/routeday.slice";
-import { setErrorReceived } from "../../store/slices/errorReceived.slice";
-import ModalTransaccion from "../../components/Modals/ModalTransaccion";
 import ModalInvoiceTransac from "../../components/Modals/ModalInvoiceTransac";
 import { getSellerThunk } from "../../store/slices/seller.slice";
 import { getCustomerThunk } from "../../store/slices/customer.slice";
 import Formselectatom from "../../components/atom/Formselectatom";
 import Filterinvoice from "../../components/Modals/Filterinvoice";
-// import { writeFile, utils } from "xlsx";
 import { saveAs } from "file-saver";
 import ExcelJS from "exceljs";
 import date from "../../utils/date";
 import { setIsLoading } from "../../store/slices/isLoading.slice";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const Invoice = () => {
 	const dispatch = useDispatch();
@@ -43,9 +40,7 @@ const Invoice = () => {
 	const loading = useSelector((state) => state.isLoading);
 	const pagination = useSelector((state) => state.pagination);
 	const user = useSelector((state) => state.userLoged);
-	console.log(invoice);
 
-	// console.log(invoice);
 	const [modalShow, setModalShow] = useState(false);
 
 	const createdCustomer = () => {
@@ -55,26 +50,34 @@ const Invoice = () => {
 			setModalShow(false);
 		}
 	};
-	const dataIfn = [
-		{ name: "John Doe", age: 25, email: "john@example.com" },
-		{ name: "Jane Smith", age: 30, email: "jane@example.com" },
-		// Agrega más datos aquí...
-	];
+	// const dataIfn = [
+	// 	{ name: "John Doe", age: 25, email: "john@example.com" },
+	// 	{ name: "Jane Smith", age: 30, email: "jane@example.com" },
+	// 	// Agrega más datos aquí...
+	// ];
 	const btnCreated = () => {
 		return (
 			<>
 				<Buttonatom
+					isTrueOfElse={
+						!user.roll?.permissions?.edited_seller_maxtotal
+					}
 					created={createdCustomer}
 					title={"Crear Cliente"}
 					color={"success"}
 					ico={"fa-circle-plus"}
 				/>
+
 				<Buttonatom
+					isTrueOfElse={
+						!user.roll?.permissions?.edited_seller_maxtotal
+					}
 					created={transaccionPay}
 					title={"Pago-Abono"}
 					color={"success"}
 					ico={"fa-sack-dollar"}
 				/>
+
 				<Buttonatom
 					created={refresh}
 					title={""}
@@ -131,7 +134,6 @@ const Invoice = () => {
 				(item?.seller.name).toLowerCase().includes(data)
 		);
 		dispatch(setPagination(filteredList));
-		// console.log(filteredList);
 	};
 
 	const [modalTransaccionPay, setModalTransaccionPay] = useState(false);
@@ -256,7 +258,7 @@ const Invoice = () => {
 			})
 			.finally(dispatch(setIsLoading(false)));
 	};
-	console.log(invoice);
+	// console.log(invoice);
 	return (
 		<div className="pages">
 			<h2>Facturas</h2>
