@@ -134,7 +134,7 @@ const Expenses = ({
 				<h5>GASTOS</h5>
 			</Button>
 
-			<Modal show={showExpense} onHide={handleClose} size="sm" centered>
+			<Modal show={showExpense} onHide={handleClose} size="md" centered>
 				<Modal.Header closeButton>
 					<Modal.Title>Gastos</Modal.Title>
 				</Modal.Header>
@@ -142,7 +142,6 @@ const Expenses = ({
 					<div className="">
 						<div>
 							<Form
-								className="d-flex flex-column"
 								// style={{ justifyContent: "space-between" }}
 								onSubmit={handleSubmit(onSubmit)}
 							>
@@ -178,210 +177,18 @@ const Expenses = ({
 									</p>
 								</Form.Group>
 
-								{/* Viaticos */}
-								<Form.Group className="mb-3 text-center w-100">
-									<i className="fa-solid fa-car  bx-fw"></i>
-									<Form.Label
-										className="mb-2"
-										style={{
-											fontSize: "12px",
-										}}
-									>
-										{" "}
-										Viaticos
-									</Form.Label>
-									<Form.Control
-										className="w-100 text-center"
-										style={{
-											fontSize: "12px",
-										}}
-										placeholder="$"
-										{...register("perdiem", {
-											required: true,
-											onChange: onChange,
-											pattern: /^[-]?\d*.?\d+$/,
-										})}
-									/>
-									<p
-										className={`error-message ${
-											errors["perdiem"]?.type ===
-											"required"
-												? "showError"
-												: ""
-										}`}
-									>
-										Campo requerido
-									</p>
-									<p
-										className={`error-message ${
-											errors["perdiem"]?.type ===
-											"pattern"
-												? "showError"
-												: ""
-										}`}
-									>
-										Solo se permite numeros
-									</p>
-								</Form.Group>
-
-								{/* Alimentacion */}
-								<Form.Group className="mb-3 text-center w-100">
-									<i className="fa-solid fa-utensils bx-fw"></i>
-									<Form.Label
-										className="mb-2"
-										style={{
-											fontSize: "12px",
-										}}
-									>
-										{" "}
-										Alimentacion
-									</Form.Label>
-									<Form.Control
-										className="w-100 text-center"
-										style={{
-											fontSize: "12px",
-										}}
-										placeholder="$"
-										{...register("feeding", {
-											required: true,
-											onChange: onChange,
-											pattern: /^[-]?\d*.?\d+$/,
-										})}
-									/>
-									<p
-										className={`error-message ${
-											errors["feeding"]?.type ===
-											"required"
-												? "showError"
-												: ""
-										}`}
-									>
-										Campo requerido
-									</p>
-									<p
-										className={`error-message ${
-											errors["feeding"]?.type ===
-											"pattern"
-												? "showError"
-												: ""
-										}`}
-									>
-										Solo se permite numeros
-									</p>
-								</Form.Group>
-
-								{/* Fuel */}
-								<Form.Group className="mb-3 text-center w-100">
-									<i className="fa-solid fa-gas-pump bx-fw"></i>
-									<Form.Label
-										className="mb-2"
-										style={{
-											fontSize: "12px",
-										}}
-									>
-										Combustible
-									</Form.Label>
-									<Form.Control
-										className="w-100 text-center"
-										style={{
-											fontSize: "12px",
-										}}
-										placeholder="$"
-										{...register("fuel", {
-											required: true,
-											onChange: onChange,
-											pattern: /^[-]?\d*.?\d+$/,
-										})}
-									/>
-									<p
-										className={`error-message ${
-											errors["fuel"]?.type ===
-											"required"
-												? "showError"
-												: ""
-										}`}
-									>
-										Campo requerido
-									</p>
-									<p
-										className={`error-message ${
-											errors["fuel"]?.type ===
-											"pattern"
-												? "showError"
-												: ""
-										}`}
-									>
-										Solo se permite numeros
-									</p>
-								</Form.Group>
-
-								{/* expenses a vehicle */}
-								{typeIsSelected ? (
-									""
-								) : (
+								<div className="d-flex gap-3">
+									{/* Viaticos */}
 									<Form.Group className="mb-3 text-center w-100">
-										<i className="fa-solid fa-truck-fast bx-fw"></i>
+										<i className="fa-solid fa-car  bx-fw"></i>
 										<Form.Label
 											className="mb-2"
 											style={{
 												fontSize: "12px",
 											}}
 										>
-											Gastos de Camion
-										</Form.Label>
-										<Form.Control
-											placeholder="$"
-											className="w-100 text-center"
-											style={{
-												fontSize: "12px",
-											}}
-											{...register(
-												"vehicle_expenses",
-												{
-													required: true,
-													onChange: onChange,
-													pattern: /^[-]?\d*.?\d+$/,
-												}
-											)}
-										/>
-										<p
-											className={`error-message ${
-												errors[
-													"vehicle_expenses"
-												]?.type === "required"
-													? "showError"
-													: ""
-											}`}
-										>
-											Campo requerido
-										</p>
-										<p
-											className={`error-message ${
-												errors[
-													"vehicle_expenses"
-												]?.type === "pattern"
-													? "showError"
-													: ""
-											}`}
-										>
-											Solo se permite numeros
-										</p>
-									</Form.Group>
-								)}
-
-								{/* expenses a motorcycle */}
-								{typeIsSelected ? (
-									""
-								) : (
-									<Form.Group className="mb-3 text-center w-100">
-										<i className="fa-solid fa-caravan bx-fw"></i>
-										<Form.Label
-											className="mb-2"
-											style={{
-												fontSize: "12px",
-											}}
-										>
-											Gastos de Moto
+											{" "}
+											Viaticos
 										</Form.Label>
 										<Form.Control
 											className="w-100 text-center"
@@ -389,73 +196,15 @@ const Expenses = ({
 												fontSize: "12px",
 											}}
 											placeholder="$"
-											{...register(
-												"motorcycle_expenses",
-												{
-													required: true,
-													onChange: onChange,
-													pattern: /^[-]?\d*.?\d+$/,
-												}
-											)}
+											{...register("perdiem", {
+												required: true,
+												onChange: onChange,
+												pattern: /^[-]?\d*.?\d+$/,
+											})}
 										/>
 										<p
 											className={`error-message ${
-												errors[
-													"motorcycle_expenses"
-												]?.type === "required"
-													? "showError"
-													: ""
-											}`}
-										>
-											Campo requerido
-										</p>
-										<p
-											className={`error-message ${
-												errors[
-													"motorcycle_expenses"
-												]?.type === "pattern"
-													? "showError"
-													: ""
-											}`}
-										>
-											Solo se permite numeros
-										</p>
-									</Form.Group>
-								)}
-
-								{/* expenses a Boat */}
-								{typeIsSelected ? (
-									""
-								) : (
-									<Form.Group className="mb-3 text-center w-100">
-										{/* <i className="fa-solid fa-caravan bx-fw"></i> */}
-										<i className="fa-solid fa-sailboat bx-fw"></i>
-										<Form.Label
-											className="mb-2"
-											style={{
-												fontSize: "12px",
-											}}
-										>
-											Gastos de Lancha
-										</Form.Label>
-										<Form.Control
-											className="w-100 text-center"
-											style={{
-												fontSize: "12px",
-											}}
-											placeholder="$"
-											{...register(
-												"boat_expenses",
-												{
-													required: true,
-													onChange: onChange,
-													pattern: /^[-]?\d*.?\d+$/,
-												}
-											)}
-										/>
-										<p
-											className={`error-message ${
-												errors["boat_expenses"]
+												errors["perdiem"]
 													?.type ===
 												"required"
 													? "showError"
@@ -466,7 +215,7 @@ const Expenses = ({
 										</p>
 										<p
 											className={`error-message ${
-												errors["boat_expenses"]
+												errors["perdiem"]
 													?.type === "pattern"
 													? "showError"
 													: ""
@@ -475,8 +224,269 @@ const Expenses = ({
 											Solo se permite numeros
 										</p>
 									</Form.Group>
-								)}
 
+									{/* Alimentacion */}
+									<Form.Group className="mb-3 text-center w-100">
+										<i className="fa-solid fa-utensils bx-fw"></i>
+										<Form.Label
+											className="mb-2"
+											style={{
+												fontSize: "12px",
+											}}
+										>
+											{" "}
+											Alimentacion
+										</Form.Label>
+										<Form.Control
+											className="w-100 text-center"
+											style={{
+												fontSize: "12px",
+											}}
+											placeholder="$"
+											{...register("feeding", {
+												required: true,
+												onChange: onChange,
+												pattern: /^[-]?\d*.?\d+$/,
+											})}
+										/>
+										<p
+											className={`error-message ${
+												errors["feeding"]
+													?.type ===
+												"required"
+													? "showError"
+													: ""
+											}`}
+										>
+											Campo requerido
+										</p>
+										<p
+											className={`error-message ${
+												errors["feeding"]
+													?.type === "pattern"
+													? "showError"
+													: ""
+											}`}
+										>
+											Solo se permite numeros
+										</p>
+									</Form.Group>
+								</div>
+
+								<div className="d-flex gap-3">
+									{/* Fuel */}
+									<Form.Group className="mb-3 text-center w-100">
+										<i className="fa-solid fa-gas-pump bx-fw"></i>
+										<Form.Label
+											className="mb-2"
+											style={{
+												fontSize: "12px",
+											}}
+										>
+											Combustible
+										</Form.Label>
+										<Form.Control
+											className="w-100 text-center"
+											style={{
+												fontSize: "12px",
+											}}
+											placeholder="$"
+											{...register("fuel", {
+												required: true,
+												onChange: onChange,
+												pattern: /^[-]?\d*.?\d+$/,
+											})}
+										/>
+										<p
+											className={`error-message ${
+												errors["fuel"]?.type ===
+												"required"
+													? "showError"
+													: ""
+											}`}
+										>
+											Campo requerido
+										</p>
+										<p
+											className={`error-message ${
+												errors["fuel"]?.type ===
+												"pattern"
+													? "showError"
+													: ""
+											}`}
+										>
+											Solo se permite numeros
+										</p>
+									</Form.Group>
+
+									{/* expenses a vehicle */}
+									{typeIsSelected ? null : (
+										<Form.Group className="mb-3 text-center w-100">
+											<i className="fa-solid fa-truck-fast bx-fw"></i>
+											<Form.Label
+												className="mb-2"
+												style={{
+													fontSize: "12px",
+												}}
+											>
+												Gastos de Camion
+											</Form.Label>
+											<Form.Control
+												placeholder="$"
+												className="w-100 text-center"
+												style={{
+													fontSize: "12px",
+												}}
+												{...register(
+													"vehicle_expenses",
+													{
+														required: true,
+														onChange:
+															onChange,
+														pattern: /^[-]?\d*.?\d+$/,
+													}
+												)}
+											/>
+											<p
+												className={`error-message ${
+													errors[
+														"vehicle_expenses"
+													]?.type ===
+													"required"
+														? "showError"
+														: ""
+												}`}
+											>
+												Campo requerido
+											</p>
+											<p
+												className={`error-message ${
+													errors[
+														"vehicle_expenses"
+													]?.type ===
+													"pattern"
+														? "showError"
+														: ""
+												}`}
+											>
+												Solo se permite numeros
+											</p>
+										</Form.Group>
+									)}
+								</div>
+
+								<div className="d-flex gap-3">
+									{/* expenses a motorcycle */}
+									{typeIsSelected ? null : (
+										<Form.Group className="mb-3 text-center w-100">
+											<i className="fa-solid fa-caravan bx-fw"></i>
+											<Form.Label
+												className="mb-2"
+												style={{
+													fontSize: "12px",
+												}}
+											>
+												Gastos de Moto
+											</Form.Label>
+											<Form.Control
+												className="w-100 text-center"
+												style={{
+													fontSize: "12px",
+												}}
+												placeholder="$"
+												{...register(
+													"motorcycle_expenses",
+													{
+														required: true,
+														onChange:
+															onChange,
+														pattern: /^[-]?\d*.?\d+$/,
+													}
+												)}
+											/>
+											<p
+												className={`error-message ${
+													errors[
+														"motorcycle_expenses"
+													]?.type ===
+													"required"
+														? "showError"
+														: ""
+												}`}
+											>
+												Campo requerido
+											</p>
+											<p
+												className={`error-message ${
+													errors[
+														"motorcycle_expenses"
+													]?.type ===
+													"pattern"
+														? "showError"
+														: ""
+												}`}
+											>
+												Solo se permite numeros
+											</p>
+										</Form.Group>
+									)}
+
+									{/* expenses a Boat */}
+									{typeIsSelected ? null : (
+										<Form.Group className="mb-3 text-center w-100">
+											{/* <i className="fa-solid fa-caravan bx-fw"></i> */}
+											<i className="fa-solid fa-sailboat bx-fw"></i>
+											<Form.Label
+												className="mb-2"
+												style={{
+													fontSize: "12px",
+												}}
+											>
+												Gastos de Lancha
+											</Form.Label>
+											<Form.Control
+												className="w-100 text-center"
+												style={{
+													fontSize: "12px",
+												}}
+												placeholder="$"
+												{...register(
+													"boat_expenses",
+													{
+														required: true,
+														onChange:
+															onChange,
+														pattern: /^[-]?\d*.?\d+$/,
+													}
+												)}
+											/>
+											<p
+												className={`error-message ${
+													errors[
+														"boat_expenses"
+													]?.type ===
+													"required"
+														? "showError"
+														: ""
+												}`}
+											>
+												Campo requerido
+											</p>
+											<p
+												className={`error-message ${
+													errors[
+														"boat_expenses"
+													]?.type ===
+													"pattern"
+														? "showError"
+														: ""
+												}`}
+											>
+												Solo se permite numeros
+											</p>
+										</Form.Group>
+									)}
+								</div>
 								{/* total */}
 								<Form.Group className="mb-3 text-center w-100">
 									<i className="fa-brands fa-stack-overflow bx-fw"></i>

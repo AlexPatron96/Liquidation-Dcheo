@@ -354,10 +354,7 @@ const Cash = ({
 					<div className="">
 						{/* <h5>Dinero Recaudado</h5> */}
 						<div>
-							<Form
-								style={{ justifyContent: "space-between" }}
-								onSubmit={handleSubmit(onSubmit)}
-							>
+							<Form onSubmit={handleSubmit(onSubmit)}>
 								{/* Codigo de factura*/}
 
 								<Form.Group className="mb-3 text-center w-100">

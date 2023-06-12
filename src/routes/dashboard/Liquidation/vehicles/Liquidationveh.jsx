@@ -591,6 +591,12 @@ const Liquidationveh = () => {
 										"height=600,width=1200,center"
 									);
 								}, [1000]);
+								dispatch(
+									updateVehThunk(idVehicleByLiqui, {
+										data_liquidation: null,
+										liquidation_isactive: false,
+									})
+								);
 								navigate(`/dashboard/liquidation/vehicles`);
 							}
 						} else {
@@ -620,7 +626,13 @@ const Liquidationveh = () => {
 
 	const cancelLiquidation = () => {
 		deleteData();
-		navigate("/dashboard");
+		dispatch(
+			updateVehThunk(idVehicleByLiqui, {
+				data_liquidation: null,
+				liquidation_isactive: false,
+			})
+		);
+		navigate("/dashboard/liquidation/vehicles");
 	};
 
 	function imprimirContenido() {
@@ -1050,7 +1062,7 @@ const Liquidationveh = () => {
 					/>
 				</div>
 
-				<div className="btn-liquidation">
+				<div className="btn-group btn-liquidation ">
 					<Button
 						style={{
 							borderBottomLeftRadius: "0",

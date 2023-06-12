@@ -536,6 +536,12 @@ const Liquidationsell = () => {
 								navigate(
 									`/dashboard/liquidation/sellers/${idSeller}/received-inovices`
 								);
+								dispatch(
+									updateSellerThunk(sellerByLiqui, {
+										data_liquidation: null,
+										liquidation_isactive: false,
+									})
+								);
 								deleteData();
 							}
 						} else {
@@ -566,6 +572,12 @@ const Liquidationsell = () => {
 
 	const cancelLiquidation = () => {
 		deleteData();
+		dispatch(
+			updateSellerThunk(sellerByLiqui, {
+				data_liquidation: null,
+				liquidation_isactive: false,
+			})
+		);
 		navigate("/dashboard/liquidation/sellers");
 	};
 
