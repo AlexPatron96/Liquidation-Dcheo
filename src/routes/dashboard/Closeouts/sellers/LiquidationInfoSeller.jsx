@@ -135,9 +135,9 @@ const LiquidationInfoSeller = () => {
 									<td>
 										{date.convertirFechaUTCaLocal(
 											liq?.createdAt
-										)}{" "}
-										-{" "}
-										{date.CurrendateDay(
+										)}
+										{" - "}
+										{date.getDayOfWeek(
 											date.convertirFechaUTCaLocal(
 												liq?.createdAt
 											)

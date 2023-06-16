@@ -177,7 +177,12 @@ const LiquidationInfoVeh = () => {
 											liq?.createdAt
 										)}{" "}
 										-{" "}
-										{date.CurrendateDay(
+										{/* {date.CurrendateDay(
+											date.convertirFechaUTCaLocal(
+												liq?.createdAt
+											)
+										)} */}
+										{date.getDayOfWeek(
 											date.convertirFechaUTCaLocal(
 												liq?.createdAt
 											)
