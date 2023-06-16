@@ -666,9 +666,10 @@ const Liquidationveh = () => {
 	const saveDataBackend = (data) => {
 		if (codLiq) {
 			// console.log("Informacion guardada");
+			const arregloText = JSON.stringify(loaderData());
 			dispatch(
 				updateVehThunk(idVehicleByLiqui, {
-					data_liquidation: loaderData(),
+					data_liquidation: arregloText,
 					liquidation_isactive: true,
 				})
 			);
