@@ -26,7 +26,7 @@ const Config = () => {
 			>
 				<Tab eventKey="profile" title="Mi Perfil">
 					{activeTab === "profile" && (
-						<div className="config-tabs-center">
+						<div className="d-flex flex-row flex-wrap gap-5 justify-content-around align-items-start">
 							<Myperfil />
 						</div>
 					)}
@@ -34,7 +34,7 @@ const Config = () => {
 				{userLoged?.roll?.permissions?.create_user && (
 					<Tab eventKey="newUser" title="Usuarios">
 						{activeTab === "newUser" && (
-							<div className="config-tabs-center">
+							<div className="d-flex flex-row flex-wrap gap-5 justify-content-around align-items-start">
 								<Newusers />
 							</div>
 						)}
@@ -43,7 +43,7 @@ const Config = () => {
 
 				<Tab eventKey="roll" title="Roll">
 					{activeTab === "roll" && (
-						<div className="config-tabs-center">
+						<div className="d-flex flex-row flex-wrap gap-5 justify-content-around align-items-start">
 							<Newroll />
 						</div>
 					)}
@@ -51,7 +51,7 @@ const Config = () => {
 
 				<Tab eventKey="permissions" title="Permisos">
 					{activeTab === "permissions" && (
-						<div className="config-tabs-center">
+						<div className="d-flex flex-row flex-wrap gap-5 justify-content-around align-items-start">
 							<Newpermissions />
 						</div>
 					)}

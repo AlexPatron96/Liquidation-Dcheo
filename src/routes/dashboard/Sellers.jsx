@@ -29,7 +29,7 @@ const Sellers = () => {
 
 	useEffect(() => {
 		sellerRedux[0] ? null : dispatch(getSellerThunk());
-		invoice[0] ? null : dispatch(getInvoiceThunk());
+		dispatch(getInvoiceThunk());
 	}, []);
 
 	const sellerRedux = useSelector((state) => state.seller);
@@ -39,7 +39,7 @@ const Sellers = () => {
 	const userLoged = useSelector((state) => state.userLoged);
 
 	const [modalShow, setModalShow] = useState(false);
-
+	// console.log(sellerRedux);
 	const updateData = (id, data) => {
 		dispatch(updateSellerThunk(id, data));
 	};
@@ -131,7 +131,7 @@ const Sellers = () => {
 			const ordMaxLow = arrHigherDebt.sort(
 				(a, b) => b.totalDebt - a.totalDebt
 			);
-			console.log(ordMaxLow);
+			// console.log(ordMaxLow);
 			result = copiaSellerRedux.sort((a, b) => {
 				const indexA = ordMaxLow.findIndex(
 					(item) => item.sellerID === a.id

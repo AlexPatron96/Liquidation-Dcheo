@@ -66,7 +66,7 @@ const ModalTransaccion = ({
 		data.pay = parseFloat(data.pay);
 		// if (data.pay > itemSelect.balance || data.pay <= 0) {
 		if (data.pay > itemSelect.balance) {
-			console.log("El pago es mayo o menor que el de la factura");
+			// console.log("El pago es mayo o menor que el de kla factura");
 			Swal.fire({
 				icon: "warning",
 				title: "Error!",

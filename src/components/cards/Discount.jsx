@@ -53,7 +53,7 @@ const Cash = ({
 		discountLocalStorage
 			? setValue("detail", discountLocalStorage.detail)
 			: "";
-		console.log("cuantas veces ingresa");
+		// console.log("cuantas veces ingresa");
 	}, [codLiq]);
 
 	const [total, setTotal] = useState(0);

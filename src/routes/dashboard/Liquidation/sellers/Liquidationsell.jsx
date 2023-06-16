@@ -436,7 +436,7 @@ const Liquidationsell = () => {
 		arraySendLiq.push(checkMoneyView);
 		arraySendLiq.push(balance);
 
-		console.log(invoiceLiquidation);
+		// console.log(invoiceLiquidation);
 		return arraySendLiq;
 	};
 
@@ -473,7 +473,7 @@ const Liquidationsell = () => {
 				return res.data;
 			})
 			.catch((err) => {
-				console.log(err.response);
+				// console.log(err.response);
 				return false; // o cualquier otro valor que desee devolver en caso de error
 			})
 			.finally(() => dispatch(setIsLoading(false)));
@@ -486,7 +486,7 @@ const Liquidationsell = () => {
 
 		peticionVerification()
 			.then((result) => {
-				console.log(result);
+				// console.log(result);
 				if (result.isExistError !== true) {
 					Swal.fire({
 						title: "¿Está seguro?",
@@ -609,13 +609,18 @@ const Liquidationsell = () => {
 	/************************************************************************/
 	const saveDataBackend = (data) => {
 		if (codLiq) {
-			console.log("Informacion guardada");
+			// console.log("Informacion guardada");
+			const arregloText = JSON.stringify(loaderData());
 			dispatch(
 				updateSellerThunk(sellerByLiqui, {
-					data_liquidation: loaderData(),
+					data_liquidation: arregloText,
 					liquidation_isactive: true,
 				})
 			);
+			// console.log(arregloText.length);
+			// var tamanoBytes = JSON.stringify(loaderData()).length;
+			// var tamanoMB = tamanoBytes / (1024 * 1024);
+			// console.log("El tamaño del dato es: " + tamanoMB.toFixed(2) + " MB");
 		} else {
 			Swal.fire(
 				"Alert",
@@ -729,6 +734,7 @@ const Liquidationsell = () => {
 						/>
 					</div>
 				</div>
+
 				<div className="d-flex flex-row justify-content-between flex-wrap m-3">
 					<div>
 						<h5>

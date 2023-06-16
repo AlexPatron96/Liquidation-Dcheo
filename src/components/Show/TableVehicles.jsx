@@ -100,7 +100,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 				data={itemSelected}
 				tipo={"veh"}
 			/>
-			<Table striped bordered hover responsive style={{ width: "1048px" }}>
+			<Table striped bordered hover responsive>
 				<thead>
 					<tr>
 						{/* <th style={{ width: "15px" }}>#</th> */}
@@ -117,13 +117,13 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 				</thead>
 				<tbody>
 					{data?.map((item, index) => (
-						<tr key={index} style={{ height: "50px" }}>
+						<tr key={index}>
 							{/* <td style={{ width: "15px" }}>{index + 1}</td> */}
 
 							{editingIndex === index ? (
 								<td style={{ textAlign: "center" }}>
 									<input
-										style={{ width: "40px" }}
+										// style={{ width: "40px" }}
 										className="form-control form-control-sm"
 										name="id"
 										disabled
@@ -140,7 +140,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 							{editingIndex === index ? (
 								<td>
 									<input
-										style={{ width: "100px" }}
+										// style={{ width: "100px" }}
 										className="form-control form-control-sm"
 										name="enrollment"
 										onChange={handleInputChange}
@@ -154,7 +154,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 							{editingIndex === index ? (
 								<td>
 									<input
-										style={{ width: "150px" }}
+										// style={{ width: "150px" }}
 										className="form-control form-control-sm"
 										name="driver"
 										onChange={handleInputChange}
@@ -168,9 +168,9 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 							{editingIndex === index ? (
 								<td>
 									<input
-										style={{ width: "150px" }}
+										// style={{ width: "150px" }}
 										className="form-control form-control-sm"
-										name="driver"
+										name="cod_mv"
 										onChange={handleInputChange}
 										value={editedData.cod_mv}
 									/>
@@ -182,7 +182,7 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 							{editingIndex === index ? (
 								<td>
 									<input
-										style={{ width: "130px" }}
+										// style={{ width: "130px" }}
 										className="form-control form-control-sm"
 										name="dni"
 										onChange={handleInputChange}
@@ -220,6 +220,11 @@ const TableVehicles = ({ data, updateData, deleteData }) => {
 							{editingIndex === index ? (
 								<td>
 									<select
+										style={{
+											padding: "3px",
+											paddingRight: "40px",
+											width: "150px",
+										}}
 										name="id_route"
 										className="form-select h-25"
 										value={editedData.id_route}

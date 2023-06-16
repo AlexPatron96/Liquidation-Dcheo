@@ -21,7 +21,7 @@ const Newpermissions = () => {
 	const dataUserLoged = user?.roll?.permissions;
 	useEffect(() => {
 		Permissions && dispatch(listPermissionsThunk());
-		console.log(dataUserLoged);
+		//console.log(dataUserLoged);
 		if (!dataUserLoged?.create_newpermissions) {
 			setIsViewPerm(true);
 			setValue("id", dataUserLoged.id);
@@ -65,7 +65,7 @@ const Newpermissions = () => {
 	const valoresObt = getValues();
 
 	const onSubmit = (data) => {
-		console.log(data);
+		//console.log(data);
 		const id_permissions = data.id;
 		isEditing ? null : delete data.id;
 		isEditing
@@ -86,14 +86,14 @@ const Newpermissions = () => {
 		setIsViewPerm(false);
 		reset();
 	};
-	console.log(errors);
+	//console.log(errors);
 
 	const [isEditing, setIsEditing] = useState(false);
 	const [isViewPerm, setIsViewPerm] = useState(false);
 
 	const editAvailable = (data) => {
-		console.log(isEditing);
-		console.log(data);
+		//console.log(isEditing);
+		//console.log(data);
 		setIsViewPerm(false);
 		if (isEditing) {
 			setIsEditing(false);
@@ -112,9 +112,9 @@ const Newpermissions = () => {
 	};
 
 	const viewAvailable = (data) => {
-		console.log(isEditing);
+		//console.log(isEditing);
 		setIsEditing(false);
-		console.log(data);
+		//console.log(data);
 		if (isViewPerm) {
 			setIsViewPerm(false);
 			reset();

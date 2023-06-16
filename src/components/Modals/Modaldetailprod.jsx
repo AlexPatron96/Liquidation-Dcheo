@@ -20,7 +20,7 @@ const Modaldetailprod = ({ onHide, show, data }) => {
 	const newPay = { active: true, item };
 	const [modalTransaccionPay, setModalTransaccionPay] = useState(false);
 	const [transacItem, setTransacItem] = useState({});
-	console.log(itemSelect);
+	// console.log(itemSelect);
 
 	const deleteUpdateTransaction = (id) => {
 		dispatch(delUpdateTransactionThunk(id));

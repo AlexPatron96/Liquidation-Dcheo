@@ -28,9 +28,9 @@ const Newroll = () => {
 	useEffect(() => {
 		roll && dispatch(listRollThunk());
 		permissions && dispatch(listPermissionsThunk());
-		console.log(dataUserLoged);
+		//	console.log(dataUserLoged);
 		if (!dataUserLoged?.permissions?.create_newroll) {
-			console.log("Ingreso a negative");
+			//	console.log("Ingreso a negative");
 			setIsViewPerm(true);
 			setValue("id", dataUserLoged?.id);
 			setValue("rol_user", dataUserLoged?.rol_user);
@@ -60,7 +60,7 @@ const Newroll = () => {
 	const valoresObt = getValues();
 
 	const onSubmit = (data) => {
-		console.log(data);
+		//	console.log(data);
 		parseInt(data.id_roll);
 		isEditing ? null : delete data.id;
 		const id_rolling = data.id;
@@ -87,8 +87,8 @@ const Newroll = () => {
 	const [isViewPerm, setIsViewPerm] = useState(false);
 
 	const editAvailable = (data) => {
-		console.log(isEditing);
-		console.log(data);
+		//	console.log(isEditing);
+		//	console.log(data);
 		setIsViewPerm(false);
 		if (isEditing) {
 			setIsEditing(false);
@@ -103,9 +103,9 @@ const Newroll = () => {
 	};
 
 	const viewAvailable = (data) => {
-		console.log(isEditing);
+		//	console.log(isEditing);
 		setIsEditing(false);
-		console.log(data);
+		//	console.log(data);
 		if (isViewPerm) {
 			setIsViewPerm(false);
 			reset();

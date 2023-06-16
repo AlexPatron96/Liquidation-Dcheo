@@ -55,10 +55,10 @@ const Myperfil = ({ activecomponent }) => {
 	});
 
 	const valoresObt = getValues();
-	console.log(valoresObt);
+	//console.log(valoresObt);
 	function onSubmit(data) {
-		console.log("Al Guardar Tendra que volver a Logearse");
-		console.log(data);
+		//console.log("Al Guardar Tendra que volver a Logearse");
+		//console.log(data);
 		data.password ? data.password : delete data.password;
 		parseInt(data.id_roll);
 		dispatch(updateUserThunk(data.id, data));
@@ -80,7 +80,7 @@ const Myperfil = ({ activecomponent }) => {
 			: setPasswordAvailable(true);
 	};
 
-	console.log(roll);
+	//console.log(roll);
 	return (
 		<div>
 			<div>

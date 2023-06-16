@@ -21,39 +21,45 @@ const Selectsellerliq = () => {
 	const seller = useSelector((state) => state.seller);
 	const userLoged = useSelector((state) => state.userLoged);
 
-	console.log(seller);
+	// console.log(seller);
 	const sellerActive = seller.filter((sell) => sell?.isActive === true);
 	const invoice = useSelector((state) => state.invoice);
 	const identificarDia = date.CurrendateDay();
 
 	const loadData = (dataRecepter) => {
+		// const arregloRecepter = dataRecepter.data_liquidation;
+		const arregloRecepter = JSON.parse(dataRecepter.data_liquidation);
+
+		// console.log(arregloRecepter);
+		// console.log(dataRecepter);
+		// console.log(arregloRecepter[5]);
 		localStorage.setItem(
 			`checkLiq${dataRecepter?.code}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[0])
+			JSON.stringify(arregloRecepter[0])
 		);
 		localStorage.setItem(
 			`discountLiq${dataRecepter?.code}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[1])
+			JSON.stringify(arregloRecepter[1])
 		);
 		localStorage.setItem(
 			`expensesLiq${dataRecepter?.code}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[2])
+			JSON.stringify(arregloRecepter[2])
 		);
 		localStorage.setItem(
 			`cashLiq${dataRecepter?.code}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[3])
+			JSON.stringify(arregloRecepter[3])
 		);
 		localStorage.setItem(
 			`trans${dataRecepter?.code}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[4])
+			JSON.stringify(arregloRecepter[4])
 		);
 		localStorage.setItem(
 			`invoLiq${dataRecepter?.code}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[5])
+			JSON.stringify(arregloRecepter[5])
 		);
 		localStorage.setItem(
 			`codGenLiq${dataRecepter?.code}-${dataRecepter?.id}`,
-			dataRecepter.data_liquidation[6]
+			arregloRecepter[6]
 		);
 	};
 

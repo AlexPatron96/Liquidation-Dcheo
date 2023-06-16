@@ -99,8 +99,8 @@ input[type="checkbox"] {
 
 @media only screen and (min-width: 500px) {
 	.btn-liquidation {
-		top: 95vh;
-		left: 5%;
+		top: 91vh;
+		left: 20%;
 	}
 }
 
@@ -116,9 +116,10 @@ input[type="checkbox"] {
 		overflow-x: hidden;
 	}
 
-	.btn-liquidation {
+	/* .btn-liquidation {
 		left: 33%;
-	}
+		top: 100vh;
+	} */
 
 	.cont-totales {
 		justify-content: center;
@@ -135,11 +136,17 @@ input[type="checkbox"] {
 	}
 }
 @media only screen and (min-width: 1000px) {
-	.btn-liquidation {
-		top: 95vh;
-		left: 33%;
-	}
 	.table-container {
 		align-items: center;
+	}
+	.btn-liquidation {
+		top: 95.75vh;
+		left: 33%;
+	}
+}
+@media only screen and (min-width: 1400px) {
+	.btn-liquidation {
+		top: 95.75vh;
+		left: 34%;
 	}
 }

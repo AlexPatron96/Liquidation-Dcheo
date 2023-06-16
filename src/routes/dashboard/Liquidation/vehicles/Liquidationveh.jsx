@@ -524,7 +524,7 @@ const Liquidationveh = () => {
 				return res.data;
 			})
 			.catch((err) => {
-				console.log(err.response);
+				// console.log(err.response);
 				return false; // o cualquier otro valor que desee devolver en caso de error
 			})
 			.finally(() => dispatch(setIsLoading(false)));
@@ -537,7 +537,7 @@ const Liquidationveh = () => {
 		const idSeller = arraySendLiq[10].id_seller;
 		peticionVerification()
 			.then((result) => {
-				console.log(result);
+				// console.log(result);
 				if (result.isExistError !== true) {
 					Swal.fire({
 						title: "¿Está seguro?",
@@ -665,7 +665,7 @@ const Liquidationveh = () => {
 	/************************************************************************/
 	const saveDataBackend = (data) => {
 		if (codLiq) {
-			console.log("Informacion guardada");
+			// console.log("Informacion guardada");
 			dispatch(
 				updateVehThunk(idVehicleByLiqui, {
 					data_liquidation: loaderData(),
@@ -708,17 +708,9 @@ const Liquidationveh = () => {
 	return (
 		<div>
 			<div id="contenido-a-imprimir" style={{ margin: "1.5rem 0" }}>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "space-between",
-						margin: "0 2rem",
-						flexWrap: "wrap",
-					}}
-				>
+				<h4>Liquidacion de Vehiculos de Entrega</h4>
+				<div className="d-flex flex-row justify-content-between flex-wrap">
 					<div>
-						<h4>Liquidacion de Vehiculos de Entrega</h4>
 						<h5>
 							Usuario:{" "}
 							<span style={{ color: "#02B875" }}>
@@ -773,8 +765,8 @@ const Liquidationveh = () => {
 					</div>
 				</div>
 
-				<div style={{ margin: "2rem 1rem" }}>
-					<h5>Lista de Clientes a liquidar</h5>
+				<div className="mt-4 mb-4 border-top border-bottom">
+					<h5 className="mt-2">Lista de Clientes a liquidar</h5>
 					<Functionalitiesbtn
 						buttons={btnCreated}
 						listAvailable={""}
@@ -782,7 +774,7 @@ const Liquidationveh = () => {
 							return <h5> Cod Liquidacion: {codLiq}</h5>;
 						}}
 					/>
-					<div>
+					<div className="mb-3">
 						<TableLiquidationSeller
 							data={invoiceLiquidation}
 							modaltransaccionPay={modaltransaccionPay}
@@ -793,9 +785,9 @@ const Liquidationveh = () => {
 					</div>
 				</div>
 
-				<div className="cont-totales">
+				<div className="d-flex flex-row justify-content-between flex-wrap m-3 gap-4">
 					<div>
-						<h5 style={{ width: "300px" }}>
+						<h5>
 							Total Descuentos: ${" "}
 							{discount?.total_other
 								? discount?.total_other
@@ -862,11 +854,11 @@ const Liquidationveh = () => {
 						</h5>
 					</div>
 
+					<div className="vr"></div>
+
 					<div>
-						<div style={{ display: "flex" }}>
-							<h3 style={{ width: "300px" }}>
-								Total Cobrado: $
-							</h3>
+						<div className="d-flex">
+							<h3>Total Cobrado: $</h3>
 							<h3>{sumTotalCobrado.toFixed(2)}</h3>
 						</div>
 
@@ -957,6 +949,8 @@ const Liquidationveh = () => {
 						</div>
 					</div>
 
+					<div className="vr"></div>
+
 					<div>
 						<h5
 							style={{
@@ -993,36 +987,7 @@ const Liquidationveh = () => {
 					</div>
 				</div>
 
-				<div className="cont-detail">
-					<span style={{ whiteSpace: "pre-wrap" }}>
-						{detailGeneral}
-					</span>
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							justifyContent: "center",
-							padding: "2rem",
-						}}
-					>
-						Anadir a Detalle General
-						<input
-							className="form-control form-control-sm"
-							style={{ fontSize: "15px", width: "90%" }}
-							type="text"
-							value={principalDetail}
-							onChange={(e) => {
-								setPrincipalDetail(e.target.value);
-								localStorage.setItem(
-									codePrinDetailStorage,
-									JSON.stringify(e.target.value)
-								);
-							}}
-						/>
-					</div>
-				</div>
-
-				<div className="cont-cards">
+				<div className="d-flex  gap-5 overflow-auto position-relative border-bottom border-top p-3 justify-fullScream ">
 					<DeliverCred
 						codLiq={codLiq}
 						typeLiquidation={"vehicle"}
@@ -1060,6 +1025,27 @@ const Liquidationveh = () => {
 						codinvo={codeProductInvoLocalStorage}
 						codeproductLocalStorage={codeProductLocalStorage}
 					/>
+				</div>
+
+				<div className="d-flex flex-column align-items-lg-start border-bottom p-3 mb-5">
+					<span style={{ whiteSpace: "pre-line" }}>
+						{detailGeneral}
+					</span>
+					<div className="w-100 mt-2">
+						Anadir a Detalle General
+						<input
+							className="form-control form-control-sm"
+							type="text"
+							value={principalDetail}
+							onChange={(e) => {
+								setPrincipalDetail(e.target.value);
+								localStorage.setItem(
+									codePrinDetailStorage,
+									JSON.stringify(e.target.value)
+								);
+							}}
+						/>
+					</div>
 				</div>
 
 				<div className="btn-group btn-liquidation ">

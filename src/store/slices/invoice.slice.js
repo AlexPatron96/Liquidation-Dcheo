@@ -25,11 +25,11 @@ export const getInvoiceThunk = () => (dispatch) => {
 	axios.get(`${URL_BASE}/api/v1/invoice/all`, getConfig())
 		.then((res) => {
 			dispatch(setInvoice(res.data.result));
-			// console.log(res.data.result);
+			console.log(res.data.result);
 		})
 		.catch((err) => {
 			dispatch(setErrorReceived(err.response?.data));
-			console.log(err.response);
+			//console.log(err.response);
 		})
 		.finally(() => dispatch(setIsLoading(false)));
 };

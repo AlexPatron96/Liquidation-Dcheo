@@ -20,7 +20,7 @@ const TableLiquidationSeller = ({
 	const vehicles = useSelector((state) => state.vehicles);
 	const vehActive = vehicles.filter((veh) => veh?.isActive === true);
 
-	console.log(data);
+	// console.log(data);
 	return (
 		<div className="tables-view">
 			<Table

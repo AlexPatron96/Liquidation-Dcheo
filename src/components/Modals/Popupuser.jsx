@@ -18,6 +18,7 @@ const Popupuser = ({ show, onhide, handleclick, target }) => {
 
 	const openConfiguration = () => {
 		navigate("/dashboard/auth/config");
+		onhide();
 	};
 
 	return (
@@ -49,12 +50,20 @@ const Popupuser = ({ show, onhide, handleclick, target }) => {
 							<h6>Nombre:</h6>
 							<span>{user.fullname}</span>
 						</div>
-						<Button variant="light" onClick={openConfiguration}>
-							{/* Holy guacamole! */}
+						<div
+							aria-controls="responsive-navbar-nav"
+							className="d-flex flex-row"
+						>
+							<Button
+								variant="light"
+								onClick={openConfiguration}
+							>
+								{/* Holy guacamole! */}
 
-							{/* <i className="fa-solid fa-user bx-fw"></i> */}
-							<i className="fa-solid fa-gear bx-fw"></i>
-						</Button>
+								{/* <i className="fa-solid fa-user bx-fw"></i> */}
+								<i className="fa-solid fa-gear bx-fw"></i>
+							</Button>
+						</div>
 					</Popover.Body>
 				</Popover>
 			</Overlay>

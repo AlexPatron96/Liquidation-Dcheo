@@ -334,7 +334,10 @@ const Cash = ({
 
 	const handleClose = () => setShowCash(false);
 	const handleShow = () => setShowCash(true);
-
+	const [onDeposit, setOnDeposit] = useState(false);
+	const viewDeposit = () => {
+		onDeposit ? setOnDeposit(false) : setOnDeposit(true);
+	};
 	return (
 		<div>
 			<Button
@@ -658,494 +661,575 @@ const Cash = ({
                                     </Button>
                                 </div> */}
 							</Form>
+							{onDeposit && (
+								<div
+									style={{
+										border: "2px solid var(--first-color)",
+										padding: "1rem",
+										borderRadius: "5px",
+									}}
+								>
+									<h5>Registre un deposito o cheque.</h5>
+									<div>
+										<div className="d-flex flex-row flex-wrap justify-content-between text-center">
+											<div>
+												<span
+													style={{
+														fontSize:
+															"12px",
+													}}
+												>
+													# Documento
+												</span>
 
-							<div
-								style={{
-									border: "2px solid var(--first-color)",
-									padding: "1rem",
-									borderRadius: "5px",
-								}}
-							>
-								<h5>Registre un deposito o cheque.</h5>
-								<div>
-									<div className="d-flex flex-row flex-wrap justify-content-between text-center">
-										<div>
-											<span
-												style={{
-													fontSize: "12px",
-												}}
-											>
-												# Documento
-											</span>
+												<input
+													style={{
+														fontSize:
+															"13px",
+														width: "110px",
+													}}
+													className="form-control form-control-sm"
+													type="text"
+													name="number_check"
+													value={
+														formChekData.number_check
+													}
+													onChange={
+														handleChange
+													}
+												/>
+											</div>
 
-											<input
-												style={{
-													fontSize: "13px",
-													width: "110px",
-												}}
-												className="form-control form-control-sm"
-												type="text"
-												name="number_check"
-												value={
-													formChekData.number_check
-												}
-												onChange={handleChange}
-											/>
-										</div>
+											<div>
+												<span
+													style={{
+														fontSize:
+															"12px",
+													}}
+												>
+													Cliente
+												</span>
+												<input
+													name="id_client"
+													className="form-control form-control-sm"
+													style={{
+														fontSize:
+															"13px",
+														minWidth:
+															"110px",
+													}}
+													type="text"
+													value={
+														searchCustomer
+													}
+													onClick={() =>
+														setActiveListSearchCustomer(
+															true
+														)
+													}
+													onChange={
+														handleSearchCustomerChange
+													}
+												/>
 
-										<div>
-											<span
-												style={{
-													fontSize: "12px",
-												}}
-											>
-												Cliente
-											</span>
-											<input
-												name="id_client"
-												className="form-control form-control-sm"
-												style={{
-													fontSize: "13px",
-													minWidth: "110px",
-												}}
-												type="text"
-												value={searchCustomer}
-												onClick={() =>
-													setActiveListSearchCustomer(
-														true
-													)
-												}
-												onChange={
-													handleSearchCustomerChange
-												}
-											/>
+												<ListGroup
+													multiple=""
+													className={
+														activeListSearchCustomer &&
+														searchCustomer.length >
+															1
+															? `listClient`
+															: `none`
+													}
+												>
+													{filteredList
+														.slice(0, 10)
+														.map(
+															(
+																item
+															) => (
+																<option
+																	className={
+																		activeListSearchCustomer
+																			? ``
+																			: `none`
+																	}
+																	key={
+																		item.id
+																	}
+																	value={
+																		item.id
+																	}
+																	onClick={() => {
+																		handleItemCustomerClick(
+																			item
+																		);
+																	}}
+																>
+																	{
+																		item.id
+																	}
+																	{
+																		" - "
+																	}
+																	{
+																		item.fullname
+																	}
+																</option>
+															)
+														)}
+												</ListGroup>
+											</div>
 
-											<ListGroup
-												multiple=""
-												className={
-													activeListSearchCustomer &&
-													searchCustomer.length >
-														1
-														? `listClient`
-														: `none`
-												}
-											>
-												{filteredList
-													.slice(0, 10)
-													.map((item) => (
-														<option
-															className={
-																activeListSearchCustomer
-																	? ``
-																	: `none`
-															}
-															key={
-																item.id
-															}
-															value={
-																item.id
-															}
-															onClick={() => {
-																handleItemCustomerClick(
-																	item
-																);
-															}}
-														>
-															{item.id}
-															{" - "}
-															{
-																item.fullname
-															}
+											{typeIsSelected ? (
+												<div>
+													<span
+														style={{
+															fontSize:
+																"12px",
+														}}
+													>
+														Receptador
+														Entre.
+													</span>
+													<select
+														name="references"
+														className="form-select h-25"
+														style={{
+															padding: "5px",
+															width: "150px",
+															backgroundPosition:
+																"right 0.1rem center",
+															fontSize:
+																"13px",
+														}}
+														value={
+															formChekData.references
+														}
+														onChange={
+															handleChange
+														}
+													>
+														<option>
+															Seleccione
+															Recep
 														</option>
-													))}
-											</ListGroup>
-										</div>
-
-										{typeIsSelected ? (
-											<div>
-												<span
-													style={{
-														fontSize:
-															"12px",
-													}}
-												>
-													Receptador Entre.
-												</span>
-												<select
-													name="references"
-													className="form-select h-25"
-													style={{
-														padding: "5px",
-														width: "150px",
-														backgroundPosition:
-															"right 0.1rem center",
-														fontSize:
-															"13px",
-													}}
-													value={
-														formChekData.references
-													}
-													onChange={
-														handleChange
-													}
-												>
-													<option>
-														Seleccione
-														Recep
-													</option>
-													{vehicle.map(
-														(
-															veh,
-															index
-														) => (
-															<option
-																key={
-																	index
-																}
-																value={`${veh?.id}-${veh?.driver}`}
-															>
-																{" "}
-																{
-																	veh?.id
-																}{" "}
-																-{" "}
-																{
-																	veh?.driver
-																}
-															</option>
-														)
-													)}
-												</select>
-											</div>
-										) : (
-											""
-										)}
-
-										{typeIsSelected ? (
-											""
-										) : (
-											<div>
-												<span
-													style={{
-														fontSize:
-															"12px",
-													}}
-												>
-													Receptador Vend.
-												</span>
-												<select
-													name="references"
-													className="form-select h-25"
-													style={{
-														padding: "5px",
-														width: "150px",
-														backgroundPosition:
-															"right 0.1rem center",
-														fontSize:
-															"13px",
-													}}
-													value={
-														formChekData.references
-													}
-													onChange={
-														handleChange
-													}
-												>
-													<option>
-														Seleccione
-														Recep
-													</option>
-													{seller.map(
-														(
-															sell,
-															index
-														) => (
-															<option
-																key={
-																	index
-																}
-																value={`${sell?.id}-${sell?.name}`}
-															>
-																{" "}
-																{
-																	sell?.id
-																}{" "}
-																-{" "}
-																{
-																	sell?.name
-																}
-															</option>
-														)
-													)}
-												</select>
-											</div>
-										)}
-
-										<div>
-											<span
-												style={{
-													fontSize: "12px",
-												}}
-											>
-												Banco
-											</span>
-											<select
-												name="id_bank"
-												className="form-select h-25"
-												style={{
-													padding: "5px",
-													width: "150px",
-													backgroundPosition:
-														"right 0.1rem center",
-													fontSize: "13px",
-												}}
-												value={
-													formChekData.id_bank
-												}
-												onChange={handleChange}
-											>
-												<option>
-													{" "}
-													{formChekData.id_bank
-														? bank.filter(
-																(
-																	bg
-																) =>
-																	bg?.id ===
-																	parseInt(
-																		formChekData?.id_bank
-																	)
-														  )[0]
-																.name_bank
-														: "Seleccione un Banco"}{" "}
-												</option>
-												{bank.map(
-													(bg, index) => (
-														// <option key={index} value={JSON.stringify(bg)} > {bg?.id} - {bg?.name_bank}</option>
-														<option
-															key={
+														{vehicle.map(
+															(
+																veh,
 																index
-															}
-															value={`${bg?.id}-${bg?.name_bank}`}
-														>
-															{formChekData.id_bank ===
-															bg?.id
-																? `${bg?.id} - ${bg?.name_bank}`
-																: `${bg?.id} - ${bg?.name_bank}`}{" "}
-														</option>
-													)
-												)}
-											</select>
-										</div>
+															) => (
+																<option
+																	key={
+																		index
+																	}
+																	value={`${veh?.id}-${veh?.driver}`}
+																>
+																	{" "}
+																	{
+																		veh?.id
+																	}{" "}
+																	-{" "}
+																	{
+																		veh?.driver
+																	}
+																</option>
+															)
+														)}
+													</select>
+												</div>
+											) : (
+												""
+											)}
 
-										<div>
-											<span
-												style={{
-													fontSize: "12px",
-												}}
-											>
-												Tipo
-											</span>
-											<select
-												name="type"
-												className="form-select h-25"
-												style={{
-													padding: "5px",
-													width: "90px",
-													backgroundPosition:
-														"right 0.1rem center",
-													fontSize: "13px",
-												}}
-												value={formChekData.type}
-												onChange={handleChange}
-											>
-												<option
-													value={"deposito"}
+											{typeIsSelected ? (
+												""
+											) : (
+												<div>
+													<span
+														style={{
+															fontSize:
+																"12px",
+														}}
+													>
+														Receptador
+														Vend.
+													</span>
+													<select
+														name="references"
+														className="form-select h-25"
+														style={{
+															padding: "5px",
+															width: "150px",
+															backgroundPosition:
+																"right 0.1rem center",
+															fontSize:
+																"13px",
+														}}
+														value={
+															formChekData.references
+														}
+														onChange={
+															handleChange
+														}
+													>
+														<option>
+															Seleccione
+															Recep
+														</option>
+														{seller.map(
+															(
+																sell,
+																index
+															) => (
+																<option
+																	key={
+																		index
+																	}
+																	value={`${sell?.id}-${sell?.name}`}
+																>
+																	{" "}
+																	{
+																		sell?.id
+																	}{" "}
+																	-{" "}
+																	{
+																		sell?.name
+																	}
+																</option>
+															)
+														)}
+													</select>
+												</div>
+											)}
+
+											<div>
+												<span
+													style={{
+														fontSize:
+															"12px",
+													}}
 												>
-													Deposito
-												</option>
-												<option value={"cheque"}>
-													Cheque
-												</option>
-												<option
+													Banco
+												</span>
+												<select
+													name="id_bank"
+													className="form-select h-25"
+													style={{
+														padding: "5px",
+														width: "150px",
+														backgroundPosition:
+															"right 0.1rem center",
+														fontSize:
+															"13px",
+													}}
 													value={
-														"transferencia"
+														formChekData.id_bank
+													}
+													onChange={
+														handleChange
 													}
 												>
-													Transferencia
-												</option>
-											</select>
-										</div>
+													<option>
+														{" "}
+														{formChekData.id_bank
+															? bank.filter(
+																	(
+																		bg
+																	) =>
+																		bg?.id ===
+																		parseInt(
+																			formChekData?.id_bank
+																		)
+															  )[0]
+																	.name_bank
+															: "Seleccione un Banco"}{" "}
+													</option>
+													{bank.map(
+														(
+															bg,
+															index
+														) => (
+															// <option key={index} value={JSON.stringify(bg)} > {bg?.id} - {bg?.name_bank}</option>
+															<option
+																key={
+																	index
+																}
+																value={`${bg?.id}-${bg?.name_bank}`}
+															>
+																{formChekData.id_bank ===
+																bg?.id
+																	? `${bg?.id} - ${bg?.name_bank}`
+																	: `${bg?.id} - ${bg?.name_bank}`}{" "}
+															</option>
+														)
+													)}
+												</select>
+											</div>
 
-										<div>
-											<span
-												style={{
-													fontSize: "12px",
-												}}
-											>
-												Endosado
-											</span>
-											<select
-												name="isEndorsed"
-												className="form-select h-25"
-												style={{
-													padding: "5px",
-													width: "90px",
-													backgroundPosition:
-														"right 0.1rem center",
-													fontSize: "13px",
-												}}
-												value={
-													formChekData.isEndorsed
-												}
-												onChange={handleChange}
-											>
-												<option value={false}>
-													No
-												</option>
-												<option value={true}>
-													Si
-												</option>
-											</select>
-										</div>
+											<div>
+												<span
+													style={{
+														fontSize:
+															"12px",
+													}}
+												>
+													Tipo
+												</span>
+												<select
+													name="type"
+													className="form-select h-25"
+													style={{
+														padding: "5px",
+														width: "90px",
+														backgroundPosition:
+															"right 0.1rem center",
+														fontSize:
+															"13px",
+													}}
+													value={
+														formChekData.type
+													}
+													onChange={
+														handleChange
+													}
+												>
+													<option
+														value={
+															"deposito"
+														}
+													>
+														Deposito
+													</option>
+													<option
+														value={
+															"cheque"
+														}
+													>
+														Cheque
+													</option>
+													<option
+														value={
+															"transferencia"
+														}
+													>
+														Transferencia
+													</option>
+												</select>
+											</div>
 
-										<div>
-											<span
-												style={{
-													fontSize: "12px",
-												}}
-											>
-												A Nombre De
-											</span>
-											<input
-												style={{
-													fontSize: "13px",
-													width: "110px",
-												}}
-												className="form-control form-control-sm"
-												type="text"
-												name="toName"
-												value={
-													formChekData.toName
-												}
-												onChange={handleChange}
-											/>
-										</div>
+											<div>
+												<span
+													style={{
+														fontSize:
+															"12px",
+													}}
+												>
+													Endosado
+												</span>
+												<select
+													name="isEndorsed"
+													className="form-select h-25"
+													style={{
+														padding: "5px",
+														width: "90px",
+														backgroundPosition:
+															"right 0.1rem center",
+														fontSize:
+															"13px",
+													}}
+													value={
+														formChekData.isEndorsed
+													}
+													onChange={
+														handleChange
+													}
+												>
+													<option
+														value={false}
+													>
+														No
+													</option>
+													<option
+														value={true}
+													>
+														Si
+													</option>
+												</select>
+											</div>
 
-										<div>
-											Total
-											<input
-												placeholder="$"
-												style={{
-													fontSize: "13px",
-													width: "110px",
-												}}
-												className="form-control form-control-sm"
-												type="text"
-												name="total"
-												value={
-													formChekData.total
-												}
-												onChange={handleChange}
-											/>
-										</div>
+											<div>
+												<span
+													style={{
+														fontSize:
+															"12px",
+													}}
+												>
+													A Nombre De
+												</span>
+												<input
+													style={{
+														fontSize:
+															"13px",
+														width: "110px",
+													}}
+													className="form-control form-control-sm"
+													type="text"
+													name="toName"
+													value={
+														formChekData.toName
+													}
+													onChange={
+														handleChange
+													}
+												/>
+											</div>
 
-										<div
-											style={{
-												paddingTop: "1rem",
-												display: "flex",
-												gap: "0.5rem",
-												justifyContent: "center",
-											}}
-										>
-											<Button
-												variant="info"
-												onClick={handleBankShow}
-											>
-												<i className="fa-solid fa-building-columns bx-fw"></i>
-											</Button>
-											<Button
-												variant="danger"
-												onClick={() => {
-													setFormChekData({
-														settlement_code:
-															"",
-														id_bank: "",
-														id_client: "",
-														references: "",
-														type: "deposito",
-														number_check:
-															"",
-														isEndorsed:
-															"false",
-														toName: "",
-														total: "",
-													});
-													setCheckView([]);
-													setCheckData([]);
+											<div>
+												Total
+												<input
+													placeholder="$"
+													style={{
+														fontSize:
+															"13px",
+														width: "110px",
+													}}
+													className="form-control form-control-sm"
+													type="text"
+													name="total"
+													value={
+														formChekData.total
+													}
+													onChange={
+														handleChange
+													}
+												/>
+											</div>
+
+											<div
+												style={{
+													paddingTop: "1rem",
+													display: "flex",
+													gap: "0.5rem",
+													justifyContent:
+														"center",
 												}}
 											>
-												<i className="fa-solid fa-brush bx-fw"></i>
-											</Button>
-											<Button
-												variant="primary"
-												onClick={handleAdd}
-											>
-												<i className="fa-solid fa-floppy-disk bx-fw"></i>
-											</Button>
+												<Button
+													variant="info"
+													onClick={
+														handleBankShow
+													}
+												>
+													<i className="fa-solid fa-building-columns bx-fw"></i>
+												</Button>
+												<Button
+													variant="danger"
+													onClick={() => {
+														setFormChekData(
+															{
+																settlement_code:
+																	"",
+																id_bank: "",
+																id_client:
+																	"",
+																references:
+																	"",
+																type: "deposito",
+																number_check:
+																	"",
+																isEndorsed:
+																	"false",
+																toName: "",
+																total: "",
+															}
+														);
+														setCheckView(
+															[]
+														);
+														setCheckData(
+															[]
+														);
+													}}
+												>
+													<i className="fa-solid fa-brush bx-fw"></i>
+												</Button>
+												<Button
+													variant="primary"
+													onClick={handleAdd}
+												>
+													<i className="fa-solid fa-floppy-disk bx-fw"></i>
+												</Button>
+											</div>
 										</div>
 									</div>
-								</div>
 
-								<Table
-									striped
-									bordered
-									hover
-									size="sm"
-									className="mt-5 text-center"
-									style={{ fontSize: "13px" }}
-								>
-									<thead>
-										<tr>
-											<th>Cliente</th>
-											<th>Receptor</th>
-											<th># Doc</th>
-											<th>Banco</th>
-											<th>Tipo Doc</th>
-											<th>Total</th>
-										</tr>
-									</thead>
-									<tbody>
-										{checkView?.map((check, index) => (
-											<tr key={index}>
-												<td>
-													{check?.id_client}
-												</td>
-												<td>
-													{check?.references}
-												</td>
-												<td>
-													{
-														check?.number_check
-													}
-												</td>
-												<td>{check?.id_bank}</td>
-												<td>
-													{(check?.type).toUpperCase()}
-												</td>
-												<td>
-													{" "}
-													$ {check?.total}
-												</td>
+									<Table
+										striped
+										bordered
+										hover
+										size="sm"
+										className="mt-5 text-center"
+										style={{ fontSize: "13px" }}
+									>
+										<thead>
+											<tr>
+												<th>Cliente</th>
+												<th>Receptor</th>
+												<th># Doc</th>
+												<th>Banco</th>
+												<th>Tipo Doc</th>
+												<th>Total</th>
 											</tr>
-										))}
-									</tbody>
-								</Table>
-							</div>
+										</thead>
+										<tbody>
+											{checkView?.map(
+												(check, index) => (
+													<tr key={index}>
+														<td>
+															{
+																check?.id_client
+															}
+														</td>
+														<td>
+															{
+																check?.references
+															}
+														</td>
+														<td>
+															{
+																check?.number_check
+															}
+														</td>
+														<td>
+															{
+																check?.id_bank
+															}
+														</td>
+														<td>
+															{(check?.type).toUpperCase()}
+														</td>
+														<td>
+															{" "}
+															${" "}
+															{
+																check?.total
+															}
+														</td>
+													</tr>
+												)
+											)}
+										</tbody>
+									</Table>
+								</div>
+							)}
 						</div>
 					</div>
 				</Modal.Body>
 				<Modal.Footer>
+					<Button variant="warning" onClick={viewDeposit}>
+						Registrar Depositos
+					</Button>
 					<Button variant="secondary" onClick={handleClose}>
 						Close
 					</Button>
@@ -1166,6 +1250,7 @@ const Cash = ({
 					</Button>
 				</Modal.Footer>
 			</Modal>
+
 			<Modal show={showNewBank} onHide={handleBankClose} centered>
 				<Modal.Header closeButton>
 					<Modal.Title>Registro de Banco</Modal.Title>

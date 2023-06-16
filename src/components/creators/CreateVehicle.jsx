@@ -194,6 +194,8 @@ const CreateVehicle = (props) => {
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
+					<Button onClick={props.onHide}>Cerrar</Button>
+
 					<Button
 						variant="success"
 						type="submit"
@@ -201,7 +203,6 @@ const CreateVehicle = (props) => {
 					>
 						Guardar
 					</Button>
-					<Button onClick={props.onHide}>Cerrar</Button>
 				</Modal.Footer>
 			</Modal>
 		</div>

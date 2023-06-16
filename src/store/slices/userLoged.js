@@ -30,7 +30,7 @@ export const setUserThunk = (data) => (dispatch) => {
 			// localStorage.setItem('logged_in', JSON.stringify(true))
 		})
 		.catch((err) => {
-			console.log(err.response);
+			//	console.log(err.response);
 			// dispatch(setErrorReceived(err.response?.data));
 			if (err.response?.status === 404 || err.response?.status === 400) {
 				dispatch(setUserLoged(err?.response?.data));

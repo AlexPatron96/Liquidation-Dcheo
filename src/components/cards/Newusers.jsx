@@ -30,7 +30,7 @@ const Newusers = () => {
 		listUsersAvailables && dispatch(listUserThunk());
 	}, []);
 
-	console.log(listUsersAvailables);
+	//console.log(listUsersAvailables);
 	const initialValue = {
 		fullname: "",
 		username: "",
@@ -54,12 +54,12 @@ const Newusers = () => {
 	const valoresObt = getValues();
 
 	const onSubmit = (data) => {
-		console.log(data);
+		//console.log(data);
 		data.id_roll = parseInt(data.id_roll);
 		const id_users = data.id;
 
 		// dispatch(createUserThunk(data));
-		console.log(data);
+		//console.log(data);
 		isEditing ? null : delete data.id;
 
 		isEditing
@@ -95,8 +95,8 @@ const Newusers = () => {
 	const [isViewuser, setIsViewPerm] = useState(false);
 
 	const editAvailable = (data) => {
-		console.log("Accediendo al editAVailable");
-		// console.log(data);
+		//console.log("Accediendo al editAVailable");
+		// //console.log(data);
 		setIsViewPerm(false);
 		if (isEditing) {
 			setIsEditing(false);
@@ -110,13 +110,13 @@ const Newusers = () => {
 			setValue("mail", data.mail);
 			setValue("id_roll", data.roll?.id);
 		}
-		console.log(isEditing);
+		//console.log(isEditing);
 	};
 
 	const viewAvailable = (data) => {
-		// console.log(isEditing);
+		// //console.log(isEditing);
 		setIsEditing(false);
-		console.log("Accediendo al viewAvilable");
+		//console.log("Accediendo al viewAvilable");
 		if (isViewuser) {
 			setIsViewPerm(false);
 			reset();

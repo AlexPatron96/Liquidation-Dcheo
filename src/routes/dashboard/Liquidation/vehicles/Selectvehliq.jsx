@@ -27,49 +27,51 @@ const Selectliqveh = () => {
 	const identificarDia = date.CurrendateDay();
 
 	const loadData = (dataRecepter) => {
+		const arregloRecepter = JSON.parse(dataRecepter.data_liquidation);
+
 		localStorage.setItem(
 			`checkLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[0])
+			JSON.stringify(arregloRecepter[0])
 		);
 		localStorage.setItem(
 			`discountLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[1])
+			JSON.stringify(arregloRecepter[1])
 		);
 		localStorage.setItem(
 			`expensesLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[2])
+			JSON.stringify(arregloRecepter[2])
 		);
 		localStorage.setItem(
 			`cashLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[3])
+			JSON.stringify(arregloRecepter[3])
 		);
 		localStorage.setItem(
 			`productRetLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[4])
+			JSON.stringify(arregloRecepter[4])
 		);
 		localStorage.setItem(
 			`proInvRetLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[5])
+			JSON.stringify(arregloRecepter[5])
 		);
 		localStorage.setItem(
 			`trans${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[6])
+			JSON.stringify(arregloRecepter[6])
 		);
 		localStorage.setItem(
 			`invoLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[7])
+			JSON.stringify(arregloRecepter[7])
 		);
 		localStorage.setItem(
 			`checkLiq${dataRecepter?.dni}-${dataRecepter?.id}view`,
-			JSON.stringify(dataRecepter.data_liquidation[8])
+			JSON.stringify(arregloRecepter[8])
 		);
 		localStorage.setItem(
 			`creditDeliver${dataRecepter?.dni}-${dataRecepter?.id}`,
-			JSON.stringify(dataRecepter.data_liquidation[9])
+			JSON.stringify(arregloRecepter[9])
 		);
 		localStorage.setItem(
 			`codGenLiq${dataRecepter?.dni}-${dataRecepter?.id}`,
-			dataRecepter.data_liquidation[10]
+			arregloRecepter[10]
 		);
 		localStorage.setItem(
 			`boxSmal${dataRecepter?.dni}-${dataRecepter?.id}`,
@@ -117,9 +119,7 @@ const Selectliqveh = () => {
 									className="linkStyle"
 									onClick={() => selectVeh(veh)}
 								>
-									<h5>
-										{veh?.enrollment} - {veh?.id}
-									</h5>
+									<h5>{veh?.cod_mv}</h5>
 									<CardBtn
 										title={veh?.driver}
 										img={imgVehC}

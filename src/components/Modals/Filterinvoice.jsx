@@ -37,7 +37,6 @@ const Filterinvoice = ({ show, onhide }) => {
 		{ id: 5, day: "Viernes" },
 		{ id: 6, day: "Sabado" },
 		{ id: 7, day: "Domingo" },
-		{ id: 8, day: "Todos" },
 	]);
 
 	const {

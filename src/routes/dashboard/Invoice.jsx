@@ -153,7 +153,7 @@ const Invoice = () => {
 
 	const selecionSearch = (e) => {
 		const { name, value } = e.target;
-		console.log(value);
+		// console.log(value);
 	};
 	const searchDB = [
 		{ id: 1, detail: "LOCAL" },

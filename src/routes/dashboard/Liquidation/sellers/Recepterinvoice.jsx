@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
+import { Button, Form, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import Functionalitiesbtn from "../../../../components/atom/Functionalitiesbtn";
 import Buttonatom from "../../../../components/atom/Buttonatom";
 import { useDispatch, useSelector } from "react-redux";
@@ -111,6 +111,40 @@ const Recepterinvoice = () => {
 	};
 	/************************************************************************/
 
+	const orderList = (event) => {
+		const { value } = event.target;
+		const copiaSellerRedux = [...data];
+		let result = [];
+		// console.log(copiaSellerRedux);
+		if (parseInt(value) === 1) {
+			// Orden Asendente
+			result = copiaSellerRedux.sort(
+				(a, b) => new Date(a.deliver_date) - new Date(b.deliver_date)
+			);
+		} else if (parseInt(value) === 2) {
+			//Orden Desendente
+			// result = copiaSellerRedux.sort(
+			// 	(a, b) => a?.client?.fullname - b?.client?.fullname
+			// );
+			result = copiaSellerRedux
+				.filter((obj) => obj.client?.fullname !== undefined)
+				.sort((a, b) => {
+					if (a.client?.fullname > b.client?.fullname) {
+						return 1;
+					}
+					if (a.client?.fullname < b.client?.fullname) {
+						return -1;
+					}
+					return 0;
+				});
+		} else if (parseInt(value) === 3) {
+			// Orden Por Mayor deuda
+			result = copiaSellerRedux.sort((a, b) => b.balance - a.balance);
+		}
+
+		setData(result);
+	};
+
 	const btnCreated = () => {
 		return (
 			<>
@@ -126,6 +160,19 @@ const Recepterinvoice = () => {
 					color={"danger"}
 					ico={"fa-trash-can"}
 				/>
+				<>
+					<Form.Select
+						size="sm"
+						className="w-25"
+						aria-label="Default select example"
+						onChange={orderList}
+					>
+						<option value={0}>Ordenar</option>
+						<option value={1}>Fecha Mayor a Manor</option>
+						<option value={2}>Alfabetico</option>
+						<option value={3}>Mayor Deuda</option>
+					</Form.Select>
+				</>
 			</>
 		);
 	};

@@ -72,7 +72,7 @@ export const delUpdateTransactionThunk = (id) => (dispatch) => {
 	return axios
 		.put(`${URL_BASE}/api/v1/payments/${id}/delete-update`, getConfig())
 		.then((res) => {
-			console.log(res.data);
+			//console.log(res.data);
 			dispatch(getTransactionThunk());
 			dispatch(getInvoiceThunk());
 		})

@@ -94,7 +94,7 @@ const Customers = () => {
 		// alert("Se esta eliminando un Cliente")
 		dispatch(deleteCustomerThunk(id));
 	};
-
+	// console.log(customer);
 	const refresh = () => {
 		dispatch(getCustomerThunk());
 	};
