@@ -171,7 +171,7 @@ const LiquidationInfoVeh = () => {
 										<strong>
 											{liq?.user?.fullname?.toUpperCase()}
 										</strong>
-									</td>
+									</td>[]
 									<td>
 										{date.convertirFechaUTCaLocal(
 											liq?.createdAt

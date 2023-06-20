@@ -370,14 +370,20 @@ const TableSellers = ({ data, updateData, deleteData }) => {
 								) : (
 									<div
 										className={
-											item.balance_sell?.total > 0
+											parseFloat(
+												item.balance_sell?.total
+											) > 0
 												? "dateYellowBorder"
-												: item.balance_sell
-														?.total < 0
+												: parseFloat(
+														item
+															.balance_sell
+															?.total
+												  ) < 0
 												? "dateRedBorder"
 												: "dateGreenBorder"
 										}
 									>
+										{/* {console.log(item)} */}
 										<a
 											href="#"
 											onClick={() => {

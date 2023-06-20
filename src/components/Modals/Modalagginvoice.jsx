@@ -74,15 +74,23 @@ const Modalagginvoice = ({
 	};
 
 	const dayinvoSelect = async (day) => {
-		const invDay = invSeller.filter(
-			(inv) =>
-				(inv?.client?.route_day?.day?.day).toLowerCase() ===
-				day.toLowerCase()
-		);
+		const invDay =
+			type === "seller"
+				? invSeller.filter(
+						(inv) =>
+							(inv?.client?.route_day?.day?.day).toLowerCase() ===
+							day.toLowerCase()
+				  )
+				: invoiceSaldo.filter(
+						(inv) =>
+							(inv?.client?.route_day?.day?.day).toLowerCase() ===
+							day.toLowerCase()
+				  );
 		return setPagination(invDay);
 	};
+
 	const sellInvoSelect = async (sellID) => {
-		const invSell = invoiceSaldo.filter(
+		const invSell = pagination.filter(
 			(inv) => parseInt(inv?.seller?.id) === parseInt(sellID)
 		);
 		return setPagination(invSell);

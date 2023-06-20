@@ -134,7 +134,9 @@ const Selectsellerliq = () => {
 
 									<span>
 										Balance: $
-										{sell?.balance_sell?.total}
+										{parseFloat(
+											sell?.balance_sell?.total
+										).toFixed(2)}
 									</span>
 									<div>
 										{sell?.liquidation_isactive ? (

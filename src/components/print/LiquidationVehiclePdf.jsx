@@ -114,7 +114,7 @@ const LiquidationVehiclePdf = () => {
 						size="sm"
 						className="mt-3"
 						style={{
-							width: "500px",
+							width: "1200px",
 							textAlign: "center",
 							fontSize: "10px",
 						}}
@@ -125,8 +125,9 @@ const LiquidationVehiclePdf = () => {
 								<th>Cliente</th>
 								<th># Documento</th>
 								<th>Total</th>
-								<th>Saldo</th>
+								<th>Saldo Ant</th>
 								<th>Abono</th>
+								<th>Saldo Nuev</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -138,7 +139,11 @@ const LiquidationVehiclePdf = () => {
 											inv?.id_bills_bill.client
 												?.fullname}
 									</td>
-									<td>
+									<td
+										style={{
+											fontSize: "8px",
+										}}
+									>
 										{inv?.num_bill ||
 											inv?.id_bills_bill.num_bill}
 									</td>
@@ -162,17 +167,78 @@ const LiquidationVehiclePdf = () => {
 										}}
 									>
 										${" "}
-										{parseFloat(inv?.pago) ||
-											parseFloat(inv?.pass)}
+										{isNaN(parseFloat(inv?.pago)) &&
+										isNaN(parseFloat(inv?.pass))
+											? 0
+											: parseFloat(
+													inv?.pago
+											  ).toFixed(2)}
+										{/* {parseFloat(inv?.pago).toFixed(
+											2
+										) ||
+											parseFloat(inv?.pass).toFixed(
+												2
+											) ||
+											0} */}
+									</td>
+									<td
+										style={{
+											borderRight: `4px solid ${
+												inv?.pago || inv?.pass
+													? "#02B875"
+													: "#FFCCE5"
+											} `,
+										}}
+									>
+										${" "}
+										{(() => {
+											const balance =
+												parseFloat(
+													inv?.balance
+												) ||
+												parseFloat(
+													inv?.id_bills_bill
+														.balance
+												) ||
+												0;
+											const pago =
+												parseFloat(inv?.pago) ||
+												parseFloat(inv?.pass) ||
+												0;
+											const result = balance - pago;
+											const formattedResult = isNaN(
+												result
+											)
+												? 0
+												: result.toFixed(2);
+
+											return formattedResult;
+										})()}
+										{/* {(parseFloat(inv?.balance).toFixed(
+											2
+										) ||
+											parseFloat(
+												inv?.id_bills_bill
+													.balance
+											).toFixed(2)) -
+											(parseFloat(
+												inv?.pago
+											).toFixed(2) ||
+												parseFloat(
+													inv?.pass
+												).toFixed(2)) || 0} */}
 									</td>
 								</tr>
 							))}
 						</tbody>
 					</Table>
 
-					<div className="d-flex flex-column">
-						<div className="d-flex flex-row gap-3">
-							<div>
+					<div
+						className="d-flex flex-column"
+						style={{ width: "250px" }}
+					>
+						<div className="d-flex flex-row flex-wrap gap-3 justify-content-center">
+							<div style={{ width: "100%" }}>
 								<div
 									className="d-flex justify-content-between"
 									style={{ fontSize: "12px" }}
@@ -289,7 +355,7 @@ const LiquidationVehiclePdf = () => {
 								</div>
 							</div>
 
-							<div>
+							<div style={{ width: "100%" }}>
 								<div
 									className="d-flex justify-content-between"
 									style={{ fontSize: "12px" }}
@@ -378,7 +444,7 @@ const LiquidationVehiclePdf = () => {
 						</div>
 
 						<div
-							className="w-50 text-center "
+							className="text-center"
 							style={{ height: "100px" }}
 						>
 							<div>

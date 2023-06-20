@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -169,8 +169,9 @@ const Liquidationsell = () => {
 
 	const handleAddInvoice = (e, item) => {
 		const { checked, value, name } = e.target;
-		// console.log(item);
+		console.log(checked + value + name);
 		if (name === "vehicle_liq") {
+			console.log(checked + value + name + " dentro de primer if");
 			const position = invoiceLiquidation.findIndex(
 				(inv) => inv.id === item.id
 			);
@@ -184,7 +185,18 @@ const Liquidationsell = () => {
 				codeInvoLocalStorage,
 				JSON.stringify(newInvoiceLiquidation)
 			);
+		} else if (value === "todos") {
+			const ids = item.map((obj) => obj.id.toString());
+			if (checked) {
+				setSelectedInvoices(item);
+				setCheckSelectedID(ids);
+			} else {
+				setSelectedInvoices([]);
+				setCheckSelectedID([]);
+			}
+			localStorage.setItem(codeInvoLocalStorage, JSON.stringify(item));
 		} else {
+			console.log(checked + value + name + " dentro de primer else");
 			if (checked) {
 				setSelectedInvoices([...selectedInvoices, item]);
 				setCheckSelectedID((prevState) => [...prevState, value]);
@@ -450,6 +462,7 @@ const Liquidationsell = () => {
 		setCheckMoney([]);
 		setCheckMoneyView([]);
 
+		localStorage.removeItem(codeGenLiq);
 		localStorage.removeItem(codeInvoLocalStorage);
 		localStorage.removeItem(codeTransacLocalStorage);
 		localStorage.removeItem(codeExpeLocalStorage);
@@ -462,7 +475,7 @@ const Liquidationsell = () => {
 
 	const peticionVerification = async () => {
 		const arraySendLiq = loaderData();
-		dispatch(setIsLoading(false));
+		dispatch(setIsLoading(true));
 		return axios
 			.post(
 				"http://localhost:8000/api/v1/invoice/search-group",
@@ -629,6 +642,42 @@ const Liquidationsell = () => {
 			);
 		}
 	};
+
+	const [arregloOriginal, setArregloOriginal] = useState();
+	const orderList = (event) => {
+		const { value } = event.target;
+		const invoiceFilter = [...invoiceLiquidation];
+		setArregloOriginal(invoiceLiquidation);
+		let result = [];
+
+		if (parseInt(value) === 1) {
+			// Orden Vendedor
+			result = invoiceFilter.sort((a, b) =>
+				a.seller?.name.localeCompare(b.seller?.name)
+			);
+		} else if (parseInt(value) === 2) {
+			//Orden saldo
+			result = invoiceFilter.sort((a, b) => b.balance - a.balance);
+		} else if (parseInt(value) === 3) {
+			// Orden Por Orden alfa
+			result = invoiceFilter.sort((a, b) =>
+				a.client?.fullname.localeCompare(b.client?.fullname)
+			);
+		} else if (parseInt(value) === 4) {
+			// Orden Por Dia
+			result = invoiceFilter.sort((a, b) =>
+				a.client?.route_day?.day?.day.localeCompare(
+					b.client?.route_day?.day?.day
+				)
+			);
+		} else {
+			return setInvoiceLiquidation(arregloOriginal);
+		}
+		console.log(result);
+		setInvoiceLiquidation(result);
+		// dispatch(setSeller(result));
+	};
+
 	const btnCreated = () => {
 		return (
 			<>
@@ -650,6 +699,18 @@ const Liquidationsell = () => {
 					color={"success"}
 					ico={"fa-truck-ramp-box bx-fade-up-hover"}
 				/>
+				<Form.Select
+					size="sm"
+					className="w-25"
+					aria-label="Default select example"
+					onChange={orderList}
+				>
+					<option value={0}>Ordenar</option>
+					<option value={1}>Vendedor</option>
+					<option value={2}>Mayor Balance</option>
+					<option value={3}>Alfabetico</option>
+					<option value={4}>Por dia</option>
+				</Form.Select>
 			</>
 		);
 	};

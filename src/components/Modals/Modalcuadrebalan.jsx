@@ -52,7 +52,7 @@ const Modalcuadrebalan = ({ onHide, show, data, tipo }) => {
 	};
 
 	const onSubmit = (item) => {
-		item.value = parseFloat(item.value);
+		item.value = parseFloat(item.value).toFixed(2);
 		Swal.fire({
 			title: "¿Está seguro?",
 			text: "¡No podrás revertir, ni eliminar esto!",

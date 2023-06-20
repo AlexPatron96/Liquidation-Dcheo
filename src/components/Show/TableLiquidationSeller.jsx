@@ -36,7 +36,14 @@ const TableLiquidationSeller = ({
 			>
 				<thead>
 					<tr>
-						<th style={{ width: "30px" }}>select</th>
+						<th style={{ width: "30px" }}>
+							<input
+								type="checkbox"
+								name="id_select"
+								value={"todos"}
+								onChange={(e) => handleAddInvoice(e, data)}
+							/>
+						</th>
 						<th style={{ width: "30px" }}>item</th>
 						{/* <th style={{ width: "40px" }}>ID</th> */}
 						<th style={{ width: "300px" }}>Cliente</th>

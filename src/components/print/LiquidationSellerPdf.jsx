@@ -208,9 +208,14 @@ const LiquidationSellerPdf = () => {
 											}}
 										>
 											${" "}
-											{parseFloat(inv?.pass) ||
-												parseFloat(inv?.pago) ||
-												0}
+											{isNaN(
+												parseFloat(inv?.pago)
+											) &&
+											isNaN(parseFloat(inv?.pass))
+												? 0
+												: parseFloat(
+														inv?.pago
+												  ).toFixed(2)}
 										</td>
 										<td
 											style={{
@@ -226,7 +231,37 @@ const LiquidationSellerPdf = () => {
 											}}
 										>
 											${" "}
-											{parseFloat(inv?.pass) ||
+											{(() => {
+												const balance =
+													parseFloat(
+														inv?.balance
+													) ||
+													parseFloat(
+														inv
+															?.id_bills_bill
+															.balance
+													) ||
+													0;
+												const pago =
+													parseFloat(
+														inv?.pago
+													) ||
+													parseFloat(
+														inv?.pass
+													) ||
+													0;
+												const result =
+													balance - pago;
+												const formattedResult =
+													isNaN(result)
+														? 0
+														: result.toFixed(
+																2
+														  );
+
+												return formattedResult;
+											})()}
+											{/* {parseFloat(inv?.pass) ||
 												(
 													parseFloat(
 														inv?.balance
@@ -235,7 +270,7 @@ const LiquidationSellerPdf = () => {
 														inv?.pago
 													)
 												).toFixed(2) ||
-												0}
+												0} */}
 										</td>
 									</tr>
 								))}

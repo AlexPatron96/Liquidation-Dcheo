@@ -75,7 +75,7 @@ const Selectliqveh = () => {
 		);
 		localStorage.setItem(
 			`boxSmal${dataRecepter?.dni}-${dataRecepter?.id}`,
-			dataRecepter.data_liquidation[14].box_small
+			arregloRecepter[14].box_small
 		);
 	};
 	const selectVeh = (data) => {
@@ -126,7 +126,9 @@ const Selectliqveh = () => {
 									/>
 									<span>
 										Balance: ${" "}
-										{veh?.balance_veh?.total}{" "}
+										{parseFloat(
+											veh?.balance_veh?.total
+										).toFixed(2)}{" "}
 									</span>
 									<div>
 										{veh?.liquidation_isactive ? (

@@ -42,7 +42,7 @@ const Invoice = () => {
 	const user = useSelector((state) => state.userLoged);
 
 	const [modalShow, setModalShow] = useState(false);
-
+	console.log(invoice);
 	const createdCustomer = () => {
 		if (!modalShow) {
 			setModalShow(true);
@@ -55,6 +55,7 @@ const Invoice = () => {
 	// 	{ name: "Jane Smith", age: 30, email: "jane@example.com" },
 	// 	// Agrega más datos aquí...
 	// ];
+
 	const btnCreated = () => {
 		return (
 			<>
